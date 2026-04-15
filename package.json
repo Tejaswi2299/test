@@ -1,0 +1,19 @@
+{
+  "name": "smart-grocery-tracker",
+  "version": "1.0.0",
+  "description": "Smart grocery tracker MVP with auth, receipt upload, pantry inventory and predictions.",
+  "main": "src/server.js",
+  "scripts": {
+    "start": "node src/server.js",
+    "dev": "node --watch src/server.js",
+    "test": "node --test"
+  },
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "cors": "^2.8.5",
+    "express": "^4.19.2",
+    "jsonwebtoken": "^9.0.2",
+    "multer": "^1.4.5-lts.1",
+    "better-sqlite3": "^11.7.0"
+  }
+}
