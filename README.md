@@ -72,3 +72,8 @@ Open: `http://localhost:3000`
 ## Notes on store integrations (Walmart/Instacart/Kroger)
 
 Direct integrations vary by retailer. In production you should prioritize official APIs/OAuth. This MVP focuses on core inventory intelligence and receipt workflows first, with extension points ready in the API layer.
+
+
+## Detailed setup
+
+For exact end-to-end setup and copy/paste API commands, see `docs/setup-guide.md`.
