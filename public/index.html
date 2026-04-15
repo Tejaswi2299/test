@@ -1,0 +1,155 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Smart Grocery Tracker</title>
+  <style>
+    body { font-family: Inter, system-ui, Arial, sans-serif; margin: 24px; background: #f5f7fb; color: #202739; }
+    .grid { display: grid; gap: 16px; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); }
+    .card { background: white; border-radius: 12px; padding: 16px; box-shadow: 0 2px 6px rgba(0,0,0,0.08); }
+    input, button, textarea { width: 100%; padding: 10px; margin-top: 8px; border-radius: 8px; border: 1px solid #d4d9e2; }
+    button { cursor: pointer; background: #2f6fed; color: white; border: none; }
+    button.secondary { background: #5c6578; }
+    pre { background: #121826; color: #e8ecf4; padding: 12px; border-radius: 8px; max-height: 260px; overflow: auto; }
+  </style>
+</head>
+<body>
+  <h1>Smart Grocery Tracker MVP</h1>
+  <p>Sign in, upload a receipt image, and view pantry + reorder predictions.</p>
+
+  <div class="grid">
+    <section class="card">
+      <h3>Register</h3>
+      <input id="reg-name" placeholder="Name" />
+      <input id="reg-email" placeholder="Email" />
+      <input id="reg-password" type="password" placeholder="Password" />
+      <button onclick="registerUser()">Register</button>
+    </section>
+
+    <section class="card">
+      <h3>Login</h3>
+      <input id="login-email" placeholder="Email" />
+      <input id="login-password" type="password" placeholder="Password" />
+      <button onclick="loginUser()">Login</button>
+      <button class="secondary" onclick="loadData()">Refresh Pantry & Predictions</button>
+    </section>
+
+    <section class="card">
+      <h3>Upload Receipt</h3>
+      <input id="receipt-file" type="file" accept="image/*,.pdf" />
+      <textarea id="mock-json" rows="6" placeholder='Optional mock JSON: {"merchant":"Walmart","items":[{"name":"Milk","quantity":1,"unit":"count","price":3.5}]}'></textarea>
+      <button onclick="uploadReceipt()">Upload & Process</button>
+    </section>
+
+    <section class="card">
+      <h3>Consume Pantry Item</h3>
+      <input id="consume-id" placeholder="Pantry Item ID" />
+      <input id="consume-amount" placeholder="Amount used" />
+      <button onclick="consumeItem()">Log Consumption</button>
+    </section>
+  </div>
+
+  <h3>API Result</h3>
+  <pre id="output">Ready.</pre>
+
+  <script>
+    let token = localStorage.getItem('token') || '';
+
+    function setOutput(payload) {
+      document.getElementById('output').textContent = typeof payload === 'string' ? payload : JSON.stringify(payload, null, 2);
+    }
+
+    async function api(path, options = {}) {
+      const headers = options.headers || {};
+      if (token) headers.Authorization = `Bearer ${token}`;
+      const response = await fetch(path, { ...options, headers });
+      const data = await response.json();
+      if (!response.ok) throw new Error(data.error || 'Request failed');
+      return data;
+    }
+
+    async function registerUser() {
+      try {
+        const data = await api('/api/auth/register', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            name: document.getElementById('reg-name').value,
+            email: document.getElementById('reg-email').value,
+            password: document.getElementById('reg-password').value,
+          })
+        });
+        token = data.token;
+        localStorage.setItem('token', token);
+        setOutput(data);
+      } catch (err) {
+        setOutput(err.message);
+      }
+    }
+
+    async function loginUser() {
+      try {
+        const data = await api('/api/auth/login', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            email: document.getElementById('login-email').value,
+            password: document.getElementById('login-password').value,
+          })
+        });
+        token = data.token;
+        localStorage.setItem('token', token);
+        setOutput(data);
+      } catch (err) {
+        setOutput(err.message);
+      }
+    }
+
+    async function uploadReceipt() {
+      try {
+        const fileInput = document.getElementById('receipt-file');
+        if (!fileInput.files[0]) {
+          throw new Error('Please choose a receipt file.');
+        }
+
+        const form = new FormData();
+        form.append('receipt', fileInput.files[0]);
+        const mockJson = document.getElementById('mock-json').value.trim();
+        if (mockJson) form.append('mockPayload', mockJson);
+
+        const data = await api('/api/receipts/upload', { method: 'POST', body: form });
+        setOutput(data);
+      } catch (err) {
+        setOutput(err.message);
+      }
+    }
+
+    async function consumeItem() {
+      try {
+        const data = await api('/api/pantry/consume', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            pantry_item_id: Number(document.getElementById('consume-id').value),
+            amount: Number(document.getElementById('consume-amount').value),
+          })
+        });
+        setOutput(data);
+      } catch (err) {
+        setOutput(err.message);
+      }
+    }
+
+    async function loadData() {
+      try {
+        const pantry = await api('/api/pantry');
+        const recs = await api('/api/recommendations');
+        setOutput({ pantry, recommendations: recs });
+      } catch (err) {
+        setOutput(err.message);
+      }
+    }
+  </script>
+</body>
+</html>
