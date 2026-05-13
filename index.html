@@ -146,27 +146,6 @@
     .hotspot.core { top: 224px; left: 49%; transform: translateX(-50%); }
     .hotspot.glutes { top: 282px; right: 23%; }
     .hotspot.legs { bottom: 36px; left: 30%; }
-    .profile-stage {
-      min-height: 440px;
-      border-radius: 26px;
-      position: relative;
-      overflow: hidden;
-      border: 1px solid rgba(255,255,255,.12);
-      background: #111525;
-    }
-    .profile-stage img { width: 100%; height: 100%; min-height: 440px; object-fit: cover; display: block; filter: saturate(1.1) contrast(1.05); }
-    .profile-stage::after { content: ''; position: absolute; inset: 0; background: linear-gradient(180deg, rgba(8,10,18,.04), rgba(8,10,18,.28) 38%, rgba(8,10,18,.92)); }
-    .profile-overlay { position: absolute; inset: auto 18px 18px; z-index: 2; display: grid; gap: 12px; }
-    .profile-name { font-size: 30px; font-weight: 950; letter-spacing: -.05em; }
-    .profile-name span { display:block; color: var(--muted); font-size: 13px; letter-spacing: 0; font-weight: 800; }
-    .profile-metrics { display:grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
-    .profile-metric { border:1px solid rgba(255,255,255,.16); background: rgba(0,0,0,.34); border-radius: 16px; padding: 10px; }
-    .profile-metric strong { display:block; font-size: 18px; }
-    .profile-metric small { color: var(--muted); font-weight: 800; }
-    .profile-thumbs { display:grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
-    .profile-thumbs img { min-height: 74px; height: 74px; border-radius: 16px; border:1px solid rgba(255,255,255,.18); object-fit: cover; }
-    .floating-targets { position:absolute; z-index:3; inset: 16px 16px auto; display:flex; gap:8px; flex-wrap:wrap; }
-    .floating-targets .hotspot { position: static; animation: none; box-shadow: 0 10px 24px rgba(0,0,0,.22); }
 
     .control-panel { display: grid; gap: 14px; }
     .toggle-row, .filter-row { display: flex; gap: 8px; flex-wrap: wrap; }
@@ -183,34 +162,16 @@
     .stat strong { display:block; font-size: 28px; letter-spacing: -.04em; }
     .stat span { color: var(--muted); font-weight: 700; font-size: 12px; }
 
-    .atlas-layout { display: grid; grid-template-columns: 286px minmax(0, 1fr); gap: 18px; align-items: start; }
-    .atlas-sidebar { position: sticky; top: 86px; padding: 18px; display: grid; gap: 16px; }
-    .side-block { display: grid; gap: 10px; }
-    .side-title { color: var(--gold); text-transform: uppercase; letter-spacing: .16em; font-size: 11px; font-weight: 900; }
-    .search-card { padding: 18px; margin-bottom: 18px; display: grid; gap: 12px; }
-    .search-card input, .search-card select, .atlas-sidebar select {
+    .search-card { padding: 18px; margin-bottom: 20px; display: grid; gap: 12px; }
+    .search-card input, .search-card select {
       width: 100%; border: 1px solid var(--line); border-radius: 16px; padding: 14px 16px;
       background: rgba(0,0,0,.22); color: var(--text); font: inherit; outline: none;
     }
-    .search-card select option, .atlas-sidebar select option { background: #111525; color: #fff; }
-    .input-grid { display: grid; grid-template-columns: 1fr; gap: 10px; }
-    .region-stack { display: grid; gap: 8px; }
-    .region-btn {
-      display: flex; align-items: center; justify-content: space-between; gap: 10px;
-      width: 100%; border: 1px solid rgba(255,255,255,.13); border-radius: 16px;
-      padding: 12px 13px; color: var(--soft); background: rgba(255,255,255,.06);
-      font-weight: 900; cursor: pointer; transition: .2s ease;
-    }
-    .region-btn:hover, .region-btn.active { transform: translateX(3px); background: linear-gradient(135deg, rgba(255,94,168,.20), rgba(124,92,255,.16)); border-color: rgba(255,255,255,.28); }
-    .region-btn span:last-child { color: var(--muted); font-size: 12px; }
-    .atlas-content { min-width: 0; }
-    .atlas-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 18px; }
-    .part-card { padding: 0; position: relative; overflow: hidden; min-height: 420px; }
-    .part-media { height: 190px; position: relative; overflow: hidden; }
-    .part-media img { width: 100%; height: 100%; object-fit: cover; display: block; filter: saturate(1.08) contrast(1.05); }
-    .part-media::after { content: ''; position:absolute; inset:0; background: linear-gradient(180deg, rgba(8,10,18,.08), rgba(8,10,18,.88)); }
-    .part-body { padding: 20px; position: relative; }
-    .photo-credit { position:absolute; right: 12px; bottom: 10px; z-index:2; color: rgba(255,255,255,.72); font-size: 10px; font-weight: 800; background: rgba(0,0,0,.38); padding: 4px 7px; border-radius: 999px; }
+    .search-card select option { background: #111525; color: #fff; }
+    .input-grid { display: grid; grid-template-columns: 1.5fr repeat(3, 1fr); gap: 10px; }
+
+    .atlas-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; }
+    .part-card { padding: 20px; position: relative; overflow: hidden; min-height: 320px; }
     .part-card::before { content:""; position:absolute; inset:0; background: radial-gradient(circle at 92% 5%, var(--glow, rgba(255,94,168,.22)), transparent 42%); pointer-events:none; }
     .part-top { display: flex; justify-content: space-between; gap: 12px; position:relative; }
     .part-icon { width: 64px; height: 64px; border-radius: 22px; display:grid; place-items:center; font-size: 32px; background: rgba(255,255,255,.1); border: 1px solid var(--line); }
@@ -251,8 +212,7 @@
     .hidden { display:none !important; }
 
     @media (max-width: 980px) {
-      .hero-grid, .planner, .atlas-layout { grid-template-columns: 1fr; }
-      .atlas-sidebar { position: static; }
+      .hero-grid, .planner { grid-template-columns: 1fr; }
       .atlas-grid { grid-template-columns: repeat(2, 1fr); }
       .input-grid, .stats, .rules, .week-grid { grid-template-columns: 1fr 1fr; }
       .nav { align-items:flex-start; flex-direction:column; }
@@ -299,28 +259,17 @@
         </div>
 
         <aside class="hero-card glass" aria-label="Interactive body map">
-          <div class="profile-stage">
-            <img id="profileHero" src="https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?auto=format&fit=crop&w=900&q=82" alt="Athlete training with battle ropes in a gym">
-            <div class="floating-targets" aria-label="Jump to body parts">
-              <button class="hotspot" data-jump="chest">Chest</button>
-              <button class="hotspot" data-jump="arms">Arms</button>
-              <button class="hotspot" data-jump="back">Back</button>
-              <button class="hotspot" data-jump="core">Core</button>
-              <button class="hotspot" data-jump="glutes">Glutes</button>
-              <button class="hotspot" data-jump="legs">Legs</button>
-            </div>
-            <div class="profile-overlay">
-              <div class="profile-name" id="profileName">Alex, balanced athlete<span id="profileCaption">A real-person inspired profile that changes with your selection.</span></div>
-              <div class="profile-metrics">
-                <div class="profile-metric"><strong>4x</strong><small>weekly</small></div>
-                <div class="profile-metric"><strong>70m</strong><small>sessions</small></div>
-                <div class="profile-metric"><strong>Full</strong><small>body map</small></div>
-              </div>
-              <div class="profile-thumbs" aria-label="Workout image previews">
-                <img src="https://images.unsplash.com/photo-1534438327276-14e5300c3a48?auto=format&fit=crop&w=260&q=76" alt="Gym strength training space">
-                <img src="https://images.unsplash.com/photo-1517836357463-d25dfeac3438?auto=format&fit=crop&w=260&q=76" alt="Athlete lifting in gym">
-                <img src="https://images.unsplash.com/photo-1518611012118-696072aa579a?auto=format&fit=crop&w=260&q=76" alt="Mobility and stretching workout">
-              </div>
+          <div class="figure-stage">
+            <div class="body-silhouette" aria-hidden="true">
+              <div class="head"></div><div class="torso"></div><div class="pelvis"></div>
+              <div class="arm left"></div><div class="arm right"></div><div class="forearm left"></div><div class="forearm right"></div>
+              <div class="leg left"></div><div class="leg right"></div><div class="foot left"></div><div class="foot right"></div>
+              <button class="hotspot chest" data-jump="chest">Chest</button>
+              <button class="hotspot arms" data-jump="arms">Arms</button>
+              <button class="hotspot back" data-jump="back">Back</button>
+              <button class="hotspot core" data-jump="core">Core</button>
+              <button class="hotspot glutes" data-jump="glutes">Glutes</button>
+              <button class="hotspot legs" data-jump="legs">Legs</button>
             </div>
           </div>
           <div class="control-panel">
@@ -348,29 +297,19 @@
           </div>
         </div>
 
-        <div class="atlas-layout">
-          <aside class="atlas-sidebar glass" aria-label="Body part sidebar filters">
-            <div class="side-block">
-              <div class="side-title">Body regions</div>
-              <div class="region-stack" id="quickFilters"></div>
-            </div>
-            <div class="side-block">
-              <div class="side-title">Filter workouts</div>
-              <select id="regionFilter" aria-label="Filter by region"><option value="all">All regions</option></select>
-              <select id="equipmentFilter" aria-label="Filter by equipment">
-                <option value="all">All equipment</option><option>Bodyweight</option><option>Dumbbells</option><option>Barbell</option><option>Cables</option><option>Machines</option><option>Bands</option><option>Kettlebell</option><option>Cardio</option>
-              </select>
-              <select id="levelFilter" aria-label="Filter by level"><option value="all">All levels</option><option>Beginner</option><option>Intermediate</option><option>Advanced</option></select>
-            </div>
-            <div class="notice">Inspired by modern workout apps: fast body-part navigation, large visuals, compact metadata, and no wasted taps.</div>
-          </aside>
-          <div class="atlas-content">
-            <div class="search-card glass">
-              <input id="search" type="search" placeholder="Search exercises, muscles, goals, or equipment..." aria-label="Search exercises">
-            </div>
-            <div class="atlas-grid" id="atlasGrid"></div>
+        <div class="search-card glass">
+          <div class="input-grid">
+            <input id="search" type="search" placeholder="Search exercises, muscles, goals, or equipment..." aria-label="Search exercises">
+            <select id="regionFilter" aria-label="Filter by region"><option value="all">All regions</option></select>
+            <select id="equipmentFilter" aria-label="Filter by equipment">
+              <option value="all">All equipment</option><option>Bodyweight</option><option>Dumbbells</option><option>Barbell</option><option>Cables</option><option>Machines</option><option>Bands</option><option>Kettlebell</option><option>Cardio</option>
+            </select>
+            <select id="levelFilter" aria-label="Filter by level"><option value="all">All levels</option><option>Beginner</option><option>Intermediate</option><option>Advanced</option></select>
           </div>
+          <div class="filter-row" id="quickFilters"></div>
         </div>
+
+        <div class="atlas-grid" id="atlasGrid"></div>
       </div>
     </section>
 
@@ -421,7 +360,6 @@
           <li><a href="https://www.cdc.gov/physical-activity-basics/guidelines/adults.html" target="_blank" rel="noreferrer">CDC adult guidelines</a>: adults should combine aerobic activity with muscle-strengthening activity on 2+ days weekly covering legs, hips, back, abdomen, chest, shoulders, and arms.</li>
           <li><a href="https://www.mayoclinic.org/healthy-lifestyle/fitness/in-depth/weight-training/art-20045842" target="_blank" rel="noreferrer">Mayo Clinic weight-training technique guidance</a>: warm up, use proper form, choose a weight that fatigues the target muscles in controlled reps, and seek instruction when new.</li>
           <li><a href="https://www.cdc.gov/physical-activity/media/pdfs/Physical_Activity_Guidelines_2nd_edition.pdf" target="_blank" rel="noreferrer">Physical Activity Guidelines for Americans, 2nd edition</a>: resistance training can be effective with 8–12 repetition sets, and major muscle groups should be trained at least twice weekly.</li>
-          <li><a href="https://unsplash.com/s/photos/workout" target="_blank" rel="noreferrer">Unsplash workout photography</a>: remote image CDN photos are used to make the atlas more human and visually instructional.</li>
         </ul>
       </div>
     </section>
@@ -478,41 +416,7 @@
       male: 'Recommended emphasis: legs, posterior chain, shoulder mobility, upper back, and core—not only chest and arms.'
     };
 
-    const profileAssets = {
-      neutral: {
-        name: 'Alex, balanced athlete',
-        caption: 'A real-person inspired profile that changes with your selection.',
-        image: 'https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?auto=format&fit=crop&w=900&q=82',
-        alt: 'Athlete training with battle ropes in a gym'
-      },
-      female: {
-        name: 'Maya, strength builder',
-        caption: 'Glutes, upper-back, core, and full-body strength without pink-washing the plan.',
-        image: 'https://images.unsplash.com/photo-1599058917212-d750089bc07e?auto=format&fit=crop&w=900&q=82',
-        alt: 'Woman strength training in a gym'
-      },
-      male: {
-        name: 'Noah, balanced lifter',
-        caption: 'Chest and arms are included, but legs, back, mobility, and core stay in the program.',
-        image: 'https://images.unsplash.com/photo-1581009146145-b5ef050c2e1e?auto=format&fit=crop&w=900&q=82',
-        alt: 'Man training with weights in a gym'
-      }
-    };
-
-    const imageAssets = [
-      'https://images.unsplash.com/photo-1517836357463-d25dfeac3438?auto=format&fit=crop&w=900&q=80',
-      'https://images.unsplash.com/photo-1534438327276-14e5300c3a48?auto=format&fit=crop&w=900&q=80',
-      'https://images.unsplash.com/photo-1599058917212-d750089bc07e?auto=format&fit=crop&w=900&q=80',
-      'https://images.unsplash.com/photo-1581009146145-b5ef050c2e1e?auto=format&fit=crop&w=900&q=80',
-      'https://images.unsplash.com/photo-1518611012118-696072aa579a?auto=format&fit=crop&w=900&q=80',
-      'https://images.unsplash.com/photo-1574680096145-d05b474e2155?auto=format&fit=crop&w=900&q=80',
-      'https://images.unsplash.com/photo-1549476464-37392f717541?auto=format&fit=crop&w=900&q=80',
-      'https://images.unsplash.com/photo-1517963628607-235ccdd5476c?auto=format&fit=crop&w=900&q=80',
-      'https://images.unsplash.com/photo-1538805060514-97d9cc17730c?auto=format&fit=crop&w=900&q=80',
-      'https://images.unsplash.com/photo-1605296867304-46d5465a13f1?auto=format&fit=crop&w=900&q=80'
-    ];
-
-    const quick = ['All regions','Upper body','Core','Lower body','Full body','Mobility'];
+    const quick = ['Upper body','Core','Lower body','Full body','Mobility'];
     const atlasGrid = document.querySelector('#atlasGrid');
     const regionFilter = document.querySelector('#regionFilter');
     const equipmentFilter = document.querySelector('#equipmentFilter');
@@ -524,25 +428,9 @@
     [...new Set(bodyParts.map(p => p.region))].forEach(region => {
       const opt = document.createElement('option'); opt.value = region; opt.textContent = region; regionFilter.append(opt);
     });
-    function countRegion(region) {
-      return region === 'All regions' ? bodyParts.length : bodyParts.filter(part => part.region === region).length;
-    }
-
     quick.forEach(q => {
-      const b = document.createElement('button');
-      b.className = 'region-btn';
-      b.dataset.region = q === 'All regions' ? 'all' : q;
-      b.innerHTML = `<span>${q}</span><span>${countRegion(q)}</span>`;
-      b.addEventListener('click', () => { selectedRegion = b.dataset.region; regionFilter.value = selectedRegion; render(); });
-      document.querySelector('#quickFilters').append(b);
+      const b = document.createElement('button'); b.className = 'pill-btn'; b.textContent = q; b.addEventListener('click', () => { selectedRegion = q; regionFilter.value = q; render(); }); document.querySelector('#quickFilters').append(b);
     });
-
-    function updateProfile() {
-      const profile = profileAssets[selectedGender];
-      document.querySelector('#profileHero').src = profile.image;
-      document.querySelector('#profileHero').alt = profile.alt;
-      document.querySelector('#profileName').innerHTML = `${profile.name}<span id="profileCaption">${profile.caption}</span>`;
-    }
 
     function render() {
       const term = search.value.trim().toLowerCase();
@@ -554,21 +442,14 @@
         return (!term || hay.includes(term)) && (equip === 'all' || ex[1].includes(equip)) && (level === 'all' || ex[3] === level);
       })})).filter(part => (selectedRegion === 'all' || part.region === selectedRegion) && part.exercises.length);
 
-      document.querySelectorAll('.region-btn').forEach(btn => btn.classList.toggle('active', btn.dataset.region === selectedRegion));
-      atlasGrid.innerHTML = filtered.map((part, index) => `
+      atlasGrid.innerHTML = filtered.map(part => `
         <article class="part-card glass" id="${part.id}" style="--glow:${part.glow}">
-          <div class="part-media">
-            <img src="${imageAssets[index % imageAssets.length]}" alt="Real workout photo for ${part.title}" loading="lazy">
-            <span class="photo-credit">Unsplash workout photo</span>
-          </div>
-          <div class="part-body">
-            <div class="part-top"><div class="part-icon">${part.icon}</div><span class="badge">${part.region}</span></div>
-            <h3>${part.title}</h3>
-            <p><strong>Targets:</strong> ${part.muscles}. <strong>Goal:</strong> ${part.goal}.</p>
-            <div class="chips"><span class="chip">${genderBoost[selectedGender] || 'Balanced training'}</span><span class="chip">Warm up first</span><span class="chip">Progress gradually</span></div>
-            <div class="exercise-list">
-              ${part.exercises.map(ex => `<div class="exercise"><div class="mini-poster"><div class="move-art">${part.icon}</div><div><strong>${ex[0]}</strong><div class="meta">Equipment: ${ex[1]} • Suggested dose: ${ex[2]} • ${ex[3]}</div></div></div></div>`).join('')}
-            </div>
+          <div class="part-top"><div class="part-icon">${part.icon}</div><span class="badge">${part.region}</span></div>
+          <h3>${part.title}</h3>
+          <p><strong>Targets:</strong> ${part.muscles}. <strong>Goal:</strong> ${part.goal}.</p>
+          <div class="chips"><span class="chip">${genderBoost[selectedGender] || 'Balanced training'}</span><span class="chip">Warm up first</span><span class="chip">Progress gradually</span></div>
+          <div class="exercise-list">
+            ${part.exercises.map(ex => `<div class="exercise"><div class="mini-poster"><div class="move-art">${part.icon}</div><div><strong>${ex[0]}</strong><div class="meta">Equipment: ${ex[1]} • Suggested dose: ${ex[2]} • ${ex[3]}</div></div></div></div>`).join('')}
           </div>
         </article>`).join('') || '<div class="notice">No exercises match your filters. Try broadening equipment, level, or search terms.</div>';
       document.querySelector('#statParts').textContent = bodyParts.length;
@@ -578,7 +459,7 @@
     [search, regionFilter, equipmentFilter, levelFilter].forEach(el => el.addEventListener('input', render));
     document.querySelectorAll('[data-gender]').forEach(btn => btn.addEventListener('click', () => {
       document.querySelectorAll('[data-gender]').forEach(b => b.classList.remove('active'));
-      btn.classList.add('active'); selectedGender = btn.dataset.gender; document.querySelector('#genderNote').textContent = genderNotes[selectedGender]; updateProfile(); render();
+      btn.classList.add('active'); selectedGender = btn.dataset.gender; document.querySelector('#genderNote').textContent = genderNotes[selectedGender]; render();
     }));
     document.querySelectorAll('[data-jump]').forEach(btn => btn.addEventListener('click', () => document.getElementById(btn.dataset.jump)?.scrollIntoView({behavior:'smooth', block:'start'})));
 
