@@ -3,29 +3,29 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>BodyForge Coach — Fat-Loss & Strength Workout Atlas</title>
+  <title>BodyForge Atlas — Complete Workout Library</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Playfair+Display:wght@700;800&display=swap" rel="stylesheet">
   <style>
     :root {
-      --bg: #070914;
-      --surface: rgba(255,255,255,.085);
-      --surface-2: rgba(255,255,255,.13);
-      --line: rgba(255,255,255,.14);
+      --bg: #080a12;
+      --panel: rgba(255, 255, 255, 0.08);
+      --panel-strong: rgba(255, 255, 255, 0.13);
+      --line: rgba(255, 255, 255, 0.14);
       --text: #f8fbff;
-      --soft: #dce6fb;
       --muted: #aeb8ce;
+      --soft: #dce5f7;
       --brand: #ff5ea8;
       --brand-2: #7c5cff;
       --brand-3: #25d6a2;
       --gold: #ffd166;
       --danger: #ff7b7b;
-      --good: #40e0a0;
       --shadow: 0 24px 80px rgba(0,0,0,.38);
       --radius: 28px;
       --radius-sm: 18px;
     }
+
     * { box-sizing: border-box; }
     html { scroll-behavior: smooth; }
     body {
@@ -34,180 +34,207 @@
       color: var(--text);
       background:
         radial-gradient(circle at 12% 0%, rgba(255,94,168,.28), transparent 34%),
-        radial-gradient(circle at 90% 12%, rgba(124,92,255,.30), transparent 35%),
-        radial-gradient(circle at 68% 70%, rgba(37,214,162,.12), transparent 42%),
+        radial-gradient(circle at 90% 12%, rgba(124,92,255,.28), transparent 35%),
+        radial-gradient(circle at 70% 72%, rgba(37,214,162,.13), transparent 38%),
         var(--bg);
       line-height: 1.55;
     }
+
     a { color: inherit; }
-    button, input, select, textarea { font: inherit; }
-    .shell { width: min(1240px, calc(100% - 32px)); margin: 0 auto; }
-    .glass { background: linear-gradient(145deg, rgba(255,255,255,.12), rgba(255,255,255,.055)); border: 1px solid var(--line); border-radius: var(--radius); box-shadow: var(--shadow); backdrop-filter: blur(20px); }
-    .panel { padding: 24px; }
-    .hidden { display: none !important; }
+    .shell { width: min(1220px, calc(100% - 32px)); margin: 0 auto; }
+    .glass {
+      background: linear-gradient(145deg, rgba(255,255,255,.12), rgba(255,255,255,.055));
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(20px);
+    }
 
-    header { position: sticky; top: 0; z-index: 60; border-bottom: 1px solid rgba(255,255,255,.08); background: rgba(7,9,20,.78); backdrop-filter: blur(18px); }
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      border-bottom: 1px solid rgba(255,255,255,.08);
+      background: rgba(8,10,18,.74);
+      backdrop-filter: blur(18px);
+    }
     .nav { display: flex; align-items: center; justify-content: space-between; gap: 18px; padding: 16px 0; }
-    .logo { display: flex; align-items: center; gap: 12px; font-weight: 950; letter-spacing: -.04em; }
-    .logo-mark { width: 44px; height: 44px; border-radius: 16px; display: grid; place-items: center; background: conic-gradient(from 160deg, var(--brand), var(--brand-2), var(--brand-3), var(--brand)); box-shadow: 0 10px 30px rgba(255,94,168,.22); }
+    .logo { display: flex; align-items: center; gap: 12px; font-weight: 900; letter-spacing: -.04em; }
+    .logo-mark {
+      width: 42px; height: 42px; border-radius: 15px;
+      display: grid; place-items: center;
+      background: conic-gradient(from 160deg, var(--brand), var(--brand-2), var(--brand-3), var(--brand));
+      box-shadow: 0 10px 30px rgba(255,94,168,.22);
+    }
     .nav-links { display: flex; gap: 8px; flex-wrap: wrap; justify-content: flex-end; }
-    .nav-links a, .pill-btn, .ghost-btn { border: 1px solid rgba(255,255,255,.12); background: rgba(255,255,255,.06); color: var(--soft); border-radius: 999px; padding: 9px 13px; font-size: 13px; font-weight: 800; text-decoration: none; cursor: pointer; transition: .2s ease; }
-    .nav-links a:hover, .pill-btn:hover, .pill-btn.active, .ghost-btn:hover { background: rgba(255,255,255,.15); border-color: rgba(255,255,255,.26); transform: translateY(-1px); }
+    .nav-links a, .pill-btn {
+      border: 1px solid rgba(255,255,255,.12);
+      background: rgba(255,255,255,.06);
+      color: var(--soft);
+      border-radius: 999px;
+      padding: 9px 13px;
+      font-size: 13px;
+      font-weight: 700;
+      text-decoration: none;
+      cursor: pointer;
+      transition: .2s ease;
+    }
+    .nav-links a:hover, .pill-btn:hover, .pill-btn.active {
+      background: rgba(255,255,255,.14);
+      border-color: rgba(255,255,255,.26);
+      transform: translateY(-1px);
+    }
 
-    section { padding: 54px 0; }
-    .hero { padding: 72px 0 34px; }
-    .hero-grid { display: grid; grid-template-columns: 1.04fr .96fr; gap: 28px; align-items: stretch; }
-    .hero-copy { padding: clamp(28px, 4vw, 48px); position: relative; overflow: hidden; }
-    .eyebrow { color: var(--gold); text-transform: uppercase; letter-spacing: .18em; font-size: 12px; font-weight: 950; }
+    .hero { padding: 76px 0 34px; }
+    .hero-grid { display: grid; grid-template-columns: 1.1fr .9fr; gap: 28px; align-items: stretch; }
+    .hero-copy { padding: 46px; position: relative; overflow: hidden; }
+    .hero-copy::after {
+      content: ""; position: absolute; inset: auto -70px -100px auto; width: 260px; height: 260px;
+      background: radial-gradient(circle, rgba(255,94,168,.22), transparent 68%);
+    }
+    .eyebrow { color: var(--gold); text-transform: uppercase; letter-spacing: .18em; font-size: 12px; font-weight: 900; }
     h1, h2, h3 { margin: 0; line-height: 1.05; letter-spacing: -.055em; }
-    h1 { font-family: "Playfair Display", serif; font-size: clamp(46px, 8vw, 94px); margin-top: 14px; }
-    h2 { font-size: clamp(32px, 4vw, 58px); }
-    h3 { font-size: 24px; }
-    p { color: var(--muted); }
+    h1 { font-family: "Playfair Display", serif; font-size: clamp(48px, 8vw, 96px); margin-top: 14px; }
     .hero-copy p { color: var(--soft); font-size: 18px; max-width: 760px; margin: 22px 0 0; }
     .hero-actions { display: flex; gap: 12px; flex-wrap: wrap; margin-top: 30px; }
-    .cta { border: 0; color: white; font-weight: 950; text-decoration: none; cursor: pointer; padding: 14px 19px; border-radius: 16px; background: linear-gradient(135deg, var(--brand), var(--brand-2)); box-shadow: 0 16px 36px rgba(124,92,255,.22); display: inline-flex; align-items: center; gap: 8px; }
+    .cta {
+      border: 0; color: white; font-weight: 900; text-decoration: none; cursor: pointer;
+      padding: 14px 19px; border-radius: 16px;
+      background: linear-gradient(135deg, var(--brand), var(--brand-2));
+      box-shadow: 0 16px 36px rgba(124,92,255,.22);
+    }
     .cta.secondary { background: rgba(255,255,255,.09); border: 1px solid var(--line); box-shadow: none; }
+
+    .hero-card { padding: 28px; overflow: hidden; position: relative; display: grid; gap: 18px; }
+    .figure-stage {
+      min-height: 440px;
+      border-radius: 26px;
+      background: linear-gradient(180deg, rgba(255,255,255,.12), rgba(255,255,255,.04));
+      border: 1px solid rgba(255,255,255,.11);
+      position: relative;
+      display: grid;
+      place-items: center;
+      overflow: hidden;
+    }
+    .body-silhouette { width: min(250px, 70%); height: 395px; position: relative; filter: drop-shadow(0 24px 28px rgba(0,0,0,.3)); }
+    .head, .torso, .pelvis, .arm, .forearm, .leg, .shin, .foot {
+      position: absolute; background: linear-gradient(160deg, rgba(255,255,255,.96), rgba(198,205,224,.75));
+      border: 1px solid rgba(255,255,255,.55);
+    }
+    .head { width: 58px; height: 58px; border-radius: 50%; left: 96px; top: 0; }
+    .torso { width: 112px; height: 150px; border-radius: 48% 48% 28% 28%; left: 69px; top: 68px; clip-path: polygon(16% 0,84% 0,100% 44%,74% 100%,26% 100%,0 44%); }
+    .pelvis { width: 98px; height: 70px; border-radius: 24px 24px 50px 50px; left: 76px; top: 208px; }
+    .arm { width: 38px; height: 135px; border-radius: 28px; top: 78px; }
+    .arm.left { left: 34px; transform: rotate(12deg); } .arm.right { right: 34px; transform: rotate(-12deg); }
+    .forearm { width: 32px; height: 126px; border-radius: 26px; top: 184px; }
+    .forearm.left { left: 18px; transform: rotate(8deg); } .forearm.right { right: 18px; transform: rotate(-8deg); }
+    .leg { width: 44px; height: 135px; border-radius: 30px; top: 265px; }
+    .leg.left { left: 75px; transform: rotate(5deg); } .leg.right { right: 75px; transform: rotate(-5deg); }
+    .shin { width: 36px; height: 126px; border-radius: 26px; top: 378px; display:none; }
+    .foot { width: 52px; height: 21px; border-radius: 18px; top: 388px; }
+    .foot.left { left: 58px; } .foot.right { right: 58px; }
+    .hotspot {
+      position: absolute; border: 0; border-radius: 999px; padding: 8px 11px;
+      color: #081018; font-weight: 900; font-size: 11px; cursor: pointer;
+      background: var(--gold); box-shadow: 0 8px 28px rgba(255,209,102,.35);
+      animation: pulse 2.3s infinite;
+    }
+    @keyframes pulse { 50% { transform: scale(1.06); } }
+    .hotspot.chest { top: 122px; left: 50%; transform: translateX(-50%); }
+    .hotspot.arms { top: 168px; left: 14%; }
+    .hotspot.back { top: 80px; right: 11%; }
+    .hotspot.core { top: 224px; left: 49%; transform: translateX(-50%); }
+    .hotspot.glutes { top: 282px; right: 23%; }
+    .hotspot.legs { bottom: 36px; left: 30%; }
+
+    .control-panel { display: grid; gap: 14px; }
+    .toggle-row, .filter-row { display: flex; gap: 8px; flex-wrap: wrap; }
+    .label { color: var(--muted); font-size: 12px; font-weight: 800; letter-spacing: .12em; text-transform: uppercase; }
+    .notice { color: var(--soft); font-size: 13px; background: rgba(255,255,255,.07); border: 1px solid var(--line); border-radius: 16px; padding: 14px; }
+
+    section { padding: 48px 0; }
+    .section-head { display: flex; justify-content: space-between; align-items: end; gap: 18px; margin-bottom: 22px; }
+    h2 { font-size: clamp(32px, 4vw, 58px); }
+    .section-head p { max-width: 640px; color: var(--muted); margin: 10px 0 0; }
+
     .stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; margin-top: 22px; }
     .stat { padding: 18px; border-radius: 20px; background: rgba(255,255,255,.075); border: 1px solid var(--line); }
     .stat strong { display:block; font-size: 28px; letter-spacing: -.04em; }
-    .stat span { color: var(--muted); font-weight: 800; font-size: 12px; }
+    .stat span { color: var(--muted); font-weight: 700; font-size: 12px; }
 
-    .profile-card { padding: 18px; display: grid; gap: 16px; }
-    .profile-stage { min-height: 500px; border-radius: 26px; position: relative; overflow: hidden; border: 1px solid rgba(255,255,255,.12); background: #111525; }
-    .profile-stage img { width: 100%; height: 100%; min-height: 500px; object-fit: cover; display: block; filter: saturate(1.1) contrast(1.05); }
-    .profile-stage::after { content: ''; position: absolute; inset: 0; background: linear-gradient(180deg, rgba(8,10,18,.05), rgba(8,10,18,.18) 40%, rgba(8,10,18,.92)); }
-    .floating-targets { position:absolute; z-index:3; inset: 16px 16px auto; display:flex; gap:8px; flex-wrap:wrap; }
-    .hotspot { border: 0; border-radius: 999px; padding: 8px 11px; color: #081018; font-weight: 950; font-size: 11px; cursor: pointer; background: var(--gold); box-shadow: 0 10px 24px rgba(0,0,0,.22); }
-    .profile-overlay { position: absolute; inset: auto 18px 18px; z-index: 2; display: grid; gap: 12px; }
-    .profile-name { font-size: 30px; font-weight: 950; letter-spacing: -.05em; }
-    .profile-name span { display:block; color: var(--muted); font-size: 13px; letter-spacing: 0; font-weight: 800; }
-    .profile-metrics, .profile-thumbs { display:grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
-    .profile-metric { border:1px solid rgba(255,255,255,.16); background: rgba(0,0,0,.34); border-radius: 16px; padding: 10px; }
-    .profile-metric strong { display:block; font-size: 18px; }
-    .profile-metric small { color: var(--muted); font-weight: 800; }
-    .profile-thumbs img { min-height: 74px; height: 74px; border-radius: 16px; border:1px solid rgba(255,255,255,.18); object-fit: cover; width: 100%; }
-    .toggle-row, .filter-row { display: flex; gap: 8px; flex-wrap: wrap; }
-    .label { color: var(--muted); font-size: 12px; font-weight: 900; letter-spacing: .12em; text-transform: uppercase; }
-    .notice { color: var(--soft); font-size: 13px; background: rgba(255,255,255,.07); border: 1px solid var(--line); border-radius: 16px; padding: 14px; }
-    .warning { border-color: rgba(255,209,102,.35); background: rgba(255,209,102,.10); }
+    .search-card { padding: 18px; margin-bottom: 20px; display: grid; gap: 12px; }
+    .search-card input, .search-card select {
+      width: 100%; border: 1px solid var(--line); border-radius: 16px; padding: 14px 16px;
+      background: rgba(0,0,0,.22); color: var(--text); font: inherit; outline: none;
+    }
+    .search-card select option { background: #111525; color: #fff; }
+    .input-grid { display: grid; grid-template-columns: 1.5fr repeat(3, 1fr); gap: 10px; }
 
-    .section-head { display: flex; justify-content: space-between; align-items: end; gap: 18px; margin-bottom: 22px; }
-    .section-head p { max-width: 730px; margin: 10px 0 0; }
-
-    .wizard-grid { display: grid; grid-template-columns: .9fr 1.1fr; gap: 18px; align-items: start; }
-    .form-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; }
-    .field { display: grid; gap: 7px; }
-    .field label { font-size: 12px; color: var(--muted); text-transform: uppercase; letter-spacing: .10em; font-weight: 900; }
-    input, select, textarea { width: 100%; border: 1px solid var(--line); border-radius: 16px; padding: 13px 14px; background: rgba(0,0,0,.22); color: var(--text); outline: none; }
-    select option { background: #111525; color: #fff; }
-    textarea { min-height: 108px; resize: vertical; }
-    .coach-output { display: grid; gap: 12px; }
-    .recommendation-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; }
-    .mini-card { padding: 16px; border-radius: 18px; border: 1px solid var(--line); background: rgba(255,255,255,.065); }
-    .mini-card strong { display: block; color: var(--text); margin-bottom: 5px; }
-    .mini-card p, .mini-card li { color: var(--muted); font-size: 13px; margin: 4px 0; }
-
-    .bodymap-layout { display: grid; grid-template-columns: 360px minmax(0,1fr); gap: 18px; align-items: start; }
-    .human-map { position: relative; min-height: 620px; display: grid; place-items: center; overflow: hidden; }
-    .human-map::before { content: ''; width: 190px; height: 510px; border-radius: 46% 46% 34% 34%; background: linear-gradient(160deg, rgba(255,255,255,.88), rgba(180,190,220,.42)); box-shadow: inset 0 0 0 1px rgba(255,255,255,.22), 0 30px 80px rgba(0,0,0,.28); clip-path: polygon(41% 0,59% 0,65% 9%,62% 16%,78% 21%,94% 39%,86% 50%,70% 34%,66% 54%,78% 76%,70% 100%,56% 100%,50% 76%,44% 100%,30% 100%,22% 76%,34% 54%,30% 34%,14% 50%,6% 39%,22% 21%,38% 16%,35% 9%); }
-    .map-dot { position: absolute; border: 0; border-radius: 999px; padding: 8px 11px; color: white; font-weight: 900; font-size: 12px; background: linear-gradient(135deg, var(--brand), var(--brand-2)); cursor: pointer; box-shadow: 0 10px 30px rgba(0,0,0,.28); }
-    .map-dot.active { background: linear-gradient(135deg, var(--gold), var(--brand)); color: #111525; transform: scale(1.06); }
-    .dot-belly { top: 260px; left: 50%; transform: translateX(-50%); }
-    .dot-love { top: 282px; right: 58px; }
-    .dot-arms { top: 210px; left: 46px; }
-    .dot-thighs { bottom: 150px; left: 51%; }
-    .dot-glutes { bottom: 236px; right: 72px; }
-    .dot-back { top: 156px; right: 88px; }
-    .dot-posture { top: 118px; left: 76px; }
-    .dot-knees { bottom: 124px; right: 82px; }
-    .guide-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; }
-    .guide-card { padding: 18px; border-radius: 20px; border: 1px solid var(--line); background: rgba(255,255,255,.065); }
-    .guide-card h3 { font-size: 22px; margin-bottom: 8px; }
-    .guide-card ul { margin: 10px 0 0 18px; padding: 0; color: var(--muted); }
-
-    .atlas-layout { display: grid; grid-template-columns: 292px minmax(0, 1fr); gap: 18px; align-items: start; }
-    .atlas-sidebar { position: sticky; top: 86px; padding: 18px; display: grid; gap: 16px; }
-    .side-block { display: grid; gap: 10px; }
-    .side-title { color: var(--gold); text-transform: uppercase; letter-spacing: .16em; font-size: 11px; font-weight: 950; }
-    .region-stack { display: grid; gap: 8px; }
-    .region-btn { display: flex; align-items: center; justify-content: space-between; gap: 10px; width: 100%; border: 1px solid rgba(255,255,255,.13); border-radius: 16px; padding: 12px 13px; color: var(--soft); background: rgba(255,255,255,.06); font-weight: 900; cursor: pointer; transition: .2s ease; }
-    .region-btn:hover, .region-btn.active { transform: translateX(3px); background: linear-gradient(135deg, rgba(255,94,168,.20), rgba(124,92,255,.16)); border-color: rgba(255,255,255,.28); }
-    .region-btn span:last-child { color: var(--muted); font-size: 12px; }
-    .search-card { padding: 18px; margin-bottom: 18px; display: grid; gap: 12px; }
-    .atlas-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 18px; }
-    .part-card { padding: 0; position: relative; overflow: hidden; min-height: 460px; }
-    .part-media { height: 190px; position: relative; overflow: hidden; }
-    .part-media img { width: 100%; height: 100%; object-fit: cover; display: block; filter: saturate(1.08) contrast(1.05); }
-    .part-media::after { content: ''; position:absolute; inset:0; background: linear-gradient(180deg, rgba(8,10,18,.08), rgba(8,10,18,.88)); }
-    .photo-credit { position:absolute; right: 12px; bottom: 10px; z-index:2; color: rgba(255,255,255,.76); font-size: 10px; font-weight: 800; background: rgba(0,0,0,.38); padding: 4px 7px; border-radius: 999px; }
-    .part-body { padding: 20px; position: relative; }
-    .part-top { display: flex; justify-content: space-between; gap: 12px; align-items: center; }
-    .part-icon { width: 62px; height: 62px; border-radius: 22px; display:grid; place-items:center; font-size: 30px; background: rgba(255,255,255,.1); border: 1px solid var(--line); }
-    .badge { display:inline-flex; align-items:center; gap:6px; color:#0b1020; background: var(--gold); padding: 6px 9px; border-radius: 999px; font-weight: 950; font-size: 11px; height: fit-content; }
-    .chips { display:flex; flex-wrap:wrap; gap:7px; margin: 12px 0; }
+    .atlas-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; }
+    .part-card { padding: 20px; position: relative; overflow: hidden; min-height: 320px; }
+    .part-card::before { content:""; position:absolute; inset:0; background: radial-gradient(circle at 92% 5%, var(--glow, rgba(255,94,168,.22)), transparent 42%); pointer-events:none; }
+    .part-top { display: flex; justify-content: space-between; gap: 12px; position:relative; }
+    .part-icon { width: 64px; height: 64px; border-radius: 22px; display:grid; place-items:center; font-size: 32px; background: rgba(255,255,255,.1); border: 1px solid var(--line); }
+    .badge { display:inline-flex; align-items:center; gap:6px; color:#0b1020; background: var(--gold); padding: 6px 9px; border-radius: 999px; font-weight: 900; font-size: 11px; height: fit-content; }
+    .part-card h3 { margin-top: 18px; font-size: 25px; position:relative; }
+    .part-card p { color: var(--muted); margin: 10px 0 14px; position:relative; }
+    .chips { display:flex; flex-wrap:wrap; gap:7px; position:relative; }
     .chip { font-size: 11px; color: var(--soft); border: 1px solid rgba(255,255,255,.13); background: rgba(255,255,255,.065); border-radius: 999px; padding: 5px 8px; font-weight: 800; }
-    .dual-lane { display:grid; grid-template-columns: 1fr 1fr; gap: 10px; margin: 14px 0; }
-    .lane { border-radius: 16px; border: 1px solid var(--line); background: rgba(0,0,0,.20); padding: 12px; }
-    .lane b { display:block; margin-bottom: 4px; color: var(--gold); }
-    .lane span { color: var(--muted); font-size: 12px; }
-    .exercise-list { display:grid; gap:10px; margin-top: 16px; }
-    .exercise { border: 1px solid rgba(255,255,255,.12); border-radius: 16px; padding: 12px; background: rgba(4,7,15,.36); }
-    .exercise summary { cursor: pointer; font-weight: 900; }
+    .exercise-list { display:grid; gap:10px; margin-top: 16px; position:relative; }
+    .exercise {
+      border: 1px solid rgba(255,255,255,.12); border-radius: 16px; padding: 12px;
+      background: rgba(4,7,15,.36);
+    }
+    .exercise strong { display:block; }
     .meta { color: var(--muted); font-size: 12px; margin-top: 3px; }
-    .detail-grid { display:grid; grid-template-columns: repeat(2, 1fr); gap: 8px; margin-top: 10px; }
-    .detail-grid div { color: var(--muted); font-size: 12px; border-radius: 12px; background: rgba(255,255,255,.055); padding: 9px; }
+    .mini-poster { display:grid; grid-template-columns: 44px 1fr; gap: 10px; align-items:center; }
+    .move-art {
+      width:44px; height:44px; border-radius:15px; display:grid; place-items:center; font-size:24px;
+      background: linear-gradient(145deg, rgba(255,94,168,.26), rgba(124,92,255,.24)); border:1px solid rgba(255,255,255,.14);
+    }
 
-    .workout-layout { display: grid; grid-template-columns: .88fr 1.12fr; gap: 18px; align-items: start; }
-    .workout-step { display:grid; grid-template-columns: auto 1fr auto; gap: 12px; align-items: center; padding: 12px; border-radius: 16px; border: 1px solid var(--line); background: rgba(255,255,255,.06); margin-bottom: 10px; }
-    .workout-step input { width: 20px; height: 20px; accent-color: var(--brand); }
-    .timer { display:flex; gap: 10px; align-items:center; flex-wrap: wrap; }
-    .timer-display { font-size: 34px; font-weight: 950; letter-spacing: -.05em; }
-    .swap-box { display:grid; gap: 8px; margin-top: 12px; }
+    .planner { display:grid; grid-template-columns: .8fr 1.2fr; gap: 18px; }
+    .panel { padding: 24px; }
+    .week-grid { display:grid; grid-template-columns: repeat(7, 1fr); gap: 10px; }
+    .day { border-radius: 18px; padding: 14px; min-height: 160px; background: rgba(255,255,255,.07); border: 1px solid var(--line); }
+    .day b { display:block; color: var(--gold); margin-bottom: 10px; }
+    .day span { display:block; color: var(--muted); font-size: 13px; }
 
-    .dashboard-grid { display:grid; grid-template-columns: repeat(4, 1fr); gap: 12px; }
-    .dash-card { padding: 16px; border-radius: 18px; border: 1px solid var(--line); background: rgba(255,255,255,.065); }
-    .meter { height: 9px; border-radius: 999px; background: rgba(255,255,255,.12); overflow: hidden; margin-top: 10px; }
-    .meter span { display:block; height:100%; width: var(--pct, 0%); background: linear-gradient(90deg, var(--brand), var(--brand-3)); border-radius: inherit; }
-    .tracker-form { display:grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-top: 16px; }
+    .rules { display:grid; grid-template-columns: repeat(3, 1fr); gap: 18px; }
+    .rule { padding: 22px; }
+    .rule h3 { font-size: 22px; margin: 12px 0 8px; }
+    .rule p, .rule li { color: var(--muted); }
 
-    .program-tabs { display:flex; flex-wrap:wrap; gap: 8px; margin-bottom: 16px; }
-    .program-grid, .rules, .nutrition-grid, .timeline-grid { display:grid; grid-template-columns: repeat(3, 1fr); gap: 18px; }
-    .program, .rule { padding: 22px; }
-    .program ul, .rule ul, .nutrition-grid ul { color: var(--muted); padding-left: 18px; }
-    .timeline-item { padding: 18px; position: relative; overflow: hidden; }
-    .timeline-item strong { display:block; color: var(--gold); }
     .sources { color: var(--muted); font-size: 14px; }
     .sources li { margin: 8px 0; }
     footer { padding: 38px 0 60px; color: var(--muted); }
 
-    @media (max-width: 1040px) {
-      .hero-grid, .wizard-grid, .bodymap-layout, .atlas-layout, .workout-layout { grid-template-columns: 1fr; }
-      .atlas-sidebar { position: static; }
-      .atlas-grid, .recommendation-grid, .guide-grid { grid-template-columns: 1fr 1fr; }
-      .stats, .dashboard-grid, .program-grid, .rules, .nutrition-grid, .timeline-grid { grid-template-columns: 1fr 1fr; }
+    .hidden { display:none !important; }
+
+    @media (max-width: 980px) {
+      .hero-grid, .planner { grid-template-columns: 1fr; }
+      .atlas-grid { grid-template-columns: repeat(2, 1fr); }
+      .input-grid, .stats, .rules, .week-grid { grid-template-columns: 1fr 1fr; }
       .nav { align-items:flex-start; flex-direction:column; }
     }
-    @media (max-width: 680px) {
-      .shell { width: min(100% - 22px, 1240px); }
-      .hero-copy, .panel { padding: 22px; }
-      .stats, .form-grid, .atlas-grid, .recommendation-grid, .guide-grid, .dual-lane, .detail-grid, .dashboard-grid, .tracker-form, .program-grid, .rules, .nutrition-grid, .timeline-grid { grid-template-columns: 1fr; }
-      .profile-stage, .profile-stage img { min-height: 420px; }
-      .human-map { min-height: 520px; }
+    @media (max-width: 640px) {
+      .shell { width: min(100% - 22px, 1220px); }
+      .hero-copy { padding: 28px; }
+      .atlas-grid, .input-grid, .stats, .rules, .week-grid { grid-template-columns: 1fr; }
+      .figure-stage { min-height: 360px; }
+      .body-silhouette { transform: scale(.82); }
     }
   </style>
 </head>
 <body>
   <header>
     <div class="shell nav">
-      <div class="logo"><span class="logo-mark">⚡</span><span>BodyForge Coach</span></div>
+      <div class="logo"><span class="logo-mark">⚡</span><span>BodyForge Atlas</span></div>
       <nav class="nav-links" aria-label="Primary">
-        <a href="#coach">Start quiz</a>
-        <a href="#body-map">Body goals</a>
-        <a href="#atlas">Exercise atlas</a>
-        <a href="#today">Today</a>
-        <a href="#dashboard">Progress</a>
-        <a href="#nutrition">Nutrition</a>
+        <a href="#atlas">Body-part atlas</a>
+        <a href="#planner">Programs</a>
+        <a href="#rules">Training rules</a>
+        <a href="#sources">Sources</a>
       </nav>
     </div>
   </header>
@@ -216,111 +243,47 @@
     <section class="hero">
       <div class="shell hero-grid">
         <div class="hero-copy glass">
-          <div class="eyebrow">Complete fat-loss + strengthening coach</div>
-          <h1>Stop guessing. Train the right way for every body goal.</h1>
-          <p>Pick a body concern, equipment, time, and experience level. BodyForge explains what reduces overall fat, what strengthens the target muscles, and what to do today with safe progressions.</p>
+          <div class="eyebrow">One-stop workout website</div>
+          <h1>Find the right exercise for every body part.</h1>
+          <p>Choose male, female, or neutral guidance, then explore dumbbell, bodyweight, cable, machine, barbell, band, and gym options for arms, chest, shoulders, back, core, hips, glutes, thighs, calves, feet, and more.</p>
           <div class="hero-actions">
-            <a class="cta" href="#coach">Build my plan</a>
-            <a class="cta secondary" href="#body-map">Choose a body part</a>
+            <a class="cta" href="#atlas">Explore the atlas</a>
+            <a class="cta secondary" href="#planner">Build a week</a>
           </div>
           <div class="stats" aria-label="Website stats">
-            <div class="stat"><strong id="statParts">16</strong><span>body regions</span></div>
-            <div class="stat"><strong id="statExercises">90+</strong><span>exercise options</span></div>
-            <div class="stat"><strong>4</strong><span>enhancement phases</span></div>
+            <div class="stat"><strong id="statParts">18</strong><span>body regions</span></div>
+            <div class="stat"><strong id="statExercises">100+</strong><span>exercise options</span></div>
+            <div class="stat"><strong>3</strong><span>gender modes</span></div>
             <div class="stat"><strong>0</strong><span>spot-reduction myths</span></div>
           </div>
         </div>
 
-        <aside class="profile-card glass" aria-label="Humanized user profile selector">
-          <div class="profile-stage">
-            <img id="profileHero" src="https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?auto=format&fit=crop&w=900&q=82" alt="Athlete training with battle ropes in a gym">
-            <div class="floating-targets" aria-label="Jump to body parts">
-              <button class="hotspot" data-concern="belly">Belly</button>
-              <button class="hotspot" data-concern="love-handles">Love handles</button>
-              <button class="hotspot" data-concern="arms">Arms</button>
-              <button class="hotspot" data-concern="glutes">Glutes</button>
-              <button class="hotspot" data-concern="thighs">Thighs</button>
-              <button class="hotspot" data-concern="posture">Posture</button>
-            </div>
-            <div class="profile-overlay">
-              <div class="profile-name" id="profileName">Alex, balanced beginner<span id="profileCaption">A real-person inspired profile that changes with your selection.</span></div>
-              <div class="profile-metrics">
-                <div class="profile-metric"><strong>3–4x</strong><small>strength</small></div>
-                <div class="profile-metric"><strong>150+</strong><small>cardio min</small></div>
-                <div class="profile-metric"><strong>Full</strong><small>body fat loss</small></div>
-              </div>
-              <div class="profile-thumbs" aria-label="Workout image previews">
-                <img src="https://images.unsplash.com/photo-1534438327276-14e5300c3a48?auto=format&fit=crop&w=260&q=76" alt="Gym strength training space">
-                <img src="https://images.unsplash.com/photo-1517836357463-d25dfeac3438?auto=format&fit=crop&w=260&q=76" alt="Athlete lifting in gym">
-                <img src="https://images.unsplash.com/photo-1518611012118-696072aa579a?auto=format&fit=crop&w=260&q=76" alt="Mobility and stretching workout">
-              </div>
+        <aside class="hero-card glass" aria-label="Interactive body map">
+          <div class="figure-stage">
+            <div class="body-silhouette" aria-hidden="true">
+              <div class="head"></div><div class="torso"></div><div class="pelvis"></div>
+              <div class="arm left"></div><div class="arm right"></div><div class="forearm left"></div><div class="forearm right"></div>
+              <div class="leg left"></div><div class="leg right"></div><div class="foot left"></div><div class="foot right"></div>
+              <button class="hotspot chest" data-jump="chest">Chest</button>
+              <button class="hotspot arms" data-jump="arms">Arms</button>
+              <button class="hotspot back" data-jump="back">Back</button>
+              <button class="hotspot core" data-jump="core">Core</button>
+              <button class="hotspot glutes" data-jump="glutes">Glutes</button>
+              <button class="hotspot legs" data-jump="legs">Legs</button>
             </div>
           </div>
-          <div>
-            <div class="label">User profile</div>
-            <div class="toggle-row" role="group" aria-label="Gender selector">
-              <button class="pill-btn active" data-gender="neutral">All bodies</button>
-              <button class="pill-btn" data-gender="female">Female</button>
-              <button class="pill-btn" data-gender="male">Male</button>
+          <div class="control-panel">
+            <div>
+              <div class="label">User profile</div>
+              <div class="toggle-row" role="group" aria-label="Gender selector">
+                <button class="pill-btn active" data-gender="neutral">All bodies</button>
+                <button class="pill-btn" data-gender="female">Female</button>
+                <button class="pill-btn" data-gender="male">Male</button>
+              </div>
             </div>
+            <div class="notice" id="genderNote">Guidance uses the same movement library for all humans, then adjusts emphasis, language, and programming notes where useful.</div>
           </div>
-          <div class="notice" id="genderNote">Guidance uses the same movement library for all humans, then adjusts emphasis, language, and programming notes where useful.</div>
         </aside>
-      </div>
-    </section>
-
-    <section id="coach">
-      <div class="shell">
-        <div class="section-head">
-          <div>
-            <div class="eyebrow">Phase 1 — Beginner clarity</div>
-            <h2>Answer 7 questions. Get a beginner-safe plan.</h2>
-            <p>The coach separates fat-loss strategy from muscle-specific strengthening so beginners do not waste weeks doing only crunches, curls, or thigh exercises for targeted fat loss.</p>
-          </div>
-        </div>
-        <div class="wizard-grid">
-          <form class="glass panel" id="coachForm">
-            <div class="form-grid">
-              <div class="field"><label for="goal">Primary goal</label><select id="goal"><option>Lose weight</option><option>Build muscle</option><option>Tone and shape</option><option>Improve posture</option><option>Get stronger</option><option>Start from zero</option></select></div>
-              <div class="field"><label for="concern">Body concern</label><select id="concern"><option value="belly">Belly / lower belly</option><option value="love-handles">Love handles / waist</option><option value="arms">Arm fat or arm tone</option><option value="thighs">Thighs</option><option value="glutes">Glutes</option><option value="back">Back fat / upper back</option><option value="posture">Posture</option><option value="full-body">Full body</option></select></div>
-              <div class="field"><label for="equipment">Equipment</label><select id="equipment"><option>No equipment</option><option>Dumbbells</option><option>Resistance bands</option><option>Full gym</option><option>Machines only</option><option>Apartment friendly</option></select></div>
-              <div class="field"><label for="level">Experience</label><select id="level"><option>Beginner</option><option>Intermediate</option><option>Advanced</option></select></div>
-              <div class="field"><label for="time">Time today</label><select id="time"><option>10 minutes</option><option>20 minutes</option><option selected>30 minutes</option><option>45+ minutes</option></select></div>
-              <div class="field"><label for="limitation">Limitation</label><select id="limitation"><option>None</option><option>Knee sensitive</option><option>Back sensitive</option><option>Shoulder sensitive</option><option>No jumping</option><option>Pregnancy/postpartum</option></select></div>
-            </div>
-            <div class="field" style="margin-top:12px"><label for="notes">Optional notes</label><textarea id="notes" placeholder="Example: I can walk 20 minutes, have 10 lb dumbbells, and cannot do push-ups yet."></textarea></div>
-            <div class="hero-actions"><button class="cta" type="submit">Generate recommendation</button><button class="cta secondary" type="button" id="resetCoach">Reset</button></div>
-          </form>
-          <div class="glass panel coach-output" id="coachOutput" aria-live="polite">
-            <div class="notice warning"><strong>Important:</strong> you strengthen specific muscles, but fat loss happens through overall energy balance, cardio/activity, full-body strength, sleep, and consistency.</div>
-            <div class="recommendation-grid" id="recommendationGrid"></div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <section id="body-map">
-      <div class="shell">
-        <div class="section-head">
-          <div>
-            <div class="eyebrow">Phase 1 + 4 — Body concern map</div>
-            <h2>Click where you want change.</h2>
-            <p>Each body concern shows two lanes: what helps reduce overall fat and what strengthens or shapes the selected area.</p>
-          </div>
-        </div>
-        <div class="bodymap-layout">
-          <div class="human-map glass" aria-label="Clickable body concern map">
-            <button class="map-dot dot-belly active" data-concern="belly">Belly</button>
-            <button class="map-dot dot-love" data-concern="love-handles">Love handles</button>
-            <button class="map-dot dot-arms" data-concern="arms">Arms</button>
-            <button class="map-dot dot-thighs" data-concern="thighs">Thighs</button>
-            <button class="map-dot dot-glutes" data-concern="glutes">Glutes</button>
-            <button class="map-dot dot-back" data-concern="back">Back</button>
-            <button class="map-dot dot-posture" data-concern="posture">Posture</button>
-            <button class="map-dot dot-knees" data-concern="knees">Knees</button>
-          </div>
-          <div class="guide-grid" id="concernGuide"></div>
-        </div>
       </div>
     </section>
 
@@ -328,128 +291,65 @@
       <div class="shell">
         <div class="section-head">
           <div>
-            <div class="eyebrow">Phase 2 — Exercise details, progressions, substitutions</div>
-            <h2>Search the atlas by body part, equipment, or level.</h2>
-            <p>Every card includes fat-loss context, strengthening targets, form cues, common mistakes, easier variations, harder variations, and swaps.</p>
+            <div class="eyebrow">Searchable workout atlas</div>
+            <h2>Every major muscle region, clearly separated.</h2>
+            <p>Use the filters to find bodyweight-only movements, dumbbell exercises, home-friendly options, or full-gym lifts. Recommended reps are starting ranges; progress when form stays clean.</p>
           </div>
         </div>
-        <div class="atlas-layout">
-          <aside class="atlas-sidebar glass" aria-label="Body part sidebar filters">
-            <div class="side-block"><div class="side-title">Body regions</div><div class="region-stack" id="quickFilters"></div></div>
-            <div class="side-block">
-              <div class="side-title">Filter workouts</div>
-              <select id="regionFilter" aria-label="Filter by region"><option value="all">All regions</option></select>
-              <select id="equipmentFilter" aria-label="Filter by equipment"><option value="all">All equipment</option><option>Bodyweight</option><option>Dumbbells</option><option>Barbell</option><option>Cables</option><option>Machines</option><option>Bands</option><option>Kettlebell</option><option>Cardio</option></select>
-              <select id="levelFilter" aria-label="Filter by level"><option value="all">All levels</option><option>Beginner</option><option>Intermediate</option><option>Advanced</option></select>
-            </div>
-            <div class="notice">Tip: if the goal is “fat here,” pair the body-part exercises with the full-body fat-loss plan instead of only training that area.</div>
-          </aside>
-          <div class="atlas-content">
-            <div class="search-card glass"><input id="search" type="search" placeholder="Search exercises, muscles, goals, swaps, or equipment..." aria-label="Search exercises"></div>
-            <div class="atlas-grid" id="atlasGrid"></div>
+
+        <div class="search-card glass">
+          <div class="input-grid">
+            <input id="search" type="search" placeholder="Search exercises, muscles, goals, or equipment..." aria-label="Search exercises">
+            <select id="regionFilter" aria-label="Filter by region"><option value="all">All regions</option></select>
+            <select id="equipmentFilter" aria-label="Filter by equipment">
+              <option value="all">All equipment</option><option>Bodyweight</option><option>Dumbbells</option><option>Barbell</option><option>Cables</option><option>Machines</option><option>Bands</option><option>Kettlebell</option><option>Cardio</option>
+            </select>
+            <select id="levelFilter" aria-label="Filter by level"><option value="all">All levels</option><option>Beginner</option><option>Intermediate</option><option>Advanced</option></select>
           </div>
+          <div class="filter-row" id="quickFilters"></div>
         </div>
+
+        <div class="atlas-grid" id="atlasGrid"></div>
       </div>
     </section>
 
-    <section id="today">
+    <section id="planner">
       <div class="shell">
         <div class="section-head">
           <div>
-            <div class="eyebrow">Phase 2 + 3 — Workout of the day</div>
-            <h2>Do this today, then track it.</h2>
-            <p>A beginner needs less confusion and more action. This session changes based on the coach quiz and includes swaps if a move is too hard.</p>
+            <div class="eyebrow">Programs</div>
+            <h2>Simple weekly templates.</h2>
+            <p>Pick a realistic schedule before chasing variety. Each strength day should include warm-up, main lifts, accessories, and cool-down mobility.</p>
           </div>
         </div>
-        <div class="workout-layout">
-          <div class="glass panel">
-            <h3 id="todayTitle">Beginner Fat-Loss Full Body</h3>
-            <p id="todaySubtitle">A low-impact starter session for overall fat loss and target-area strengthening.</p>
-            <div id="todayWorkout"></div>
+        <div class="planner">
+          <div class="panel glass">
+            <h3>How to choose sets & reps</h3>
+            <p class="sources">General strength and muscle-building work usually starts around 1–3 sets of 8–15 controlled repetitions. Use a load that leaves about 1–3 good reps in reserve, rest 60–180 seconds, and add weight, reps, or range of motion gradually.</p>
+            <div class="notice"><strong>Fat loss note:</strong> training a body part strengthens that area, but belly fat, love handles, arm fat, or thigh fat reduce through overall calorie balance, activity, sleep, and consistency—not spot reduction.</div>
           </div>
-          <div class="glass panel">
-            <h3>Rest timer & swaps</h3>
-            <p>Use 45–90 seconds between easier sets and 90–180 seconds for heavy or hard sets. Keep form clean.</p>
-            <div class="timer"><div class="timer-display" id="timerDisplay">01:00</div><button class="cta" id="startTimer">Start</button><button class="cta secondary" id="resetTimer">Reset</button></div>
-            <div class="swap-box" id="swapBox"></div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <section id="programs">
-      <div class="shell">
-        <div class="section-head">
-          <div>
-            <div class="eyebrow">Phase 1 + 2 — Program templates</div>
-            <h2>Pick the plan that matches your life.</h2>
-          </div>
+          <div class="week-grid" id="weekGrid"></div>
         </div>
         <div class="program-tabs" id="programTabs"></div>
         <div class="program-grid" id="programGrid"></div>
       </div>
     </section>
 
-    <section id="dashboard">
-      <div class="shell">
-        <div class="section-head">
-          <div>
-            <div class="eyebrow">Phase 3 — Personal progress dashboard</div>
-            <h2>Track behaviors, not only body weight.</h2>
-            <p>Fat loss is not perfectly linear. Track steps, cardio, strength sessions, sleep, protein habits, and notes so you can see consistency.</p>
-          </div>
-        </div>
-        <div class="glass panel">
-          <div class="dashboard-grid" id="dashboardCards"></div>
-          <form class="tracker-form" id="trackerForm">
-            <div class="field"><label for="steps">Steps today</label><input id="steps" type="number" min="0" value="0"></div>
-            <div class="field"><label for="cardio">Cardio minutes</label><input id="cardio" type="number" min="0" value="0"></div>
-            <div class="field"><label for="strength">Strength sessions/week</label><input id="strength" type="number" min="0" max="7" value="0"></div>
-            <div class="field"><label for="sleep">Sleep hours</label><input id="sleep" type="number" min="0" max="14" step="0.5" value="0"></div>
-            <div class="field"><label for="protein">Protein habit</label><select id="protein"><option value="0">Not today</option><option value="50">Some meals</option><option value="100">Every meal</option></select></div>
-            <div class="field"><label for="weightTrend">Weight trend note</label><input id="weightTrend" placeholder="Example: average down 0.5 lb"></div>
-            <div class="field" style="grid-column:1/-1"><label for="progressNotes">Progress notes</label><textarea id="progressNotes" placeholder="Energy, soreness, clothes fit, measurements, wins..."></textarea></div>
-            <button class="cta" type="submit">Save progress</button><button class="cta secondary" type="button" id="clearProgress">Clear saved progress</button>
-          </form>
-        </div>
-      </div>
-    </section>
-
-    <section id="nutrition">
-      <div class="shell">
-        <div class="section-head">
-          <div>
-            <div class="eyebrow">Phase 4 — Nutrition basics + expectations</div>
-            <h2>Fat loss needs more than exercise selection.</h2>
-            <p>Keep this simple: a calorie deficit, protein, fiber-rich foods, hydration, sleep, and repeatable training beat extreme plans.</p>
-          </div>
-        </div>
-        <div class="nutrition-grid">
-          <article class="glass panel"><h3>Plate method</h3><ul><li>½ plate vegetables or fruit.</li><li>¼ plate protein.</li><li>¼ plate carbs or starch.</li><li>Add healthy fats in measured portions.</li></ul></article>
-          <article class="glass panel"><h3>Protein anchor</h3><ul><li>Include protein at most meals.</li><li>Helps fullness and muscle retention.</li><li>Pair with strength training.</li></ul></article>
-          <article class="glass panel"><h3>Do not crash diet</h3><ul><li>Extreme restriction increases burnout risk.</li><li>A gradual pace is usually more sustainable.</li><li>Adjust based on energy and recovery.</li></ul></article>
-        </div>
-        <div class="timeline-grid" style="margin-top:18px">
-          <div class="timeline-item glass"><strong>Weeks 1–2</strong><p>Energy, confidence, and soreness tolerance improve before major visual changes.</p></div>
-          <div class="timeline-item glass"><strong>Weeks 3–6</strong><p>Strength, walking capacity, posture, and clothes fit may start changing.</p></div>
-          <div class="timeline-item glass"><strong>Weeks 8–12</strong><p>Body composition changes become more visible if nutrition and training are consistent.</p></div>
-          <div class="timeline-item glass"><strong>3–6 months</strong><p>Major transformation is more realistic with repeatable habits and progressive training.</p></div>
-          <div class="timeline-item glass"><strong>Common mistake</strong><p>Doing only exercises for the area where you want fat loss.</p></div>
-          <div class="timeline-item glass"><strong>Better strategy</strong><p>Full-body strength + cardio/steps + nutrition + target-area strengthening.</p></div>
-        </div>
-      </div>
-    </section>
-
     <section id="rules">
       <div class="shell">
-        <div class="section-head"><div><div class="eyebrow">Safety and medical flags</div><h2>Train hard, but train repeatably.</h2></div></div>
+        <div class="section-head">
+          <div>
+            <div class="eyebrow">Safety & technique</div>
+            <h2>Train hard, but train repeatably.</h2>
+          </div>
+        </div>
         <div class="rules">
-          <article class="rule glass"><h3>Warm up first</h3><p>Use 5–10 minutes of easy cardio plus dynamic mobility before loading cold muscles.</p></article>
-          <article class="rule glass"><h3>Scale for pain</h3><p>Knee, back, shoulder, pregnancy/postpartum, or medical concerns should trigger safer substitutions and qualified guidance.</p></article>
-          <article class="rule glass"><h3>Progress slowly</h3><p>Add only one variable at a time: reps, sets, weight, range, tempo, distance, or weekly frequency.</p></article>
-          <article class="rule glass"><h3>Form beats load</h3><p>Move through a pain-free range and stop sets when technique breaks.</p></article>
-          <article class="rule glass"><h3>Recover</h3><p>Most muscles need about 48 hours before another hard session; sleep and protein support adaptation.</p></article>
-          <article class="rule glass"><h3>Stop signs</h3><p>Stop and seek help for sharp pain, dizziness, chest pain, faintness, or unusual shortness of breath.</p></article>
+          <article class="rule glass"><div class="part-icon">🔥</div><h3>Warm up first</h3><p>Use 5–10 minutes of easy cardio plus dynamic mobility before loading cold muscles.</p></article>
+          <article class="rule glass"><div class="part-icon">🎯</div><h3>Form beats load</h3><p>Move through a pain-free range, control the lowering phase, and stop sets when technique breaks.</p></article>
+          <article class="rule glass"><div class="part-icon">📈</div><h3>Progress slowly</h3><p>Increase only one variable at a time: reps, sets, weight, tempo, distance, or weekly frequency.</p></article>
+          <article class="rule glass"><div class="part-icon">🫁</div><h3>Breathe</h3><p>Exhale through the hardest part of the rep and avoid holding your breath unless coached for heavy lifting.</p></article>
+          <article class="rule glass"><div class="part-icon">🛌</div><h3>Recover</h3><p>Most muscles need at least 48 hours before another hard session; sleep and protein support adaptation.</p></article>
+          <article class="rule glass"><div class="part-icon">🩺</div><h3>Get help when needed</h3><p>Consult a clinician or qualified coach for pain, pregnancy/postpartum needs, injuries, osteoporosis, heart conditions, or new symptoms.</p></article>
         </div>
       </div>
     </section>
@@ -459,245 +359,117 @@
         <div class="eyebrow">Research basis</div>
         <h2>Evidence-informed foundation.</h2>
         <ul class="sources">
-          <li><a href="https://www.cdc.gov/physical-activity-basics/guidelines/adults.html" target="_blank" rel="noreferrer">CDC adult activity guidelines</a>: adults need aerobic activity plus muscle-strengthening activity on 2+ days weekly covering major muscle groups.</li>
-          <li><a href="https://www.cdc.gov/healthy-weight-growth/physical-activity/index.html" target="_blank" rel="noreferrer">CDC weight and physical activity guidance</a>: physical activity combined with reducing calories creates the calorie deficit that results in weight loss.</li>
-          <li><a href="https://www.mayoclinic.org/healthy-lifestyle/fitness/in-depth/weight-training/art-20045842" target="_blank" rel="noreferrer">Mayo Clinic weight-training technique guidance</a>: start with loads you can control, use proper form, and progress gradually.</li>
-          <li><a href="https://www.acefitness.org/about-ace/press-room/press-releases/319/ace-lists-most-common-fitness-myths/" target="_blank" rel="noreferrer">ACE fitness myth guidance</a>: spot reduction is not a reliable strategy; combine sensible eating, aerobic training, and strength training.</li>
-          <li><a href="https://unsplash.com/s/photos/workout" target="_blank" rel="noreferrer">Unsplash workout photography</a>: remote image CDN photos are used to make the atlas more human and visually instructional.</li>
+          <li><a href="https://www.cdc.gov/physical-activity-basics/guidelines/adults.html" target="_blank" rel="noreferrer">CDC adult guidelines</a>: adults should combine aerobic activity with muscle-strengthening activity on 2+ days weekly covering legs, hips, back, abdomen, chest, shoulders, and arms.</li>
+          <li><a href="https://www.mayoclinic.org/healthy-lifestyle/fitness/in-depth/weight-training/art-20045842" target="_blank" rel="noreferrer">Mayo Clinic weight-training technique guidance</a>: warm up, use proper form, choose a weight that fatigues the target muscles in controlled reps, and seek instruction when new.</li>
+          <li><a href="https://www.cdc.gov/physical-activity/media/pdfs/Physical_Activity_Guidelines_2nd_edition.pdf" target="_blank" rel="noreferrer">Physical Activity Guidelines for Americans, 2nd edition</a>: resistance training can be effective with 8–12 repetition sets, and major muscle groups should be trained at least twice weekly.</li>
         </ul>
       </div>
     </section>
   </main>
 
-  <footer><div class="shell">BodyForge Coach is educational fitness content, not medical care. Consult a qualified clinician or coach for pain, pregnancy/postpartum needs, injuries, osteoporosis, heart conditions, or new symptoms.</div></footer>
+  <footer>
+    <div class="shell">BodyForge Atlas is educational fitness content, not medical care. Stop any exercise that causes sharp pain, dizziness, chest pain, or unusual shortness of breath.</div>
+  </footer>
 
   <script>
-    const profileAssets = {
-      neutral: { name: 'Alex, balanced beginner', caption: 'A real-person inspired profile that changes with your selection.', image: 'https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?auto=format&fit=crop&w=900&q=82', alt: 'Athlete training with battle ropes in a gym' },
-      female: { name: 'Maya, strength builder', caption: 'Glutes, upper-back, core, and full-body strength without pink-washing the plan.', image: 'https://images.unsplash.com/photo-1599058917212-d750089bc07e?auto=format&fit=crop&w=900&q=82', alt: 'Woman strength training in a gym' },
-      male: { name: 'Noah, balanced lifter', caption: 'Chest and arms are included, but legs, back, mobility, and core stay in the program.', image: 'https://images.unsplash.com/photo-1581009146145-b5ef050c2e1e?auto=format&fit=crop&w=900&q=82', alt: 'Man training with weights in a gym' }
-    };
+    const bodyParts = [
+      { id:'arms', region:'Upper body', icon:'💪', title:'Biceps & Elbow Flexors', muscles:'biceps brachii, brachialis, brachioradialis', goal:'Curling strength, arm shape, pulling support', glow:'rgba(255,94,168,.22)', exercises:[
+        ['Chin-up or assisted chin-up','Bodyweight/Machines','3×5–10','Intermediate'], ['Dumbbell curl','Dumbbells','2–4×8–15','Beginner'], ['Hammer curl','Dumbbells','2–4×10–15','Beginner'], ['Cable curl','Cables','2–4×10–15','Beginner'], ['Barbell/EZ-bar curl','Barbell','3×8–12','Intermediate'], ['Band curl','Bands','2–3×12–20','Beginner'] ] },
+      { id:'arms', region:'Upper body', icon:'🦾', title:'Triceps', muscles:'long, lateral, medial triceps heads', goal:'Pushing power, upper-arm definition, lockout strength', glow:'rgba(124,92,255,.22)', exercises:[
+        ['Close-grip push-up','Bodyweight','3×6–15','Beginner'], ['Bench dip','Bodyweight','2–3×8–15','Beginner'], ['Dumbbell overhead extension','Dumbbells','2–4×10–15','Beginner'], ['Cable pressdown','Cables','3×10–15','Beginner'], ['Skull crusher','Barbell','3×8–12','Intermediate'], ['Assisted dip','Machines','3×6–12','Intermediate'] ] },
+      { id:'chest', region:'Upper body', icon:'🫀', title:'Chest', muscles:'pectoralis major/minor, serratus support', goal:'Pressing strength and chest development', glow:'rgba(255,209,102,.18)', exercises:[
+        ['Incline push-up','Bodyweight','2–4×8–15','Beginner'], ['Push-up','Bodyweight','3×6–20','Beginner'], ['Dumbbell bench press','Dumbbells','3–4×8–12','Beginner'], ['Barbell bench press','Barbell','3–5×5–10','Intermediate'], ['Cable fly','Cables','2–4×10–15','Intermediate'], ['Chest press machine','Machines','3×8–12','Beginner'] ] },
+      { id:'shoulders', region:'Upper body', icon:'🏹', title:'Shoulders & Delts', muscles:'front, side, rear deltoids, rotator cuff', goal:'Healthy overhead movement and capped shoulders', glow:'rgba(37,214,162,.18)', exercises:[
+        ['Pike push-up','Bodyweight','2–3×6–12','Intermediate'], ['Dumbbell shoulder press','Dumbbells','3×8–12','Beginner'], ['Lateral raise','Dumbbells','3×12–20','Beginner'], ['Rear-delt fly','Dumbbells','2–4×12–20','Beginner'], ['Face pull','Cables/Bands','2–4×12–20','Beginner'], ['Landmine press','Barbell','3×8–12','Intermediate'] ] },
+      { id:'back', region:'Upper body', icon:'🪽', title:'Upper Back & Lats', muscles:'latissimus dorsi, traps, rhomboids, rear delts', goal:'Posture, pulling strength, V-taper', glow:'rgba(83,196,255,.20)', exercises:[
+        ['Inverted row','Bodyweight','3×6–12','Beginner'], ['Lat pulldown','Machines/Cables','3×8–12','Beginner'], ['One-arm dumbbell row','Dumbbells','3×8–12/side','Beginner'], ['Seated cable row','Cables','3×8–12','Beginner'], ['Pull-up or assisted pull-up','Bodyweight/Machines','3×4–10','Intermediate'], ['Chest-supported row','Machines/Dumbbells','3×8–12','Intermediate'] ] },
+      { id:'back', region:'Upper body', icon:'🧍', title:'Lower Back', muscles:'erector spinae, multifidus, quadratus lumborum', goal:'Spinal endurance and hip-hinge support', glow:'rgba(255,123,123,.18)', exercises:[
+        ['Bird dog','Bodyweight','2–3×8–12/side','Beginner'], ['Back extension','Bodyweight/Machines','2–3×10–15','Beginner'], ['Romanian deadlift','Dumbbells/Barbell','3×8–12','Intermediate'], ['Good morning','Barbell/Bands','2–3×8–12','Advanced'], ['Suitcase carry','Dumbbells/Kettlebell','3×30–60 sec/side','Beginner'] ] },
+      { id:'core', region:'Core', icon:'🔥', title:'Abs: Upper, Lower & Deep Core', muscles:'rectus abdominis, transverse abdominis, hip flexors', goal:'Bracing, anti-extension, visible abs when body fat supports it', glow:'rgba(255,94,168,.18)', exercises:[
+        ['Dead bug','Bodyweight','2–3×8–12/side','Beginner'], ['Crunch','Bodyweight','2–3×12–20','Beginner'], ['Reverse crunch','Bodyweight','2–3×10–15','Beginner'], ['Hanging knee raise','Bodyweight','3×6–12','Intermediate'], ['Cable crunch','Cables','3×10–15','Intermediate'], ['Ab-wheel rollout','Equipment','3×5–12','Advanced'] ] },
+      { id:'core', region:'Core', icon:'🌪️', title:'Obliques, Waist & Love Handles', muscles:'internal/external obliques, QL', goal:'Rotation control; fat loss comes from total energy balance', glow:'rgba(124,92,255,.18)', exercises:[
+        ['Side plank','Bodyweight','2–4×20–45 sec/side','Beginner'], ['Pallof press','Bands/Cables','2–4×10–15/side','Beginner'], ['Wood chop','Cables/Bands','3×10–15/side','Intermediate'], ['Russian twist','Bodyweight/Dumbbells','2–3×12–20','Intermediate'], ['Suitcase march','Dumbbells/Kettlebell','3×30–60 sec','Beginner'] ] },
+      { id:'glutes', region:'Lower body', icon:'🍑', title:'Glutes & Hips', muscles:'glute max, medius, minimus, hip rotators', goal:'Hip power, shape, knee/low-back support', glow:'rgba(255,94,168,.24)', exercises:[
+        ['Glute bridge','Bodyweight','3×10–20','Beginner'], ['Hip thrust','Barbell/Dumbbells','3–5×6–12','Intermediate'], ['Cable kickback','Cables','2–4×12–20/side','Beginner'], ['Banded lateral walk','Bands','2–4×12–20/side','Beginner'], ['Bulgarian split squat','Dumbbells','3×8–12/side','Intermediate'], ['Kettlebell swing','Kettlebell','3×10–20','Intermediate'] ] },
+      { id:'legs', region:'Lower body', icon:'🦵', title:'Quads & Front Thighs', muscles:'rectus femoris, vastus lateralis/medialis/intermedius', goal:'Squat strength, stairs, athletic legs', glow:'rgba(255,209,102,.18)', exercises:[
+        ['Box squat','Bodyweight','3×8–15','Beginner'], ['Goblet squat','Dumbbells/Kettlebell','3×8–12','Beginner'], ['Leg press','Machines','3×8–15','Beginner'], ['Front squat','Barbell','3–5×5–10','Advanced'], ['Walking lunge','Dumbbells/Bodyweight','3×8–14/side','Intermediate'], ['Leg extension','Machines','2–4×10–15','Beginner'] ] },
+      { id:'legs', region:'Lower body', icon:'⚙️', title:'Hamstrings & Back Thighs', muscles:'biceps femoris, semitendinosus, semimembranosus', goal:'Hip hinge, sprint support, knee balance', glow:'rgba(37,214,162,.18)', exercises:[
+        ['Hip hinge drill','Bodyweight','2–3×10–15','Beginner'], ['Dumbbell Romanian deadlift','Dumbbells','3×8–12','Beginner'], ['Lying/seated leg curl','Machines','3×10–15','Beginner'], ['Stability-ball leg curl','Equipment','3×8–15','Intermediate'], ['Barbell deadlift','Barbell','3–5×3–6','Advanced'], ['Nordic curl progression','Bodyweight','2–4×3–8','Advanced'] ] },
+      { id:'legs', region:'Lower body', icon:'🧱', title:'Inner & Outer Thighs', muscles:'adductors, abductors, TFL, glute medius', goal:'Hip stability, side-to-side control', glow:'rgba(83,196,255,.18)', exercises:[
+        ['Side-lying leg raise','Bodyweight','2–3×12–20/side','Beginner'], ['Copenhagen plank progression','Bodyweight','2–3×10–30 sec','Intermediate'], ['Cable hip abduction','Cables','2–4×12–20/side','Beginner'], ['Cable hip adduction','Cables','2–4×12–20/side','Beginner'], ['Sumo squat','Dumbbells/Barbell','3×8–12','Intermediate'], ['Hip abductor/adductor machine','Machines','2–4×12–20','Beginner'] ] },
+      { id:'legs', region:'Lower body', icon:'🧦', title:'Calves, Shins & Ankles', muscles:'gastrocnemius, soleus, tibialis anterior', goal:'Ankle strength, jumping, running resilience', glow:'rgba(255,123,123,.18)', exercises:[
+        ['Standing calf raise','Bodyweight/Dumbbells','3×12–25','Beginner'], ['Seated calf raise','Machines/Dumbbells','3×12–20','Beginner'], ['Single-leg calf raise','Bodyweight','3×8–15/side','Intermediate'], ['Tibialis raise','Bodyweight/Bands','2–4×12–20','Beginner'], ['Farmer carry','Dumbbells/Kettlebell','3×30–60 sec','Beginner'] ] },
+      { id:'feet', region:'Lower body', icon:'🦶', title:'Feet & Toes', muscles:'intrinsic foot muscles, arches, toe flexors/extensors', goal:'Balance, foot control, gait support', glow:'rgba(124,92,255,.15)', exercises:[
+        ['Short-foot drill','Bodyweight','2–3×8–12','Beginner'], ['Toe yoga','Bodyweight','2–3×10–20','Beginner'], ['Towel scrunch','Equipment','2–3×45–60 sec','Beginner'], ['Single-leg balance','Bodyweight','3×20–45 sec/side','Beginner'], ['Banded ankle inversion/eversion','Bands','2–3×12–20/side','Beginner'] ] },
+      { id:'full', region:'Full body', icon:'🏋️', title:'Full Body & Conditioning', muscles:'integrated multi-joint patterns', goal:'Time-efficient strength, cardio, fat-loss support', glow:'rgba(255,209,102,.16)', exercises:[
+        ['Squat-to-press','Dumbbells','3×8–12','Intermediate'], ['Burpee regression/progression','Bodyweight','3×6–15','Intermediate'], ['Sled push','Gym','4–8×15–30 m','Intermediate'], ['Rowing machine intervals','Cardio','8–15 min','Beginner'], ['Kettlebell clean & press','Kettlebell','3×5–8/side','Advanced'], ['Farmer carry','Dumbbells/Kettlebell','4×30–60 sec','Beginner'] ] },
+      { id:'mobility', region:'Mobility', icon:'🧘', title:'Neck, Traps & Mobility', muscles:'neck stabilizers, upper traps, thoracic spine', goal:'Tension management and range of motion', glow:'rgba(37,214,162,.15)', exercises:[
+        ['Chin tuck','Bodyweight','2–3×8–12','Beginner'], ['Wall slide','Bodyweight','2–3×8–12','Beginner'], ['Band pull-apart','Bands','2–4×12–20','Beginner'], ['Dumbbell shrug','Dumbbells','3×10–15','Beginner'], ['Thoracic open book','Bodyweight','2×8–10/side','Beginner'] ] }
+    ];
+
     const genderNotes = {
       neutral: 'Guidance uses the same movement library for all humans, then adjusts emphasis, language, and programming notes where useful.',
       female: 'Female mode: prioritize progressive strength with glute/hip, upper-back, core, and full-body options. Cycle, pregnancy, postpartum, and pelvic-floor considerations are individual—scale intensity as needed.',
       male: 'Male mode: prioritize balanced hypertrophy so chest/arms do not outpace back, legs, hips, mobility, and core stability. Keep full-body symmetry and joint health in the plan.'
     };
-    const genderBoost = { neutral: 'Balanced training', female: 'Emphasis: glutes/hips, upper back, core bracing, hamstrings, shoulder stability.', male: 'Emphasis: legs, posterior chain, upper back, shoulder mobility, and core.' };
-    const imageAssets = [
-      'https://images.unsplash.com/photo-1517836357463-d25dfeac3438?auto=format&fit=crop&w=900&q=80',
-      'https://images.unsplash.com/photo-1534438327276-14e5300c3a48?auto=format&fit=crop&w=900&q=80',
-      'https://images.unsplash.com/photo-1599058917212-d750089bc07e?auto=format&fit=crop&w=900&q=80',
-      'https://images.unsplash.com/photo-1581009146145-b5ef050c2e1e?auto=format&fit=crop&w=900&q=80',
-      'https://images.unsplash.com/photo-1518611012118-696072aa579a?auto=format&fit=crop&w=900&q=80',
-      'https://images.unsplash.com/photo-1574680096145-d05b474e2155?auto=format&fit=crop&w=900&q=80',
-      'https://images.unsplash.com/photo-1549476464-37392f717541?auto=format&fit=crop&w=900&q=80',
-      'https://images.unsplash.com/photo-1517963628607-235ccdd5476c?auto=format&fit=crop&w=900&q=80',
-      'https://images.unsplash.com/photo-1538805060514-97d9cc17730c?auto=format&fit=crop&w=900&q=80',
-      'https://images.unsplash.com/photo-1605296867304-46d5465a13f1?auto=format&fit=crop&w=900&q=80'
-    ];
-
-    const concerns = {
-      belly: { title: 'Belly / lower belly', fat: ['Create a sustainable calorie deficit.', 'Walk, cycle, row, or swim 150+ minutes/week.', 'Train full body 2–4x/week to preserve muscle.'], strength: ['Dead bug', 'Reverse crunch', 'Plank', 'Cable crunch'], mistakes: ['Doing only crunches.', 'Ignoring nutrition and steps.', 'Changing programs every week.'] },
-      'love-handles': { title: 'Love handles / waist', fat: ['Use full-body fat-loss habits; waist fat cannot be chosen first.', 'Add daily steps and conditioning.', 'Manage sleep and stress.'], strength: ['Side plank', 'Pallof press', 'Wood chop', 'Suitcase carry'], mistakes: ['Only twisting exercises.', 'Too much weighted side bending.', 'Skipping cardio and diet basics.'] },
-      arms: { title: 'Arms', fat: ['Arm fat reduces with total body fat loss.', 'Pair strength with full-body cardio and nutrition.', 'Train push and pull patterns.'], strength: ['Dumbbell curls', 'Hammer curls', 'Triceps pressdowns', 'Close-grip push-ups'], mistakes: ['Only doing curls.', 'Ignoring triceps, shoulders, back, and chest.', 'Expecting arm-only fat loss.'] },
-      thighs: { title: 'Thighs', fat: ['Use lower-impact cardio if joints need it.', 'Strength train legs while reducing total body fat.', 'Measure progress with clothes fit and strength.'], strength: ['Goblet squat', 'Romanian deadlift', 'Leg press', 'Lunges'], mistakes: ['Avoiding leg training out of fear.', 'Doing endless inner-thigh moves only.', 'No progressive overload.'] },
-      glutes: { title: 'Glutes', fat: ['Glute exercises build shape; fat loss still depends on whole-body habits.', 'Use incline walking or cycling for conditioning.', 'Eat enough protein while dieting.'], strength: ['Hip thrust', 'Glute bridge', 'Bulgarian split squat', 'Cable kickback'], mistakes: ['Only squats.', 'No hip-hinge work.', 'Never increasing load or reps.'] },
-      back: { title: 'Back / upper back', fat: ['Back fat reduces through overall fat loss.', 'Use rowing, walking, and full-body strength.', 'Improve posture to change appearance.'], strength: ['Lat pulldown', 'One-arm row', 'Face pull', 'Rear-delt fly'], mistakes: ['Only training mirror muscles.', 'Shrugging every row.', 'Skipping core bracing.'] },
-      posture: { title: 'Posture', fat: ['This is mostly strength, mobility, and habit—not fat loss.', 'Daily movement breaks help.', 'Train upper back and core.'], strength: ['Face pull', 'Wall slide', 'Bird dog', 'Dead bug'], mistakes: ['Only stretching.', 'Ignoring workstation habits.', 'Skipping rows and rear delts.'] },
-      knees: { title: 'Knee-sensitive training', fat: ['Choose low-impact cardio: cycling, walking, rowing, swimming.', 'Lose weight gradually if recommended by a clinician.', 'Strengthen hips, glutes, calves, and quads.'], strength: ['Box squat', 'Step-up regression', 'Glute bridge', 'Tibialis raise'], mistakes: ['Pushing through sharp pain.', 'Jumping too soon.', 'Ignoring hip and ankle strength.'] },
-      'full-body': { title: 'Full body fat loss', fat: ['Combine calorie deficit, 150+ cardio minutes, 2+ strength days.', 'Use daily steps as the simplest lever.', 'Track weekly behaviors.'], strength: ['Squat', 'Push', 'Pull', 'Hinge', 'Carry'], mistakes: ['Relying on sweat only.', 'Skipping recovery.', 'No plan or progression.'] }
+    const genderBoost = {
+      neutral: '',
+      female: 'Recommended emphasis: glutes/hips, upper back, core bracing, hamstrings, and shoulder stability.',
+      male: 'Recommended emphasis: legs, posterior chain, shoulder mobility, upper back, and core—not only chest and arms.'
     };
 
-    const baseExercises = [
-      ['Incline push-up','Bodyweight','2–4×8–15','Beginner','Keep ribs down and hands under shoulders.','Hips sagging or elbows flaring.','Wall push-up','Full push-up','Chest press machine'],
-      ['Goblet squat','Dumbbells/Kettlebell','3×8–12','Beginner','Sit between the hips and keep heels grounded.','Knees collapsing inward.','Box squat','Front squat','Leg press'],
-      ['One-arm dumbbell row','Dumbbells','3×8–12/side','Beginner','Pull elbow toward hip and pause.','Twisting the torso.','Band row','Chest-supported row','Seated cable row'],
-      ['Glute bridge','Bodyweight','3×10–20','Beginner','Squeeze glutes without arching low back.','Overextending the spine.','Short range bridge','Hip thrust','Cable pull-through'],
-      ['Dead bug','Bodyweight','2–3×8–12/side','Beginner','Low back stays heavy on floor.','Moving too fast.','Heel taps','Hollow hold','Pallof press'],
-      ['Romanian deadlift','Dumbbells/Barbell','3×8–12','Intermediate','Push hips back like closing a car door.','Turning it into a squat.','Hip hinge drill','Barbell RDL','Leg curl'],
-      ['Lat pulldown','Machines/Cables','3×8–12','Beginner','Drive elbows down toward ribs.','Pulling behind the neck.','Band pulldown','Assisted pull-up','One-arm row'],
-      ['Side plank','Bodyweight','2–4×20–45 sec/side','Beginner','Stack ribs over hips.','Letting hips rotate.','Bent-knee side plank','Copenhagen plank','Pallof press']
-    ];
-    function ex(name, equipment, dose, level, cue, mistake, easier, harder, swap) { return { name, equipment, dose, level, cue, mistake, easier, harder, swap }; }
-    const bodyParts = [
-      { id:'arms', region:'Upper body', icon:'💪', title:'Biceps & Elbow Flexors', muscles:'biceps brachii, brachialis, brachioradialis', goal:'Curling strength, arm shape, pulling support', fat:'Arm fat reduces through overall fat loss, not curls alone.', exercises:[ex('Chin-up or assisted chin-up','Bodyweight/Machines','3×5–10','Intermediate','Start from a controlled hang and pull chest upward.','Kicking or shrugging.','Lat pulldown','Pull-up','Band pulldown'), ex('Dumbbell curl','Dumbbells','2–4×8–15','Beginner','Keep elbows near ribs.','Swinging the weight.','Band curl','Incline curl','Cable curl'), ex('Hammer curl','Dumbbells','2–4×10–15','Beginner','Thumbs face up and wrists stay neutral.','Letting shoulders roll forward.','Band hammer curl','Cross-body curl','Cable rope curl')] },
-      { id:'triceps', region:'Upper body', icon:'🦾', title:'Triceps', muscles:'long, lateral, medial heads', goal:'Pushing power and upper-arm definition', fat:'Train triceps for shape while using full-body fat-loss habits.', exercises:[ex('Close-grip push-up','Bodyweight','3×6–15','Beginner','Hands under shoulders and elbows back.','Hips sagging.','Incline close-grip push-up','Dip','Cable pressdown'), ex('Dumbbell overhead extension','Dumbbells','2–4×10–15','Beginner','Keep ribs down and elbows pointed forward.','Arching low back.','Band extension','Skull crusher','Pressdown'), ex('Cable pressdown','Cables','3×10–15','Beginner','Pin elbows and finish with control.','Leaning whole body into it.','Band pressdown','Dip','Overhead extension')] },
-      { id:'chest', region:'Upper body', icon:'🫀', title:'Chest', muscles:'pectoralis major/minor, serratus support', goal:'Pressing strength and chest development', fat:'Chest fat changes with overall body composition; presses strengthen the area.', exercises:[ex('Push-up','Bodyweight','3×6–20','Beginner','Make a straight line from head to heel.','Dropping the head.','Incline push-up','Weighted push-up','Chest press machine'), ex('Dumbbell bench press','Dumbbells','3–4×8–12','Beginner','Lower with control and press evenly.','Bouncing or over-flaring.','Machine press','Barbell bench','Push-up'), ex('Cable fly','Cables','2–4×10–15','Intermediate','Hug around a barrel.','Overstretching shoulders.','Pec deck','Low-to-high fly','Push-up')] },
-      { id:'shoulders', region:'Upper body', icon:'🏹', title:'Shoulders & Delts', muscles:'front, side, rear deltoids, rotator cuff', goal:'Healthy overhead movement and capped shoulders', fat:'Shoulder training improves shape; fat loss remains whole-body.', exercises:[ex('Dumbbell shoulder press','Dumbbells','3×8–12','Beginner','Press without flaring ribs.','Arching low back.','Landmine press','Barbell press','Machine press'), ex('Lateral raise','Dumbbells','3×12–20','Beginner','Lead with elbows and stop near shoulder height.','Shrugging.','Cable lateral raise','Lean-away raise','Band raise'), ex('Face pull','Cables/Bands','2–4×12–20','Beginner','Pull toward eyes with elbows high.','Turning it into a row.','Band pull-apart','Rear-delt fly','Wall slide')] },
-      { id:'back', region:'Upper body', icon:'🪽', title:'Upper Back & Lats', muscles:'lats, traps, rhomboids, rear delts', goal:'Posture, pulling strength, V-taper', fat:'Back fat reduces with whole-body fat loss; rows improve posture and shape.', exercises:[ex('Lat pulldown','Machines/Cables','3×8–12','Beginner','Drive elbows down and keep chest tall.','Pulling behind neck.','Band pulldown','Pull-up','One-arm row'), ex('Seated cable row','Cables','3×8–12','Beginner','Row to ribs and pause.','Leaning back excessively.','Band row','Chest-supported row','Dumbbell row'), ex('Rear-delt fly','Dumbbells','2–4×12–20','Beginner','Open arms with soft elbows.','Using traps only.','Band pull-apart','Reverse pec deck','Face pull')] },
-      { id:'core', region:'Core', icon:'🔥', title:'Abs: Upper, Lower & Deep Core', muscles:'rectus abdominis, transverse abdominis, hip flexors', goal:'Bracing, anti-extension, core strength', fat:'Core exercises strengthen abs; visible abs depend heavily on total body fat.', exercises:[ex('Dead bug','Bodyweight','2–3×8–12/side','Beginner','Keep low back heavy.','Moving too fast.','Heel taps','Hollow hold','Plank'), ex('Reverse crunch','Bodyweight','2–3×10–15','Beginner','Curl pelvis up with control.','Swinging legs.','Bent-knee raise','Hanging knee raise','Cable crunch'), ex('Plank','Bodyweight','2–4×20–60 sec','Beginner','Squeeze glutes and breathe.','Letting hips sag.','Elevated plank','Long-lever plank','Dead bug')] },
-      { id:'waist', region:'Core', icon:'🌪️', title:'Obliques, Waist & Love Handles', muscles:'internal/external obliques, QL', goal:'Rotation control and waist strength', fat:'Love handles reduce through overall fat loss; oblique work strengthens the waist.', exercises:[ex('Side plank','Bodyweight','2–4×20–45 sec/side','Beginner','Stack hips and ribs.','Rotating forward.','Bent-knee side plank','Copenhagen plank','Pallof press'), ex('Pallof press','Bands/Cables','2–4×10–15/side','Beginner','Resist rotation.','Letting band twist you.','Shorter band tension','Half-kneeling Pallof','Wood chop'), ex('Suitcase carry','Dumbbells/Kettlebell','3×30–60 sec/side','Beginner','Walk tall without leaning.','Rushing steps.','Suitcase march','Heavier carry','Side plank')] },
-      { id:'glutes', region:'Lower body', icon:'🍑', title:'Glutes & Hips', muscles:'glute max, medius, minimus, hip rotators', goal:'Hip power, shape, knee/low-back support', fat:'Glutes can be built directly; fat loss around hips is still systemic.', exercises:[ex('Glute bridge','Bodyweight','3×10–20','Beginner','Squeeze glutes at the top.','Arching low back.','Short bridge','Hip thrust','Cable kickback'), ex('Hip thrust','Barbell/Dumbbells','3–5×6–12','Intermediate','Ribs down, chin tucked, full lockout.','Overextending spine.','Glute bridge','Barbell hip thrust','Pull-through'), ex('Banded lateral walk','Bands','2–4×12–20/side','Beginner','Keep toes forward and tension in band.','Rocking side to side.','Side-lying raise','Cable abduction','Clamshell')] },
-      { id:'quads', region:'Lower body', icon:'🦵', title:'Quads & Front Thighs', muscles:'rectus femoris, vasti group', goal:'Squat strength, stairs, athletic legs', fat:'Thigh fat changes with overall body fat; leg training builds strength and shape.', exercises:[ex('Box squat','Bodyweight','3×8–15','Beginner','Sit back to a box and stand tall.','Collapsing knees.','Higher box','Goblet squat','Leg press'), ex('Goblet squat','Dumbbells/Kettlebell','3×8–12','Beginner','Brace and keep weight close.','Heels lifting.','Box squat','Front squat','Leg press'), ex('Leg extension','Machines','2–4×10–15','Beginner','Control both directions.','Kicking fast.','Short range extension','Single-leg extension','Step-up')] },
-      { id:'hamstrings', region:'Lower body', icon:'⚙️', title:'Hamstrings & Back Thighs', muscles:'biceps femoris, semitendinosus, semimembranosus', goal:'Hip hinge, sprint support, knee balance', fat:'Back-thigh exercises strengthen muscle; fat loss remains overall.', exercises:[ex('Hip hinge drill','Bodyweight','2–3×10–15','Beginner','Push hips back with a neutral spine.','Squatting instead.','Wall hinge','Dumbbell RDL','Good morning'), ex('Dumbbell Romanian deadlift','Dumbbells','3×8–12','Beginner','Hips back, soft knees.','Rounding back.','Hip hinge drill','Barbell RDL','Leg curl'), ex('Leg curl','Machines','3×10–15','Beginner','Curl smoothly and pause.','Hips lifting.','Stability-ball curl','Nordic curl','RDL')] },
-      { id:'calves', region:'Lower body', icon:'🧦', title:'Calves, Shins & Ankles', muscles:'gastrocnemius, soleus, tibialis anterior', goal:'Ankle strength, running resilience', fat:'Calves are strengthened locally; fat-loss strategy remains total-body.', exercises:[ex('Standing calf raise','Bodyweight/Dumbbells','3×12–25','Beginner','Pause high and lower slowly.','Bouncing.','Two-leg raise','Single-leg raise','Seated calf raise'), ex('Tibialis raise','Bodyweight/Bands','2–4×12–20','Beginner','Lift toes toward shins.','Using momentum.','Wall tib raise','Weighted tib raise','Farmer carry'), ex('Farmer carry','Dumbbells/Kettlebell','3×30–60 sec','Beginner','Walk tall and controlled.','Leaning or rushing.','Lighter carry','Trap-bar carry','Suitcase carry')] },
-      { id:'feet', region:'Lower body', icon:'🦶', title:'Feet & Toes', muscles:'intrinsic foot muscles, arches, toe flexors/extensors', goal:'Balance, foot control, gait support', fat:'Foot work is for strength and function, not fat loss.', exercises:[ex('Short-foot drill','Bodyweight','2–3×8–12','Beginner','Gently lift arch without curling toes.','Clawing the floor.','Seated version','Single-leg short foot','Balance drill'), ex('Toe yoga','Bodyweight','2–3×10–20','Beginner','Separate big toe and little toes.','Rushing.','Hands-assisted','Standing toe yoga','Towel scrunch'), ex('Single-leg balance','Bodyweight','3×20–45 sec/side','Beginner','Tripod foot and tall posture.','Gripping toes hard.','Supported balance','Eyes-closed balance','Farmer carry')] },
-      { id:'full', region:'Full body', icon:'🏋️', title:'Full Body & Conditioning', muscles:'integrated squat, push, pull, hinge, carry patterns', goal:'Efficient fat-loss support and strength', fat:'Full-body strength plus cardio and nutrition is the foundation of fat loss.', exercises:[ex('Squat-to-press','Dumbbells','3×8–12','Intermediate','Stand and press in one smooth motion.','Rushing reps.','Goblet squat','Thruster','Sled push'), ex('Rowing intervals','Cardio','8–15 min','Beginner','Drive legs, then body, then arms.','Only pulling with arms.','Incline walk','Hard intervals','Bike'), ex('Farmer carry','Dumbbells/Kettlebell','4×30–60 sec','Beginner','Brace and walk tall.','Dropping shoulders.','Lighter carry','Heavier carry','Sled push')] },
-      { id:'mobility', region:'Mobility', icon:'🧘', title:'Neck, Traps & Mobility', muscles:'neck stabilizers, upper traps, thoracic spine', goal:'Tension management and range of motion', fat:'Mobility improves movement quality, not targeted fat loss.', exercises:[ex('Chin tuck','Bodyweight','2–3×8–12','Beginner','Make a double chin gently.','Jamming the neck.','Supine chin tuck','Wall chin tuck','Open book'), ex('Wall slide','Bodyweight','2–3×8–12','Beginner','Keep ribs down and slide slowly.','Arching back.','Floor slide','Band wall slide','Face pull'), ex('Thoracic open book','Bodyweight','2×8–10/side','Beginner','Rotate from upper back.','Forcing range.','Smaller range','Loaded rotation','Wall slide')] }
-    ];
-
-    const programs = {
-      beginner: { title:'Total beginner fat-loss plan', items:['Strength 3x/week: squat, push, pull, hinge, core.', 'Walk 20–30 minutes on 3–5 days.', 'Start with 1–3 sets and leave 1–3 good reps in reserve.'] },
-      belly: { title:'Belly / love-handle concern plan', items:['Full-body strength 3x/week.', 'Core 2–3x/week: dead bug, plank, side plank, Pallof press.', 'Steps/cardio most days plus nutrition basics.'] },
-      glutes: { title:'Glutes + thighs plan', items:['Lower body 2x/week with thrust, squat, hinge, abduction.', 'Upper body 1–2x/week for balance.', 'Progress load or reps weekly when form is clean.'] },
-      gym: { title:'Beginner gym plan', items:['Machines first: leg press, chest press, pulldown, row, leg curl.', 'Dumbbells second.', 'Barbells only after technique is confident.'] },
-      home: { title:'Home plan', items:['Bodyweight, bands, or dumbbells.', 'Apartment-friendly low-impact cardio.', 'Use swaps for push-ups, squats, and planks.'] },
-      safety: { title:'Low-impact / limitation plan', items:['No jumping; use walking, bike, rowing, or swimming.', 'Use box squats, bridges, supported rows, and core bracing.', 'Stop sharp pain and seek qualified advice.'] }
-    };
-
-    const todayPlans = {
-      default: [ ['Warm-up walk or march','5 min','Step jacks, bike, or easy row'], ['Goblet or box squat','3×10','Leg press or sit-to-stand'], ['Incline push-up','3×8','Wall push-up or chest press'], ['Dumbbell or band row','3×10/side','Seated cable row'], ['Glute bridge','3×15','Hip thrust'], ['Dead bug','3×8/side','Heel taps'], ['Easy walk finisher','10–15 min','Bike or row'] ],
-      belly: [ ['Warm-up walk','5 min','Bike'], ['Goblet squat','3×10','Box squat'], ['One-arm row','3×10/side','Band row'], ['Glute bridge','3×15','Hip thrust'], ['Dead bug','3×10/side','Heel taps'], ['Side plank','2×20 sec/side','Bent-knee side plank'], ['Zone 2 cardio','15–25 min','Incline walk'] ],
-      glutes: [ ['Hip mobility warm-up','5 min','Easy walk'], ['Hip thrust','4×8–12','Glute bridge'], ['Goblet squat','3×10','Box squat'], ['Romanian deadlift','3×10','Hip hinge drill'], ['Banded lateral walk','3×15/side','Side-lying raise'], ['Calf raise','3×15','Seated calf raise'] ],
-      posture: [ ['Easy cardio','5 min','Walk'], ['Wall slide','3×10','Floor slide'], ['Lat pulldown','3×10','Band pulldown'], ['Face pull','3×15','Band pull-apart'], ['Bird dog','3×8/side','Dead bug'], ['Farmer carry','4×30 sec','Suitcase march'] ]
-    };
-
-    let selectedGender = 'neutral';
-    let selectedRegion = 'all';
-    let selectedConcern = 'belly';
-    let timerSeconds = 60;
-    let timerId = null;
-
+    const quick = ['Upper body','Core','Lower body','Full body','Mobility'];
     const atlasGrid = document.querySelector('#atlasGrid');
     const regionFilter = document.querySelector('#regionFilter');
     const equipmentFilter = document.querySelector('#equipmentFilter');
     const levelFilter = document.querySelector('#levelFilter');
     const search = document.querySelector('#search');
+    let selectedRegion = 'all';
+    let selectedGender = 'neutral';
 
-    function updateProfile() {
-      const profile = profileAssets[selectedGender];
-      document.querySelector('#profileHero').src = profile.image;
-      document.querySelector('#profileHero').alt = profile.alt;
-      document.querySelector('#profileName').innerHTML = `${profile.name}<span id="profileCaption">${profile.caption}</span>`;
-      document.querySelector('#genderNote').textContent = genderNotes[selectedGender];
-    }
-    function setConcern(key) {
-      selectedConcern = key;
-      document.querySelector('#concern').value = concerns[key] ? key : 'full-body';
-      document.querySelectorAll('.map-dot').forEach(btn => btn.classList.toggle('active', btn.dataset.concern === key));
-      renderConcernGuide();
-      renderToday(key);
-      document.querySelector('#body-map').scrollIntoView({ behavior: 'smooth', block: 'start' });
-    }
-    function renderConcernGuide() {
-      const c = concerns[selectedConcern] || concerns['full-body'];
-      document.querySelector('#concernGuide').innerHTML = `
-        <article class="guide-card"><h3>${c.title}</h3><p><strong>Truth:</strong> You can strengthen this area directly, but visible fat loss comes from overall body-fat reduction.</p></article>
-        <article class="guide-card"><h3>Reduce fat strategy</h3><ul>${c.fat.map(x => `<li>${x}</li>`).join('')}</ul></article>
-        <article class="guide-card"><h3>Strengthen / shape</h3><ul>${c.strength.map(x => `<li>${x}</li>`).join('')}</ul></article>
-        <article class="guide-card"><h3>Mistakes to avoid</h3><ul>${c.mistakes.map(x => `<li>${x}</li>`).join('')}</ul></article>`;
-    }
-    function generateRecommendation() {
-      const goal = document.querySelector('#goal').value;
-      const concernKey = document.querySelector('#concern').value;
-      const equip = document.querySelector('#equipment').value;
-      const level = document.querySelector('#level').value;
-      const time = document.querySelector('#time').value;
-      const limitation = document.querySelector('#limitation').value;
-      selectedConcern = concernKey;
-      const c = concerns[concernKey] || concerns['full-body'];
-      document.querySelector('#recommendationGrid').innerHTML = `
-        <div class="mini-card"><strong>Your focus</strong><p>${goal} for ${c.title}. Train the area, but use full-body habits for fat loss.</p></div>
-        <div class="mini-card"><strong>Today</strong><p>${time} • ${equip} • ${level}. Use the workout below and swap anything that violates: ${limitation}.</p></div>
-        <div class="mini-card"><strong>Fat-loss lane</strong><ul>${c.fat.map(x => `<li>${x}</li>`).join('')}</ul></div>
-        <div class="mini-card"><strong>Strength lane</strong><ul>${c.strength.map(x => `<li>${x}</li>`).join('')}</ul></div>
-        <div class="mini-card"><strong>Weekly target</strong><p>2–4 strength days, 150+ moderate cardio minutes, daily steps, protein at meals, 7–9 hours sleep when possible.</p></div>
-        <div class="mini-card"><strong>Safety adjustment</strong><p>${limitation === 'None' ? 'Use normal beginner progressions.' : 'Prefer low-impact swaps and avoid painful ranges. Consult qualified guidance if symptoms persist.'}</p></div>`;
-      renderConcernGuide();
-      renderToday(concernKey);
-    }
-    function renderAtlas() {
+    [...new Set(bodyParts.map(p => p.region))].forEach(region => {
+      const opt = document.createElement('option'); opt.value = region; opt.textContent = region; regionFilter.append(opt);
+    });
+    quick.forEach(q => {
+      const b = document.createElement('button'); b.className = 'pill-btn'; b.textContent = q; b.addEventListener('click', () => { selectedRegion = q; regionFilter.value = q; render(); }); document.querySelector('#quickFilters').append(b);
+    });
+
+    function render() {
       const term = search.value.trim().toLowerCase();
       const equip = equipmentFilter.value;
       const level = levelFilter.value;
       selectedRegion = regionFilter.value;
-      const filtered = bodyParts.map(part => ({...part, exercises: part.exercises.filter(item => {
-        const hay = [part.title, part.muscles, part.goal, part.region, part.fat, item.name, item.equipment, item.dose, item.level, item.cue, item.mistake, item.easier, item.harder, item.swap].join(' ').toLowerCase();
-        return (!term || hay.includes(term)) && (equip === 'all' || item.equipment.includes(equip)) && (level === 'all' || item.level === level);
+      const filtered = bodyParts.map(part => ({...part, exercises: part.exercises.filter(ex => {
+        const hay = [part.title, part.muscles, part.goal, part.region, ...ex].join(' ').toLowerCase();
+        return (!term || hay.includes(term)) && (equip === 'all' || ex[1].includes(equip)) && (level === 'all' || ex[3] === level);
       })})).filter(part => (selectedRegion === 'all' || part.region === selectedRegion) && part.exercises.length);
-      document.querySelectorAll('.region-btn').forEach(btn => btn.classList.toggle('active', btn.dataset.region === selectedRegion));
-      atlasGrid.innerHTML = filtered.map((part, index) => `
-        <article class="part-card glass" id="${part.id}">
-          <div class="part-media"><img src="${imageAssets[index % imageAssets.length]}" alt="Real workout photo for ${part.title}" loading="lazy"><span class="photo-credit">Unsplash workout photo</span></div>
-          <div class="part-body">
-            <div class="part-top"><div class="part-icon">${part.icon}</div><span class="badge">${part.region}</span></div>
-            <h3>${part.title}</h3>
-            <p><strong>Targets:</strong> ${part.muscles}. <strong>Goal:</strong> ${part.goal}.</p>
-            <div class="chips"><span class="chip">${genderBoost[selectedGender]}</span><span class="chip">Fat loss ≠ spot reduction</span><span class="chip">Progress gradually</span></div>
-            <div class="dual-lane"><div class="lane"><b>Fat-loss lane</b><span>${part.fat}</span></div><div class="lane"><b>Strength lane</b><span>Use the exercises below to train this muscle group directly.</span></div></div>
-            <div class="exercise-list">${part.exercises.map(item => `<details class="exercise"><summary>${item.name}</summary><div class="meta">Equipment: ${item.equipment} • Suggested dose: ${item.dose} • ${item.level}</div><div class="detail-grid"><div><b>Cue:</b> ${item.cue}</div><div><b>Avoid:</b> ${item.mistake}</div><div><b>Easier:</b> ${item.easier}</div><div><b>Harder:</b> ${item.harder}</div><div><b>Swap:</b> ${item.swap}</div><div><b>When to progress:</b> all reps feel clean with 1–3 reps left.</div></div></details>`).join('')}</div>
+
+      atlasGrid.innerHTML = filtered.map(part => `
+        <article class="part-card glass" id="${part.id}" style="--glow:${part.glow}">
+          <div class="part-top"><div class="part-icon">${part.icon}</div><span class="badge">${part.region}</span></div>
+          <h3>${part.title}</h3>
+          <p><strong>Targets:</strong> ${part.muscles}. <strong>Goal:</strong> ${part.goal}.</p>
+          <div class="chips"><span class="chip">${genderBoost[selectedGender] || 'Balanced training'}</span><span class="chip">Warm up first</span><span class="chip">Progress gradually</span></div>
+          <div class="exercise-list">
+            ${part.exercises.map(ex => `<div class="exercise"><div class="mini-poster"><div class="move-art">${part.icon}</div><div><strong>${ex[0]}</strong><div class="meta">Equipment: ${ex[1]} • Suggested dose: ${ex[2]} • ${ex[3]}</div></div></div></div>`).join('')}
           </div>
         </article>`).join('') || '<div class="notice">No exercises match your filters. Try broadening equipment, level, or search terms.</div>';
       document.querySelector('#statParts').textContent = bodyParts.length;
       document.querySelector('#statExercises').textContent = bodyParts.reduce((sum, p) => sum + p.exercises.length, 0) + '+';
     }
-    function renderToday(key = selectedConcern) {
-      const plan = todayPlans[key] || todayPlans.default;
-      const titleMap = { belly: 'Belly Concern: Fat-Loss + Core Day', 'love-handles': 'Waist Concern: Anti-Rotation + Cardio Day', glutes: 'Glutes + Thighs Builder', posture: 'Posture Reset Strength Day', default: 'Beginner Fat-Loss Full Body' };
-      document.querySelector('#todayTitle').textContent = titleMap[key] || titleMap.default;
-      document.querySelector('#todayWorkout').innerHTML = plan.map((step, i) => `<label class="workout-step"><input type="checkbox" data-step="${i}"><span><strong>${i+1}. ${step[0]}</strong><span class="meta">${step[1]}</span></span><button class="ghost-btn" type="button" data-swap="${step[2]}">Swap</button></label>`).join('');
-      document.querySelector('#swapBox').innerHTML = '<div class="notice">Click “Swap” beside any exercise to see a beginner-friendly replacement.</div>';
-    }
-    function renderPrograms(active = 'beginner') {
-      document.querySelector('#programTabs').innerHTML = Object.entries(programs).map(([key, p]) => `<button class="pill-btn ${key === active ? 'active' : ''}" data-program="${key}">${p.title}</button>`).join('');
-      document.querySelector('#programGrid').innerHTML = Object.values(programs).map(p => `<article class="program glass"><h3>${p.title}</h3><ul>${p.items.map(i => `<li>${i}</li>`).join('')}</ul></article>`).join('');
-    }
-    function renderDashboard() {
-      const saved = JSON.parse(localStorage.getItem('bodyforgeProgress') || '{}');
-      ['steps','cardio','strength','sleep','protein','weightTrend','progressNotes'].forEach(id => { if (saved[id] !== undefined) document.querySelector('#' + id).value = saved[id]; });
-      const steps = Number(document.querySelector('#steps').value || 0);
-      const cardio = Number(document.querySelector('#cardio').value || 0);
-      const strength = Number(document.querySelector('#strength').value || 0);
-      const sleep = Number(document.querySelector('#sleep').value || 0);
-      const protein = Number(document.querySelector('#protein').value || 0);
-      const cards = [
-        ['Steps', steps.toLocaleString(), Math.min(100, steps / 80), 'Goal example: 8,000/day'],
-        ['Cardio', `${cardio} min`, Math.min(100, cardio / 1.5), 'Weekly target: 150+ min'],
-        ['Strength', `${strength}/2+`, Math.min(100, strength / 2 * 100), 'Minimum: 2 days/week'],
-        ['Sleep', `${sleep} hr`, Math.min(100, sleep / 8 * 100), 'Recovery target: consistent sleep'],
-        ['Protein habit', `${protein}%`, protein, 'Protein at most meals'],
-        ['Workout streak', `${document.querySelectorAll('#todayWorkout input:checked').length} done`, Math.min(100, document.querySelectorAll('#todayWorkout input:checked').length / 6 * 100), 'Today checklist']
-      ];
-      document.querySelector('#dashboardCards').innerHTML = cards.map(c => `<div class="dash-card"><strong>${c[0]}</strong><div class="timer-display" style="font-size:26px">${c[1]}</div><small class="meta">${c[3]}</small><div class="meter" style="--pct:${c[2]}%"><span></span></div></div>`).join('');
-    }
-    function updateTimerDisplay() {
-      const min = String(Math.floor(timerSeconds / 60)).padStart(2, '0');
-      const sec = String(timerSeconds % 60).padStart(2, '0');
-      document.querySelector('#timerDisplay').textContent = `${min}:${sec}`;
-    }
 
-    [...new Set(bodyParts.map(p => p.region))].forEach(region => { const opt = document.createElement('option'); opt.value = region; opt.textContent = region; regionFilter.append(opt); });
-    ['All regions','Upper body','Core','Lower body','Full body','Mobility'].forEach(q => {
-      const b = document.createElement('button');
-      const value = q === 'All regions' ? 'all' : q;
-      const count = value === 'all' ? bodyParts.length : bodyParts.filter(part => part.region === value).length;
-      b.className = 'region-btn'; b.dataset.region = value; b.innerHTML = `<span>${q}</span><span>${count}</span>`;
-      b.addEventListener('click', () => { regionFilter.value = value; renderAtlas(); });
-      document.querySelector('#quickFilters').append(b);
-    });
-    document.querySelectorAll('[data-gender]').forEach(btn => btn.addEventListener('click', () => { document.querySelectorAll('[data-gender]').forEach(b => b.classList.remove('active')); btn.classList.add('active'); selectedGender = btn.dataset.gender; updateProfile(); renderAtlas(); }));
-    document.querySelectorAll('[data-concern]').forEach(btn => btn.addEventListener('click', () => setConcern(btn.dataset.concern)));
-    document.querySelector('#coachForm').addEventListener('submit', event => { event.preventDefault(); generateRecommendation(); document.querySelector('#today').scrollIntoView({ behavior: 'smooth', block: 'start' }); });
-    document.querySelector('#resetCoach').addEventListener('click', () => { document.querySelector('#coachForm').reset(); generateRecommendation(); });
-    [search, regionFilter, equipmentFilter, levelFilter].forEach(el => el.addEventListener('input', renderAtlas));
-    document.querySelector('#todayWorkout').addEventListener('click', event => {
-      if (event.target.matches('[data-swap]')) document.querySelector('#swapBox').innerHTML = `<div class="notice"><strong>Swap suggestion:</strong> ${event.target.dataset.swap}</div>`;
-      setTimeout(renderDashboard, 0);
-    });
-    document.querySelector('#startTimer').addEventListener('click', () => { clearInterval(timerId); timerId = setInterval(() => { timerSeconds = Math.max(0, timerSeconds - 1); updateTimerDisplay(); if (timerSeconds === 0) clearInterval(timerId); }, 1000); });
-    document.querySelector('#resetTimer').addEventListener('click', () => { clearInterval(timerId); timerSeconds = 60; updateTimerDisplay(); });
-    document.querySelector('#programTabs').addEventListener('click', event => { if (event.target.matches('[data-program]')) renderPrograms(event.target.dataset.program); });
-    document.querySelector('#trackerForm').addEventListener('submit', event => { event.preventDefault(); const data = {}; ['steps','cardio','strength','sleep','protein','weightTrend','progressNotes'].forEach(id => data[id] = document.querySelector('#' + id).value); localStorage.setItem('bodyforgeProgress', JSON.stringify(data)); renderDashboard(); });
-    document.querySelector('#clearProgress').addEventListener('click', () => { localStorage.removeItem('bodyforgeProgress'); document.querySelector('#trackerForm').reset(); renderDashboard(); });
+    [search, regionFilter, equipmentFilter, levelFilter].forEach(el => el.addEventListener('input', render));
+    document.querySelectorAll('[data-gender]').forEach(btn => btn.addEventListener('click', () => {
+      document.querySelectorAll('[data-gender]').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active'); selectedGender = btn.dataset.gender; document.querySelector('#genderNote').textContent = genderNotes[selectedGender]; render();
+    }));
+    document.querySelectorAll('[data-jump]').forEach(btn => btn.addEventListener('click', () => document.getElementById(btn.dataset.jump)?.scrollIntoView({behavior:'smooth', block:'start'})));
 
-    updateProfile();
-    renderConcernGuide();
-    generateRecommendation();
-    renderAtlas();
-    renderToday();
-    renderPrograms();
-    renderDashboard();
-    updateTimerDisplay();
+    const week = [
+      ['Mon','Full body strength','Squat + push + row + core'], ['Tue','Cardio + mobility','Walk, cycle, swim, yoga'], ['Wed','Lower body','Glutes, quads, hamstrings, calves'], ['Thu','Rest or light cardio','Easy movement and stretching'], ['Fri','Upper body','Chest, back, shoulders, arms'], ['Sat','Core + conditioning','Abs, obliques, carries, intervals'], ['Sun','Recovery','Sleep, meal prep, gentle walk']
+    ];
+    document.querySelector('#weekGrid').innerHTML = week.map(d => `<div class="day"><b>${d[0]}</b><strong>${d[1]}</strong><span>${d[2]}</span></div>`).join('');
+    render();
   </script>
 </body>
 </html>
