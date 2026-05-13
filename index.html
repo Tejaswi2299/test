@@ -1,2209 +1,592 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>ServiceNow GRC — Real World Project from Scratch</title>
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,400;0,600;0,700;0,900;1,400;1,700&family=Outfit:wght@300;400;500;600;700&family=Fira+Code:wght@400;500;600&display=swap" rel="stylesheet">
-<style>
-:root {
-  --bg: #f7f4ef;
-  --surface: #ffffff;
-  --surface2: #f0ece4;
-  --border: #e0d9ce;
-  --dark: #1a1410;
-  --dark2: #2d2318;
-  --accent: #c9622a;
-  --accent2: #2a7dc9;
-  --accent3: #2ac96e;
-  --warn: #c9a42a;
-  --muted: #8a7d6e;
-  --text: #3d3228;
-  --code-bg: #1e1a15;
-  --code-text: #f0d9b5;
-}
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>BodyForge Atlas — Complete Workout Library</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Playfair+Display:wght@700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #080a12;
+      --panel: rgba(255, 255, 255, 0.08);
+      --panel-strong: rgba(255, 255, 255, 0.13);
+      --line: rgba(255, 255, 255, 0.14);
+      --text: #f8fbff;
+      --muted: #aeb8ce;
+      --soft: #dce5f7;
+      --brand: #ff5ea8;
+      --brand-2: #7c5cff;
+      --brand-3: #25d6a2;
+      --gold: #ffd166;
+      --danger: #ff7b7b;
+      --shadow: 0 24px 80px rgba(0,0,0,.38);
+      --radius: 28px;
+      --radius-sm: 18px;
+    }
 
-* { margin: 0; padding: 0; box-sizing: border-box; }
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      color: var(--text);
+      background:
+        radial-gradient(circle at 12% 0%, rgba(255,94,168,.28), transparent 34%),
+        radial-gradient(circle at 90% 12%, rgba(124,92,255,.28), transparent 35%),
+        radial-gradient(circle at 70% 72%, rgba(37,214,162,.13), transparent 38%),
+        var(--bg);
+      line-height: 1.55;
+    }
 
-body {
-  font-family: 'Outfit', sans-serif;
-  background: var(--bg);
-  color: var(--text);
-  line-height: 1.6;
-}
+    a { color: inherit; }
+    .shell { width: min(1220px, calc(100% - 32px)); margin: 0 auto; }
+    .glass {
+      background: linear-gradient(145deg, rgba(255,255,255,.12), rgba(255,255,255,.055));
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(20px);
+    }
 
-/* ===== SIDEBAR ===== */
-.app-layout {
-  display: grid;
-  grid-template-columns: 300px minmax(0, 1fr);
-  min-height: 100vh;
-}
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      border-bottom: 1px solid rgba(255,255,255,.08);
+      background: rgba(8,10,18,.74);
+      backdrop-filter: blur(18px);
+    }
+    .nav { display: flex; align-items: center; justify-content: space-between; gap: 18px; padding: 16px 0; }
+    .logo { display: flex; align-items: center; gap: 12px; font-weight: 900; letter-spacing: -.04em; }
+    .logo-mark {
+      width: 42px; height: 42px; border-radius: 15px;
+      display: grid; place-items: center;
+      background: conic-gradient(from 160deg, var(--brand), var(--brand-2), var(--brand-3), var(--brand));
+      box-shadow: 0 10px 30px rgba(255,94,168,.22);
+    }
+    .nav-links { display: flex; gap: 8px; flex-wrap: wrap; justify-content: flex-end; }
+    .nav-links a, .pill-btn {
+      border: 1px solid rgba(255,255,255,.12);
+      background: rgba(255,255,255,.06);
+      color: var(--soft);
+      border-radius: 999px;
+      padding: 9px 13px;
+      font-size: 13px;
+      font-weight: 700;
+      text-decoration: none;
+      cursor: pointer;
+      transition: .2s ease;
+    }
+    .nav-links a:hover, .pill-btn:hover, .pill-btn.active {
+      background: rgba(255,255,255,.14);
+      border-color: rgba(255,255,255,.26);
+      transform: translateY(-1px);
+    }
 
-.sidebar {
-  background: var(--dark);
-  position: sticky;
-  top: 0;
-  width: 300px;
-  height: 100vh;
-  overflow-y: auto;
-  z-index: 100;
-  display: flex;
-  flex-direction: column;
-}
+    .hero { padding: 76px 0 34px; }
+    .hero-grid { display: grid; grid-template-columns: 1.1fr .9fr; gap: 28px; align-items: stretch; }
+    .hero-copy { padding: 46px; position: relative; overflow: hidden; }
+    .hero-copy::after {
+      content: ""; position: absolute; inset: auto -70px -100px auto; width: 260px; height: 260px;
+      background: radial-gradient(circle, rgba(255,94,168,.22), transparent 68%);
+    }
+    .eyebrow { color: var(--gold); text-transform: uppercase; letter-spacing: .18em; font-size: 12px; font-weight: 900; }
+    h1, h2, h3 { margin: 0; line-height: 1.05; letter-spacing: -.055em; }
+    h1 { font-family: "Playfair Display", serif; font-size: clamp(48px, 8vw, 96px); margin-top: 14px; }
+    .hero-copy p { color: var(--soft); font-size: 18px; max-width: 760px; margin: 22px 0 0; }
+    .hero-actions { display: flex; gap: 12px; flex-wrap: wrap; margin-top: 30px; }
+    .cta {
+      border: 0; color: white; font-weight: 900; text-decoration: none; cursor: pointer;
+      padding: 14px 19px; border-radius: 16px;
+      background: linear-gradient(135deg, var(--brand), var(--brand-2));
+      box-shadow: 0 16px 36px rgba(124,92,255,.22);
+    }
+    .cta.secondary { background: rgba(255,255,255,.09); border: 1px solid var(--line); box-shadow: none; }
 
-.sidebar::-webkit-scrollbar { width: 4px; }
-.sidebar::-webkit-scrollbar-track { background: transparent; }
-.sidebar::-webkit-scrollbar-thumb { background: #3d3228; border-radius: 99px; }
+    .hero-card { padding: 28px; overflow: hidden; position: relative; display: grid; gap: 18px; }
+    .figure-stage {
+      min-height: 440px;
+      border-radius: 26px;
+      background: linear-gradient(180deg, rgba(255,255,255,.12), rgba(255,255,255,.04));
+      border: 1px solid rgba(255,255,255,.11);
+      position: relative;
+      display: grid;
+      place-items: center;
+      overflow: hidden;
+    }
+    .body-silhouette { width: min(250px, 70%); height: 395px; position: relative; filter: drop-shadow(0 24px 28px rgba(0,0,0,.3)); }
+    .head, .torso, .pelvis, .arm, .forearm, .leg, .shin, .foot {
+      position: absolute; background: linear-gradient(160deg, rgba(255,255,255,.96), rgba(198,205,224,.75));
+      border: 1px solid rgba(255,255,255,.55);
+    }
+    .head { width: 58px; height: 58px; border-radius: 50%; left: 96px; top: 0; }
+    .torso { width: 112px; height: 150px; border-radius: 48% 48% 28% 28%; left: 69px; top: 68px; clip-path: polygon(16% 0,84% 0,100% 44%,74% 100%,26% 100%,0 44%); }
+    .pelvis { width: 98px; height: 70px; border-radius: 24px 24px 50px 50px; left: 76px; top: 208px; }
+    .arm { width: 38px; height: 135px; border-radius: 28px; top: 78px; }
+    .arm.left { left: 34px; transform: rotate(12deg); } .arm.right { right: 34px; transform: rotate(-12deg); }
+    .forearm { width: 32px; height: 126px; border-radius: 26px; top: 184px; }
+    .forearm.left { left: 18px; transform: rotate(8deg); } .forearm.right { right: 18px; transform: rotate(-8deg); }
+    .leg { width: 44px; height: 135px; border-radius: 30px; top: 265px; }
+    .leg.left { left: 75px; transform: rotate(5deg); } .leg.right { right: 75px; transform: rotate(-5deg); }
+    .shin { width: 36px; height: 126px; border-radius: 26px; top: 378px; display:none; }
+    .foot { width: 52px; height: 21px; border-radius: 18px; top: 388px; }
+    .foot.left { left: 58px; } .foot.right { right: 58px; }
+    .hotspot {
+      position: absolute; border: 0; border-radius: 999px; padding: 8px 11px;
+      color: #081018; font-weight: 900; font-size: 11px; cursor: pointer;
+      background: var(--gold); box-shadow: 0 8px 28px rgba(255,209,102,.35);
+      animation: pulse 2.3s infinite;
+    }
+    @keyframes pulse { 50% { transform: scale(1.06); } }
+    .hotspot.chest { top: 122px; left: 50%; transform: translateX(-50%); }
+    .hotspot.arms { top: 168px; left: 14%; }
+    .hotspot.back { top: 80px; right: 11%; }
+    .hotspot.core { top: 224px; left: 49%; transform: translateX(-50%); }
+    .hotspot.glutes { top: 282px; right: 23%; }
+    .hotspot.legs { bottom: 36px; left: 30%; }
+    .profile-stage {
+      min-height: 440px;
+      border-radius: 26px;
+      position: relative;
+      overflow: hidden;
+      border: 1px solid rgba(255,255,255,.12);
+      background: #111525;
+    }
+    .profile-stage img { width: 100%; height: 100%; min-height: 440px; object-fit: cover; display: block; filter: saturate(1.1) contrast(1.05); }
+    .profile-stage::after { content: ''; position: absolute; inset: 0; background: linear-gradient(180deg, rgba(8,10,18,.04), rgba(8,10,18,.28) 38%, rgba(8,10,18,.92)); }
+    .profile-overlay { position: absolute; inset: auto 18px 18px; z-index: 2; display: grid; gap: 12px; }
+    .profile-name { font-size: 30px; font-weight: 950; letter-spacing: -.05em; }
+    .profile-name span { display:block; color: var(--muted); font-size: 13px; letter-spacing: 0; font-weight: 800; }
+    .profile-metrics { display:grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
+    .profile-metric { border:1px solid rgba(255,255,255,.16); background: rgba(0,0,0,.34); border-radius: 16px; padding: 10px; }
+    .profile-metric strong { display:block; font-size: 18px; }
+    .profile-metric small { color: var(--muted); font-weight: 800; }
+    .profile-thumbs { display:grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
+    .profile-thumbs img { min-height: 74px; height: 74px; border-radius: 16px; border:1px solid rgba(255,255,255,.18); object-fit: cover; }
+    .floating-targets { position:absolute; z-index:3; inset: 16px 16px auto; display:flex; gap:8px; flex-wrap:wrap; }
+    .floating-targets .hotspot { position: static; animation: none; box-shadow: 0 10px 24px rgba(0,0,0,.22); }
 
-.sidebar-header {
-  padding: 24px 20px 20px;
-  border-bottom: 1px solid rgba(255,255,255,0.06);
-}
+    .control-panel { display: grid; gap: 14px; }
+    .toggle-row, .filter-row { display: flex; gap: 8px; flex-wrap: wrap; }
+    .label { color: var(--muted); font-size: 12px; font-weight: 800; letter-spacing: .12em; text-transform: uppercase; }
+    .notice { color: var(--soft); font-size: 13px; background: rgba(255,255,255,.07); border: 1px solid var(--line); border-radius: 16px; padding: 14px; }
 
-.project-badge {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  background: rgba(201,98,42,0.15);
-  border: 1px solid rgba(201,98,42,0.3);
-  border-radius: 6px;
-  padding: 3px 10px;
-  font-family: 'Fira Code', monospace;
-  font-size: 10px;
-  color: var(--accent);
-  letter-spacing: 0.06em;
-  margin-bottom: 10px;
-}
-.sidebar-title {
-  font-family: 'Fraunces', serif;
-  font-size: 18px;
-  font-weight: 700;
-  color: #fff;
-  line-height: 1.3;
-}
-.sidebar-subtitle {
-  font-size: 12px;
-  color: #5a4e42;
-  margin-top: 4px;
-}
+    section { padding: 48px 0; }
+    .section-head { display: flex; justify-content: space-between; align-items: end; gap: 18px; margin-bottom: 22px; }
+    h2 { font-size: clamp(32px, 4vw, 58px); }
+    .section-head p { max-width: 640px; color: var(--muted); margin: 10px 0 0; }
 
-.phase-group { padding: 8px 0; }
-.phase-label {
-  padding: 10px 20px 6px;
-  font-size: 9px;
-  font-weight: 700;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-  color: #4a3e32;
-  font-family: 'Fira Code', monospace;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
-.phase-label::after {
-  content: '';
-  flex: 1;
-  height: 1px;
-  background: #2a2018;
-}
+    .stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; margin-top: 22px; }
+    .stat { padding: 18px; border-radius: 20px; background: rgba(255,255,255,.075); border: 1px solid var(--line); }
+    .stat strong { display:block; font-size: 28px; letter-spacing: -.04em; }
+    .stat span { color: var(--muted); font-weight: 700; font-size: 12px; }
 
-.step-btn {
-  display: flex;
-  align-items: flex-start;
-  gap: 10px;
-  padding: 10px 20px;
-  cursor: pointer;
-  border: none;
-  background: none;
-  width: 100%;
-  text-align: left;
-  transition: all 0.15s;
-  font-family: 'Outfit', sans-serif;
-  position: relative;
-}
-.step-btn:hover { background: rgba(255,255,255,0.03); }
-.step-btn.active { background: rgba(201,98,42,0.1); }
-.step-btn.active::before {
-  content: '';
-  position: absolute;
-  left: 0; top: 0; bottom: 0;
-  width: 3px;
-  background: var(--accent);
-  border-radius: 0 2px 2px 0;
-}
-.step-num {
-  min-width: 22px; height: 22px;
-  border-radius: 50%;
-  background: #2a2018;
-  border: 1px solid #3d3228;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 10px;
-  font-weight: 700;
-  font-family: 'Fira Code', monospace;
-  color: #5a4e42;
-  flex-shrink: 0;
-  margin-top: 1px;
-  transition: all 0.2s;
-}
-.step-btn.active .step-num, .step-btn.done .step-num {
-  background: var(--accent);
-  border-color: var(--accent);
-  color: #fff;
-}
-.step-btn.done .step-num::after { content: '✓'; font-size: 10px; }
-.step-btn.done .step-num { font-size: 0; }
-.step-info { flex: 1; }
-.step-name {
-  font-size: 12px;
-  font-weight: 600;
-  color: #7a6a5a;
-  line-height: 1.3;
-}
-.step-btn.active .step-name { color: #fff; }
-.step-desc { font-size: 11px; color: #4a3e32; margin-top: 2px; line-height: 1.4; }
+    .atlas-layout { display: grid; grid-template-columns: 286px minmax(0, 1fr); gap: 18px; align-items: start; }
+    .atlas-sidebar { position: sticky; top: 86px; padding: 18px; display: grid; gap: 16px; }
+    .side-block { display: grid; gap: 10px; }
+    .side-title { color: var(--gold); text-transform: uppercase; letter-spacing: .16em; font-size: 11px; font-weight: 900; }
+    .search-card { padding: 18px; margin-bottom: 18px; display: grid; gap: 12px; }
+    .search-card input, .search-card select, .atlas-sidebar select {
+      width: 100%; border: 1px solid var(--line); border-radius: 16px; padding: 14px 16px;
+      background: rgba(0,0,0,.22); color: var(--text); font: inherit; outline: none;
+    }
+    .search-card select option, .atlas-sidebar select option { background: #111525; color: #fff; }
+    .input-grid { display: grid; grid-template-columns: 1fr; gap: 10px; }
+    .region-stack { display: grid; gap: 8px; }
+    .region-btn {
+      display: flex; align-items: center; justify-content: space-between; gap: 10px;
+      width: 100%; border: 1px solid rgba(255,255,255,.13); border-radius: 16px;
+      padding: 12px 13px; color: var(--soft); background: rgba(255,255,255,.06);
+      font-weight: 900; cursor: pointer; transition: .2s ease;
+    }
+    .region-btn:hover, .region-btn.active { transform: translateX(3px); background: linear-gradient(135deg, rgba(255,94,168,.20), rgba(124,92,255,.16)); border-color: rgba(255,255,255,.28); }
+    .region-btn span:last-child { color: var(--muted); font-size: 12px; }
+    .atlas-content { min-width: 0; }
+    .atlas-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 18px; }
+    .part-card { padding: 0; position: relative; overflow: hidden; min-height: 420px; }
+    .part-media { height: 190px; position: relative; overflow: hidden; }
+    .part-media img { width: 100%; height: 100%; object-fit: cover; display: block; filter: saturate(1.08) contrast(1.05); }
+    .part-media::after { content: ''; position:absolute; inset:0; background: linear-gradient(180deg, rgba(8,10,18,.08), rgba(8,10,18,.88)); }
+    .part-body { padding: 20px; position: relative; }
+    .photo-credit { position:absolute; right: 12px; bottom: 10px; z-index:2; color: rgba(255,255,255,.72); font-size: 10px; font-weight: 800; background: rgba(0,0,0,.38); padding: 4px 7px; border-radius: 999px; }
+    .part-card::before { content:""; position:absolute; inset:0; background: radial-gradient(circle at 92% 5%, var(--glow, rgba(255,94,168,.22)), transparent 42%); pointer-events:none; }
+    .part-top { display: flex; justify-content: space-between; gap: 12px; position:relative; }
+    .part-icon { width: 64px; height: 64px; border-radius: 22px; display:grid; place-items:center; font-size: 32px; background: rgba(255,255,255,.1); border: 1px solid var(--line); }
+    .badge { display:inline-flex; align-items:center; gap:6px; color:#0b1020; background: var(--gold); padding: 6px 9px; border-radius: 999px; font-weight: 900; font-size: 11px; height: fit-content; }
+    .part-card h3 { margin-top: 18px; font-size: 25px; position:relative; }
+    .part-card p { color: var(--muted); margin: 10px 0 14px; position:relative; }
+    .chips { display:flex; flex-wrap:wrap; gap:7px; position:relative; }
+    .chip { font-size: 11px; color: var(--soft); border: 1px solid rgba(255,255,255,.13); background: rgba(255,255,255,.065); border-radius: 999px; padding: 5px 8px; font-weight: 800; }
+    .exercise-list { display:grid; gap:10px; margin-top: 16px; position:relative; }
+    .exercise {
+      border: 1px solid rgba(255,255,255,.12); border-radius: 16px; padding: 12px;
+      background: rgba(4,7,15,.36);
+    }
+    .exercise strong { display:block; }
+    .meta { color: var(--muted); font-size: 12px; margin-top: 3px; }
+    .mini-poster { display:grid; grid-template-columns: 44px 1fr; gap: 10px; align-items:center; }
+    .move-art {
+      width:44px; height:44px; border-radius:15px; display:grid; place-items:center; font-size:24px;
+      background: linear-gradient(145deg, rgba(255,94,168,.26), rgba(124,92,255,.24)); border:1px solid rgba(255,255,255,.14);
+    }
 
-.sidebar-progress {
-  padding: 16px 20px;
-  border-top: 1px solid rgba(255,255,255,0.06);
-  margin-top: auto;
-}
-.progress-text {
-  font-size: 11px;
-  color: #4a3e32;
-  margin-bottom: 8px;
-  display: flex;
-  justify-content: space-between;
-  font-family: 'Fira Code', monospace;
-}
-.progress-text span { color: var(--accent); font-weight: 600; }
-.prog-bar {
-  height: 4px;
-  background: #2a2018;
-  border-radius: 99px;
-  overflow: hidden;
-}
-.prog-fill {
-  height: 100%;
-  background: linear-gradient(90deg, var(--accent), var(--warn));
-  border-radius: 99px;
-  transition: width 0.5s ease;
-  width: 0%;
-}
+    .planner { display:grid; grid-template-columns: .8fr 1.2fr; gap: 18px; }
+    .panel { padding: 24px; }
+    .week-grid { display:grid; grid-template-columns: repeat(7, 1fr); gap: 10px; }
+    .day { border-radius: 18px; padding: 14px; min-height: 160px; background: rgba(255,255,255,.07); border: 1px solid var(--line); }
+    .day b { display:block; color: var(--gold); margin-bottom: 10px; }
+    .day span { display:block; color: var(--muted); font-size: 13px; }
 
-/* ===== MAIN CONTENT ===== */
-.main-content {
-  min-height: 100vh;
-  min-width: 0;
-  width: 100%;
-  margin-left: 0;
-}
+    .rules { display:grid; grid-template-columns: repeat(3, 1fr); gap: 18px; }
+    .rule { padding: 22px; }
+    .rule h3 { font-size: 22px; margin: 12px 0 8px; }
+    .rule p, .rule li { color: var(--muted); }
 
-.content-topbar {
-  background: var(--surface);
-  border-bottom: 1px solid var(--border);
-  padding: 16px 40px;
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  position: sticky;
-  top: 0;
-  z-index: 50;
-}
-.breadcrumb {
-  font-size: 12px;
-  color: var(--muted);
-  font-family: 'Fira Code', monospace;
-  display: flex;
-  align-items: center;
-  gap: 6px;
-}
-.breadcrumb strong { color: var(--text); }
-.topbar-actions {
-  margin-left: auto;
-  display: flex;
-  gap: 10px;
-}
-.btn {
-  padding: 8px 18px;
-  border-radius: 7px;
-  font-size: 13px;
-  font-weight: 600;
-  cursor: pointer;
-  border: none;
-  font-family: 'Outfit', sans-serif;
-  transition: all 0.2s;
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-}
-.btn-primary { background: var(--accent); color: #fff; }
-.btn-primary:hover { background: #b5561f; transform: translateY(-1px); }
-.btn-secondary { background: var(--surface2); color: var(--text); border: 1px solid var(--border); }
-.btn-secondary:hover { border-color: var(--accent); color: var(--accent); }
+    .sources { color: var(--muted); font-size: 14px; }
+    .sources li { margin: 8px 0; }
+    footer { padding: 38px 0 60px; color: var(--muted); }
 
-/* ===== STEP PAGE ===== */
-.step-page { display: none; }
-.step-page.active { display: block; animation: fadeSlide 0.35s ease; }
-@keyframes fadeSlide { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+    .hidden { display:none !important; }
 
-.step-hero {
-  background: var(--dark2);
-  padding: 48px 40px 40px;
-  position: relative;
-  overflow: hidden;
-}
-.step-hero::before {
-  content: '';
-  position: absolute;
-  top: -60px; right: -60px;
-  width: 300px; height: 300px;
-  background: radial-gradient(circle, rgba(201,98,42,0.1) 0%, transparent 70%);
-}
-.hero-phase {
-  font-family: 'Fira Code', monospace;
-  font-size: 11px;
-  color: var(--accent);
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  margin-bottom: 10px;
-  opacity: 0.8;
-}
-.hero-title {
-  font-family: 'Fraunces', serif;
-  font-size: clamp(24px, 3.5vw, 38px);
-  font-weight: 900;
-  color: #fff;
-  line-height: 1.15;
-  margin-bottom: 14px;
-}
-.hero-title em { color: var(--accent); font-style: normal; }
-.hero-subtitle {
-  font-size: 16px;
-  color: #8a7d6e;
-  max-width: 600px;
-  line-height: 1.6;
-  font-weight: 300;
-}
-.hero-scenario {
-  margin-top: 20px;
-  padding: 16px 20px;
-  background: rgba(201,98,42,0.08);
-  border: 1px solid rgba(201,98,42,0.2);
-  border-radius: 10px;
-  font-size: 14px;
-  color: #c8b89a;
-  max-width: 700px;
-  line-height: 1.6;
-}
-.hero-scenario strong { color: var(--accent); }
-
-/* ===== CONTENT BODY ===== */
-.step-body { padding: 40px; max-width: 900px; }
-
-/* Expert callout */
-.expert-says {
-  display: flex;
-  gap: 16px;
-  margin-bottom: 28px;
-  padding: 20px 22px;
-  background: #fff8f0;
-  border: 1px solid #f0d9c0;
-  border-left: 4px solid var(--accent);
-  border-radius: 0 10px 10px 0;
-}
-.expert-avatar {
-  min-width: 44px; height: 44px;
-  border-radius: 50%;
-  background: linear-gradient(135deg, var(--accent), var(--warn));
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 20px;
-  flex-shrink: 0;
-}
-.expert-text p { font-size: 14px; color: var(--text); line-height: 1.7; }
-.expert-label { font-size: 11px; font-weight: 700; color: var(--accent); font-family: 'Fira Code', monospace; margin-bottom: 4px; letter-spacing: 0.05em; }
-
-/* Section headers */
-.section-h2 {
-  font-family: 'Fraunces', serif;
-  font-size: 22px;
-  font-weight: 700;
-  color: var(--dark);
-  margin: 32px 0 14px;
-  padding-bottom: 10px;
-  border-bottom: 2px solid var(--border);
-  display: flex;
-  align-items: center;
-  gap: 10px;
-}
-.section-h3 {
-  font-family: 'Fraunces', serif;
-  font-size: 17px;
-  font-weight: 700;
-  color: var(--dark);
-  margin: 24px 0 10px;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
-
-/* Explanation box */
-.explain-box {
-  background: var(--surface);
-  border: 1px solid var(--border);
-  border-radius: 12px;
-  padding: 20px 24px;
-  margin-bottom: 18px;
-}
-.explain-box p { font-size: 14px; color: var(--text); line-height: 1.75; }
-.explain-box p + p { margin-top: 10px; }
-
-/* Navigation steps */
-.nav-path {
-  background: var(--dark);
-  border-radius: 10px;
-  padding: 18px 22px;
-  margin: 16px 0;
-  font-family: 'Fira Code', monospace;
-  font-size: 13px;
-  display: flex;
-  align-items: center;
-  flex-wrap: wrap;
-  gap: 6px;
-}
-.nav-path .nav-item {
-  color: #c8b89a;
-  padding: 3px 8px;
-  background: rgba(255,255,255,0.05);
-  border-radius: 4px;
-}
-.nav-path .nav-arrow { color: var(--accent); font-size: 14px; }
-.nav-path .nav-final {
-  color: #fff;
-  font-weight: 600;
-  padding: 3px 8px;
-  background: rgba(201,98,42,0.2);
-  border: 1px solid rgba(201,98,42,0.3);
-  border-radius: 4px;
-}
-.nav-label {
-  font-size: 11px;
-  font-family: 'Fira Code', monospace;
-  color: var(--muted);
-  margin-bottom: 6px;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
-}
-
-/* Table */
-.sn-table {
-  width: 100%;
-  border-collapse: collapse;
-  font-size: 13px;
-  margin: 12px 0 20px;
-  border-radius: 10px;
-  overflow: hidden;
-  border: 1px solid var(--border);
-}
-.sn-table th {
-  background: var(--dark2);
-  color: #c8b89a;
-  padding: 11px 16px;
-  text-align: left;
-  font-weight: 600;
-  font-family: 'Fira Code', monospace;
-  font-size: 11px;
-  letter-spacing: 0.05em;
-  border-bottom: 1px solid var(--border);
-}
-.sn-table td {
-  padding: 11px 16px;
-  border-bottom: 1px solid var(--border);
-  color: var(--text);
-  line-height: 1.5;
-  vertical-align: top;
-  background: var(--surface);
-}
-.sn-table tr:last-child td { border-bottom: none; }
-.sn-table tr:hover td { background: var(--surface2); }
-.required-badge {
-  display: inline-block;
-  padding: 2px 7px;
-  border-radius: 4px;
-  font-size: 10px;
-  font-family: 'Fira Code', monospace;
-  font-weight: 600;
-}
-.req-yes { background: rgba(201,98,42,0.1); color: var(--accent); }
-.req-man { background: rgba(42,125,201,0.1); color: var(--accent2); }
-.req-no { background: rgba(138,125,110,0.1); color: var(--muted); }
-
-/* Code blocks */
-.code-block {
-  background: var(--code-bg);
-  border-radius: 10px;
-  overflow: hidden;
-  margin: 14px 0;
-  border: 1px solid rgba(255,255,255,0.06);
-}
-.code-header {
-  padding: 10px 16px;
-  background: rgba(255,255,255,0.04);
-  border-bottom: 1px solid rgba(255,255,255,0.06);
-  display: flex;
-  align-items: center;
-  gap: 10px;
-}
-.code-dots { display: flex; gap: 5px; }
-.code-dots span {
-  width: 10px; height: 10px; border-radius: 50%;
-}
-.dot-r { background: #ef4444; }
-.dot-y { background: #f59e0b; }
-.dot-g { background: #10b981; }
-.code-filename { font-family: 'Fira Code', monospace; font-size: 11px; color: #5a4e42; }
-.code-content {
-  padding: 18px 20px;
-  font-family: 'Fira Code', monospace;
-  font-size: 12.5px;
-  color: var(--code-text);
-  line-height: 1.7;
-  overflow-x: auto;
-  white-space: pre;
-}
-.code-content .kw { color: #c792ea; }
-.code-content .str { color: #c3e88d; }
-.code-content .cmt { color: #546e7a; font-style: italic; }
-.code-content .fn { color: #82aaff; }
-.code-content .num { color: #f78c6c; }
-.code-content .prop { color: #ffcb6b; }
-.code-content .tag { color: #f07178; }
-
-/* Step-by-step */
-.step-list { display: flex; flex-direction: column; gap: 12px; margin: 14px 0; }
-.step-item {
-  display: flex;
-  gap: 14px;
-  align-items: flex-start;
-  padding: 16px 18px;
-  background: var(--surface);
-  border: 1px solid var(--border);
-  border-radius: 10px;
-  transition: border-color 0.2s;
-}
-.step-item:hover { border-color: var(--accent); }
-.s-num {
-  min-width: 30px; height: 30px;
-  background: var(--accent);
-  color: #fff;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-weight: 700;
-  font-size: 13px;
-  font-family: 'Fira Code', monospace;
-  flex-shrink: 0;
-}
-.s-content { flex: 1; }
-.s-title { font-size: 14px; font-weight: 700; color: var(--dark); margin-bottom: 4px; }
-.s-desc { font-size: 13px; color: var(--muted); line-height: 1.6; }
-.s-note {
-  margin-top: 8px;
-  padding: 8px 12px;
-  background: rgba(201,98,42,0.06);
-  border-left: 3px solid var(--accent);
-  border-radius: 0 6px 6px 0;
-  font-size: 12px;
-  color: var(--text);
-  line-height: 1.5;
-}
-.s-code {
-  margin-top: 8px;
-  padding: 8px 12px;
-  background: var(--dark);
-  border-radius: 6px;
-  font-family: 'Fira Code', monospace;
-  font-size: 11.5px;
-  color: #c8b89a;
-}
-.s-code .hl { color: var(--accent); font-weight: 600; }
-
-/* Info cards */
-.info-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 14px; margin: 14px 0; }
-.info-card {
-  background: var(--surface);
-  border: 1px solid var(--border);
-  border-radius: 10px;
-  padding: 18px;
-  position: relative;
-  overflow: hidden;
-}
-.info-card::before {
-  content: '';
-  position: absolute;
-  top: 0; left: 0; right: 0;
-  height: 3px;
-  background: var(--card-color, var(--accent));
-}
-.info-card h4 { font-size: 14px; font-weight: 700; color: var(--dark); margin-bottom: 8px; }
-.info-card p { font-size: 13px; color: var(--muted); line-height: 1.6; }
-
-/* Callout boxes */
-.callout {
-  padding: 16px 18px;
-  border-radius: 10px;
-  margin: 14px 0;
-  display: flex;
-  gap: 12px;
-  align-items: flex-start;
-}
-.callout-warning { background: #fff8e6; border: 1px solid #f0d070; }
-.callout-info { background: #e8f4ff; border: 1px solid #b0d4f0; }
-.callout-success { background: #e8fff4; border: 1px solid #70d0a0; }
-.callout-danger { background: #fff0f0; border: 1px solid #f0b0b0; }
-.callout-icon { font-size: 20px; flex-shrink: 0; }
-.callout p { font-size: 13px; line-height: 1.65; }
-.callout p strong { font-weight: 700; }
-.callout-warning p { color: #6b5300; }
-.callout-info p { color: #003a6b; }
-.callout-success p { color: #005a30; }
-.callout-danger p { color: #6b0000; }
-
-/* SN Screenshot simulation */
-.sn-screen {
-  background: #1d2d3e;
-  border-radius: 12px;
-  overflow: hidden;
-  margin: 16px 0;
-  border: 1px solid #0a1520;
-  box-shadow: 0 8px 32px rgba(0,0,0,0.2);
-}
-.sn-topbar {
-  background: #102040;
-  padding: 10px 16px;
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  border-bottom: 1px solid #0a1520;
-}
-.sn-logo { color: #82c8e8; font-weight: 700; font-size: 14px; font-family: 'Fira Code', monospace; }
-.sn-nav-items { display: flex; gap: 16px; }
-.sn-nav-item { color: #5a8aaa; font-size: 12px; cursor: pointer; }
-.sn-nav-item.active { color: #82c8e8; border-bottom: 2px solid #82c8e8; padding-bottom: 2px; }
-.sn-body { padding: 16px; }
-.sn-form {
-  background: #243545;
-  border-radius: 8px;
-  overflow: hidden;
-  border: 1px solid #1a2a3a;
-}
-.sn-form-header {
-  background: #1a2a3a;
-  padding: 10px 16px;
-  font-size: 13px;
-  font-weight: 600;
-  color: #82c8e8;
-  font-family: 'Fira Code', monospace;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
-.sn-form-row {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 12px;
-  padding: 12px 16px;
-  border-bottom: 1px solid #1a2a3a;
-}
-.sn-form-row.full { grid-template-columns: 1fr; }
-.sn-field label { display: block; font-size: 10px; color: #5a8aaa; font-family: 'Fira Code', monospace; margin-bottom: 4px; text-transform: uppercase; letter-spacing: 0.06em; }
-.sn-input {
-  background: #1a2a3a;
-  border: 1px solid #2a3a4a;
-  border-radius: 5px;
-  padding: 7px 10px;
-  font-size: 12px;
-  color: #c8e0f0;
-  font-family: 'Fira Code', monospace;
-  width: 100%;
-}
-.sn-select {
-  background: #1a2a3a;
-  border: 1px solid #2a3a4a;
-  border-radius: 5px;
-  padding: 7px 10px;
-  font-size: 12px;
-  color: #c8e0f0;
-  font-family: 'Fira Code', monospace;
-  width: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-}
-.sn-select::after { content: '▾'; color: #5a8aaa; }
-.sn-btn-row {
-  padding: 12px 16px;
-  display: flex;
-  gap: 8px;
-}
-.sn-btn {
-  padding: 7px 16px;
-  border-radius: 5px;
-  font-size: 12px;
-  font-weight: 600;
-  font-family: 'Fira Code', monospace;
-}
-.sn-btn-primary { background: #0070d2; color: #fff; }
-.sn-btn-secondary { background: #2a3a4a; color: #c8e0f0; border: 1px solid #3a4a5a; }
-.sn-highlight {
-  border: 2px dashed rgba(201,98,42,0.6);
-  border-radius: 6px;
-  position: relative;
-}
-.sn-highlight::after {
-  content: '← Fill this';
-  position: absolute;
-  right: -72px;
-  top: 50%;
-  transform: translateY(-50%);
-  font-size: 10px;
-  color: var(--accent);
-  font-family: 'Fira Code', monospace;
-  white-space: nowrap;
-}
-
-/* Relations diagram */
-.diagram {
-  background: var(--surface);
-  border: 1px solid var(--border);
-  border-radius: 12px;
-  padding: 24px;
-  margin: 16px 0;
-  overflow-x: auto;
-}
-.diagram-title { font-size: 12px; font-family: 'Fira Code', monospace; color: var(--muted); margin-bottom: 16px; text-transform: uppercase; letter-spacing: 0.08em; }
-.flow-row { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; margin-bottom: 10px; }
-.flow-box {
-  padding: 10px 16px;
-  border-radius: 8px;
-  font-size: 13px;
-  font-weight: 600;
-  border: 2px solid;
-  white-space: nowrap;
-}
-.flow-arrow { font-size: 18px; color: var(--muted); }
-.fb-policy { border-color: var(--accent2); color: var(--accent2); background: rgba(42,125,201,0.06); }
-.fb-standard { border-color: var(--accent); color: var(--accent); background: rgba(201,98,42,0.06); }
-.fb-control { border-color: var(--warn); color: var(--warn); background: rgba(201,164,42,0.06); }
-.fb-risk { border-color: #ef4444; color: #ef4444; background: rgba(239,68,68,0.06); }
-.fb-entity { border-color: var(--accent3); color: var(--accent3); background: rgba(42,201,110,0.06); }
-.fb-audit { border-color: #a855f7; color: #a855f7; background: rgba(168,85,247,0.06); }
-.fb-vendor { border-color: #f97316; color: #f97316; background: rgba(249,115,22,0.06); }
-
-/* Bottom nav */
-.step-footer {
-  padding: 28px 40px;
-  border-top: 1px solid var(--border);
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  background: var(--surface);
-}
-.step-counter { font-size: 12px; color: var(--muted); font-family: 'Fira Code', monospace; }
-
-/* Highlight span */
-.hl { font-family: 'Fira Code', monospace; font-size: 12px; background: var(--surface2); padding: 2px 7px; border-radius: 4px; color: var(--accent); border: 1px solid var(--border); }
-
-/* Tag */
-.tag {
-  display: inline-block;
-  padding: 2px 8px;
-  border-radius: 4px;
-  font-size: 11px;
-  font-family: 'Fira Code', monospace;
-  font-weight: 600;
-}
-.tag-blue { background: rgba(42,125,201,0.1); color: var(--accent2); }
-.tag-orange { background: rgba(201,98,42,0.1); color: var(--accent); }
-.tag-green { background: rgba(42,201,110,0.1); color: var(--accent3); }
-.tag-purple { background: rgba(168,85,247,0.1); color: #a855f7; }
-
-@media (max-width: 768px) {
-  .app-layout { grid-template-columns: 1fr; }
-  .sidebar { position: relative; width: 100%; height: auto; }
-  .main-content { margin-left: 0; }
-}
-</style>
+    @media (max-width: 980px) {
+      .hero-grid, .planner, .atlas-layout { grid-template-columns: 1fr; }
+      .atlas-sidebar { position: static; }
+      .atlas-grid { grid-template-columns: repeat(2, 1fr); }
+      .input-grid, .stats, .rules, .week-grid { grid-template-columns: 1fr 1fr; }
+      .nav { align-items:flex-start; flex-direction:column; }
+    }
+    @media (max-width: 640px) {
+      .shell { width: min(100% - 22px, 1220px); }
+      .hero-copy { padding: 28px; }
+      .atlas-grid, .input-grid, .stats, .rules, .week-grid { grid-template-columns: 1fr; }
+      .figure-stage { min-height: 360px; }
+      .body-silhouette { transform: scale(.82); }
+    }
+  </style>
 </head>
 <body>
-
-<div class="app-layout">
-
-<!-- ============= SIDEBAR ============= -->
-<aside class="sidebar">
-  <div class="sidebar-header">
-    <div class="project-badge">REAL WORLD PROJECT</div>
-    <div class="sidebar-title">ServiceNow GRC<br>Complete Implementation</div>
-    <div class="sidebar-subtitle">TechCorp Inc. · From Zero to Live</div>
-  </div>
-
-  <div class="phase-group">
-    <div class="phase-label">Phase 0 · Foundation</div>
-    <button class="step-btn active" id="sb-0" onclick="goStep(0)">
-      <div class="step-num">1</div>
-      <div class="step-info">
-        <div class="step-name">What is GRC? The Big Picture</div>
-        <div class="step-desc">Understand what we're building and why</div>
-      </div>
-    </button>
-    <button class="step-btn" id="sb-1" onclick="goStep(1)">
-      <div class="step-num">2</div>
-      <div class="step-info">
-        <div class="step-name">ServiceNow Platform Basics</div>
-        <div class="step-desc">Navigation, tables, forms — the basics</div>
-      </div>
-    </button>
-  </div>
-
-  <div class="phase-group">
-    <div class="phase-label">Phase 1 · Installation</div>
-    <button class="step-btn" id="sb-2" onclick="goStep(2)">
-      <div class="step-num">3</div>
-      <div class="step-info">
-        <div class="step-name">Install GRC from the Store</div>
-        <div class="step-desc">Entitlement, activation, dependencies</div>
-      </div>
-    </button>
-  </div>
-
-  <div class="phase-group">
-    <div class="phase-label">Phase 2 · Policy & Compliance</div>
-    <button class="step-btn" id="sb-3" onclick="goStep(3)">
-      <div class="step-num">4</div>
-      <div class="step-info">
-        <div class="step-name">Create Your First Policy</div>
-        <div class="step-desc">Build TechCorp's Information Security Policy</div>
-      </div>
-    </button>
-    <button class="step-btn" id="sb-4" onclick="goStep(4)">
-      <div class="step-num">5</div>
-      <div class="step-info">
-        <div class="step-name">Standards & Control Procedures</div>
-        <div class="step-desc">Map procedures to regulations</div>
-      </div>
-    </button>
-  </div>
-
-  <div class="phase-group">
-    <div class="phase-label">Phase 3 · Risk Management</div>
-    <button class="step-btn" id="sb-5" onclick="goStep(5)">
-      <div class="step-num">6</div>
-      <div class="step-info">
-        <div class="step-name">Set Up Risk Framework</div>
-        <div class="step-desc">Entities, risk categories, scoring</div>
-      </div>
-    </button>
-    <button class="step-btn" id="sb-6" onclick="goStep(6)">
-      <div class="step-num">7</div>
-      <div class="step-info">
-        <div class="step-name">Create & Assess a Risk</div>
-        <div class="step-desc">Inherent → Control → Residual scoring</div>
-      </div>
-    </button>
-  </div>
-
-  <div class="phase-group">
-    <div class="phase-label">Phase 4 · Audit Management</div>
-    <button class="step-btn" id="sb-7" onclick="goStep(7)">
-      <div class="step-num">8</div>
-      <div class="step-info">
-        <div class="step-name">Create Audit Plan & Engagement</div>
-        <div class="step-desc">Plan → Scope → Validate → Fieldwork</div>
-      </div>
-    </button>
-    <button class="step-btn" id="sb-8" onclick="goStep(8)">
-      <div class="step-num">9</div>
-      <div class="step-info">
-        <div class="step-name">Test Plans & Findings</div>
-        <div class="step-desc">Test templates, observations, issues</div>
-      </div>
-    </button>
-  </div>
-
-  <div class="phase-group">
-    <div class="phase-label">Phase 5 · Vendor Risk</div>
-    <button class="step-btn" id="sb-9" onclick="goStep(9)">
-      <div class="step-num">10</div>
-      <div class="step-info">
-        <div class="step-name">Vendor Risk Management</div>
-        <div class="step-desc">Add vendor, send assessment, remediate</div>
-      </div>
-    </button>
-  </div>
-
-  <div class="phase-group">
-    <div class="phase-label">Phase 6 · AI & Advanced</div>
-    <button class="step-btn" id="sb-10" onclick="goStep(10)">
-      <div class="step-num">11</div>
-      <div class="step-info">
-        <div class="step-name">AI Risk & Compliance Setup</div>
-        <div class="step-desc">Register AI system, impact assessment</div>
-      </div>
-    </button>
-    <button class="step-btn" id="sb-11" onclick="goStep(11)">
-      <div class="step-num">12</div>
-      <div class="step-info">
-        <div class="step-name">End-to-End Summary & Tables</div>
-        <div class="step-desc">All tables, roles, complete project view</div>
-      </div>
-    </button>
-  </div>
-
-  <div class="sidebar-progress">
-    <div class="progress-text">Progress <span id="progLabel">0 / 12</span></div>
-    <div class="prog-bar"><div class="prog-fill" id="progFill"></div></div>
-  </div>
-</aside>
-
-<!-- ============= MAIN CONTENT ============= -->
-<main class="main-content">
-  <div class="content-topbar">
-    <div class="breadcrumb">
-      <span>GRC Project</span>
-      <span class="nav-arrow">›</span>
-      <strong id="topbar-title">Foundation</strong>
+  <header>
+    <div class="shell nav">
+      <div class="logo"><span class="logo-mark">⚡</span><span>BodyForge Atlas</span></div>
+      <nav class="nav-links" aria-label="Primary">
+        <a href="#atlas">Body-part atlas</a>
+        <a href="#planner">Programs</a>
+        <a href="#rules">Training rules</a>
+        <a href="#sources">Sources</a>
+      </nav>
     </div>
-    <div class="topbar-actions">
-      <button class="btn btn-secondary" onclick="prevStep()">← Previous</button>
-      <button class="btn btn-primary" onclick="nextStep()">Next Step →</button>
-    </div>
-  </div>
+  </header>
 
-<!-- =============================== STEP 0: WHAT IS GRC =============================== -->
-<div class="step-page active" id="page-0">
-  <div class="step-hero">
-    <div class="hero-phase">Phase 0 · Foundation · Step 1 of 12</div>
-    <div class="hero-title">What is <em>GRC</em>?<br>The Complete Big Picture</div>
-    <div class="hero-subtitle">Before touching a single screen, you must understand WHY GRC exists and what problem it solves.</div>
-    <div class="hero-scenario">
-      <strong>🏢 Our Project:</strong> You work at <strong>TechCorp Inc.</strong> — a 500-person IT services company. Your CEO just said: "We're getting audited next quarter, we have no idea what our risks are, our policies are in random Word documents, and our vendors can access our servers without any oversight. Fix this." — That's exactly what ServiceNow GRC is for.
-    </div>
-  </div>
-
-  <div class="step-body">
-    <div class="expert-says">
-      <div class="expert-avatar">👨‍💼</div>
-      <div class="expert-text">
-        <div class="expert-label">Expert Explains</div>
-        <p>Think of GRC like the nervous system of a company's risk health. Without it, every department does its own thing — IT has a risk spreadsheet, Legal has policies in emails, Finance doesn't know what the auditors need. ServiceNow GRC puts everything in ONE place, connects them together, and makes them talk to each other automatically.</p>
-      </div>
-    </div>
-
-    <div class="section-h2">🤔 What does G, R, C actually mean?</div>
-    <div class="info-grid">
-      <div class="info-card" style="--card-color: #2a7dc9">
-        <h4>🏛️ G — Governance</h4>
-        <p>The rules of HOW your company makes decisions. Who approves what? Who is responsible for what? What are the company's policies? <br><br><em>Example at TechCorp: "Only the CISO can approve external system access."</em></p>
-      </div>
-      <div class="info-card" style="--card-color: #c9622a">
-        <h4>⚠️ R — Risk</h4>
-        <p>What BAD THINGS could happen to your company? How likely are they? How bad would they be? What do we do to prevent them?<br><br><em>Example at TechCorp: "Risk: A vendor could leak customer data. Likelihood: Medium. Impact: High."</em></p>
-      </div>
-      <div class="info-card" style="--card-color: #2ac96e">
-        <h4>✅ C — Compliance</h4>
-        <p>Are we following the RULES we're supposed to follow? Laws, regulations, internal policies, industry standards (SOC2, ISO 27001, GDPR).<br><br><em>Example at TechCorp: "We must prove to auditors we follow SOC2 controls."</em></p>
-      </div>
-    </div>
-
-    <div class="section-h2">🗺️ The GRC Ecosystem — How Everything Connects</div>
-    <div class="explain-box">
-      <p>Here's the most important thing to understand: In ServiceNow GRC, EVERYTHING is connected. A Policy has Standards. Standards have Control Procedures. Controls are tested in Audits. Controls also mitigate Risks. Risks belong to Entities (departments or systems). Vendors also carry risks. This diagram shows the relationships:</p>
-    </div>
-    <div class="diagram">
-      <div class="diagram-title">GRC Object Relationship Map</div>
-      <div class="flow-row">
-        <div class="flow-box fb-entity">Entity<br><small style="font-weight:400;font-size:11px">(Dept / System)</small></div>
-        <div class="flow-arrow">has →</div>
-        <div class="flow-box fb-risk">Risk</div>
-        <div class="flow-arrow">mitigated by →</div>
-        <div class="flow-box fb-control">Control</div>
-        <div class="flow-arrow">defined in →</div>
-        <div class="flow-box fb-standard">Standard</div>
-        <div class="flow-arrow">under →</div>
-        <div class="flow-box fb-policy">Policy</div>
-      </div>
-      <div class="flow-row" style="margin-top:8px">
-        <div class="flow-box fb-audit">Audit Engagement</div>
-        <div class="flow-arrow">tests →</div>
-        <div class="flow-box fb-control">Control</div>
-        <div class="flow-arrow">on →</div>
-        <div class="flow-box fb-entity">Entity</div>
-        <div class="flow-arrow">may involve →</div>
-        <div class="flow-box fb-vendor">Vendor</div>
-      </div>
-    </div>
-
-    <div class="callout callout-info">
-      <div class="callout-icon">💡</div>
-      <p><strong>Zero-Knowledge Tip:</strong> Don't memorize this now. As we build TechCorp's GRC system step by step, these connections will naturally make sense. We'll create each object and watch how they link together.</p>
-    </div>
-
-    <div class="section-h2">📋 What We'll Build for TechCorp</div>
-    <table class="sn-table">
-      <tr><th>Phase</th><th>What We'll Create</th><th>Real Business Goal</th></tr>
-      <tr><td><span class="tag tag-blue">Phase 1</span> Install</td><td>Install GRC apps from Store</td><td>Get the platform ready</td></tr>
-      <tr><td><span class="tag tag-orange">Phase 2</span> Policy</td><td>Information Security Policy → Standards → Controls</td><td>"We have documented policies"</td></tr>
-      <tr><td><span class="tag tag-orange">Phase 3</span> Risk</td><td>Risk Framework, Risk Assessment for "Data Breach" risk</td><td>"We know our risks"</td></tr>
-      <tr><td><span class="tag tag-orange">Phase 4</span> Audit</td><td>Audit Plan → Engagement → Test Plans → Findings</td><td>"We can prove compliance"</td></tr>
-      <tr><td><span class="tag tag-green">Phase 5</span> Vendor</td><td>Vendor profile for "CloudStorage Co" + risk assessment</td><td>"Our vendors are monitored"</td></tr>
-      <tr><td><span class="tag tag-purple">Phase 6</span> AI</td><td>Register ChatBot AI system + impact assessment</td><td>"Our AI is governed ethically"</td></tr>
-    </table>
-  </div>
-  <div class="step-footer">
-    <span class="step-counter">Step 1 of 12</span>
-    <button class="btn btn-primary" onclick="nextStep()">Next: ServiceNow Basics →</button>
-  </div>
-</div>
-
-<!-- =============================== STEP 1: PLATFORM BASICS =============================== -->
-<div class="step-page" id="page-1">
-  <div class="step-hero">
-    <div class="hero-phase">Phase 0 · Foundation · Step 2 of 12</div>
-    <div class="hero-title">ServiceNow <em>Platform Basics</em><br>Navigation, Tables & Forms</div>
-    <div class="hero-subtitle">Before GRC, you need to understand HOW ServiceNow works. This is the foundation everything sits on.</div>
-  </div>
-  <div class="step-body">
-    <div class="expert-says">
-      <div class="expert-avatar">👨‍💼</div>
-      <div class="expert-text">
-        <div class="expert-label">Expert Explains</div>
-        <p>ServiceNow is a database application. Everything — every risk, every audit, every policy — is just a ROW in a DATABASE TABLE. When you open a form in ServiceNow, you're filling in fields that get saved as a database row. Once you understand this, everything clicks into place.</p>
-      </div>
-    </div>
-
-    <div class="section-h2">🧭 How to Navigate ServiceNow</div>
-    <div class="explain-box">
-      <p>The main way to navigate is using the <strong>Filter Navigator</strong> — the search box on the left sidebar. You type where you want to go, and it shows you the menu. The other way is the <strong>hamburger menu (≡)</strong> at the top left, which shows all available modules.</p>
-      <p style="margin-top:10px">Every navigation path follows this pattern: <strong>Application → Module → List or Form</strong></p>
-    </div>
-
-    <div class="section-h3">📍 Reading Navigation Paths</div>
-    <p style="font-size:14px;color:var(--muted);margin-bottom:8px">Throughout this project, we'll show you EXACTLY where to click like this:</p>
-    <div class="nav-label">Navigation Path</div>
-    <div class="nav-path">
-      <span class="nav-item">All</span>
-      <span class="nav-arrow">›</span>
-      <span class="nav-item">Risk</span>
-      <span class="nav-arrow">›</span>
-      <span class="nav-item">Risks</span>
-      <span class="nav-arrow">›</span>
-      <span class="nav-final">Open Risks</span>
-    </div>
-    <p style="font-size:13px;color:var(--muted);margin-top:6px">This means: Click "All" (the app menu) → find "Risk" → click "Risks" → click "Open Risks"</p>
-
-    <div class="section-h2">🗄️ The Most Important Concept: Tables</div>
-    <div class="explain-box">
-      <p>In ServiceNow, <strong>EVERYTHING is stored in a table</strong>. Think of tables like Excel spreadsheets — they have columns (fields) and rows (records). GRC uses many tables. Here are the core ones you'll work with:</p>
-    </div>
-
-    <table class="sn-table">
-      <tr><th>Table Name</th><th>Table ID (sys_name)</th><th>What It Stores</th></tr>
-      <tr><td><strong>Policy</strong></td><td><span class="hl">sn_policy_mgmt_policy</span></td><td>Top-level company policies (e.g., Info Security Policy)</td></tr>
-      <tr><td><strong>Standard</strong></td><td><span class="hl">sn_policy_mgmt_standard</span></td><td>Requirements under a policy</td></tr>
-      <tr><td><strong>Control Objective</strong></td><td><span class="hl">sn_risk_control_objective</span></td><td>Goal a control should achieve</td></tr>
-      <tr><td><strong>Control</strong></td><td><span class="hl">sn_risk_control</span></td><td>Specific operational control procedure</td></tr>
-      <tr><td><strong>Risk</strong></td><td><span class="hl">sn_risk_risk</span></td><td>An identified risk with scoring</td></tr>
-      <tr><td><strong>Entity</strong></td><td><span class="hl">sn_grc_entity</span></td><td>Department, business unit, or system being managed</td></tr>
-      <tr><td><strong>Audit Plan</strong></td><td><span class="hl">sn_audit_plan</span></td><td>High-level annual audit schedule</td></tr>
-      <tr><td><strong>Engagement</strong></td><td><span class="hl">sn_audit_engagement</span></td><td>A specific audit execution instance</td></tr>
-      <tr><td><strong>Test Plan</strong></td><td><span class="hl">sn_audit_test_plan</span></td><td>How a control will be tested in an audit</td></tr>
-      <tr><td><strong>Observation</strong></td><td><span class="hl">sn_audit_observation</span></td><td>Finding from a control test during audit</td></tr>
-      <tr><td><strong>Vendor</strong></td><td><span class="hl">sn_vdr_risk_vendor</span></td><td>Third-party vendor profiles</td></tr>
-    </table>
-
-    <div class="section-h2">📝 How a Form Works</div>
-    <div class="explain-box">
-      <p>When you click "New" on any list, a form opens. Every field on the form = a column in the table. Mandatory fields are marked with a red asterisk (*). When you click "Submit" or "Save", the record is saved as a new row in the table.</p>
-    </div>
-    <div class="sn-screen">
-      <div class="sn-topbar">
-        <div class="sn-logo">ServiceNow</div>
-        <div class="sn-nav-items">
-          <div class="sn-nav-item active">Risk Management</div>
-          <div class="sn-nav-item">Risks</div>
+  <main>
+    <section class="hero">
+      <div class="shell hero-grid">
+        <div class="hero-copy glass">
+          <div class="eyebrow">One-stop workout website</div>
+          <h1>Find the right exercise for every body part.</h1>
+          <p>Choose male, female, or neutral guidance, then explore dumbbell, bodyweight, cable, machine, barbell, band, and gym options for arms, chest, shoulders, back, core, hips, glutes, thighs, calves, feet, and more.</p>
+          <div class="hero-actions">
+            <a class="cta" href="#atlas">Explore the atlas</a>
+            <a class="cta secondary" href="#planner">Build a week</a>
+          </div>
+          <div class="stats" aria-label="Website stats">
+            <div class="stat"><strong id="statParts">18</strong><span>body regions</span></div>
+            <div class="stat"><strong id="statExercises">100+</strong><span>exercise options</span></div>
+            <div class="stat"><strong>3</strong><span>gender modes</span></div>
+            <div class="stat"><strong>0</strong><span>spot-reduction myths</span></div>
+          </div>
         </div>
+
+        <aside class="hero-card glass" aria-label="Interactive body map">
+          <div class="profile-stage">
+            <img id="profileHero" src="https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?auto=format&fit=crop&w=900&q=82" alt="Athlete training with battle ropes in a gym">
+            <div class="floating-targets" aria-label="Jump to body parts">
+              <button class="hotspot" data-jump="chest">Chest</button>
+              <button class="hotspot" data-jump="arms">Arms</button>
+              <button class="hotspot" data-jump="back">Back</button>
+              <button class="hotspot" data-jump="core">Core</button>
+              <button class="hotspot" data-jump="glutes">Glutes</button>
+              <button class="hotspot" data-jump="legs">Legs</button>
+            </div>
+            <div class="profile-overlay">
+              <div class="profile-name" id="profileName">Alex, balanced athlete<span id="profileCaption">A real-person inspired profile that changes with your selection.</span></div>
+              <div class="profile-metrics">
+                <div class="profile-metric"><strong>4x</strong><small>weekly</small></div>
+                <div class="profile-metric"><strong>70m</strong><small>sessions</small></div>
+                <div class="profile-metric"><strong>Full</strong><small>body map</small></div>
+              </div>
+              <div class="profile-thumbs" aria-label="Workout image previews">
+                <img src="https://images.unsplash.com/photo-1534438327276-14e5300c3a48?auto=format&fit=crop&w=260&q=76" alt="Gym strength training space">
+                <img src="https://images.unsplash.com/photo-1517836357463-d25dfeac3438?auto=format&fit=crop&w=260&q=76" alt="Athlete lifting in gym">
+                <img src="https://images.unsplash.com/photo-1518611012118-696072aa579a?auto=format&fit=crop&w=260&q=76" alt="Mobility and stretching workout">
+              </div>
+            </div>
+          </div>
+          <div class="control-panel">
+            <div>
+              <div class="label">User profile</div>
+              <div class="toggle-row" role="group" aria-label="Gender selector">
+                <button class="pill-btn active" data-gender="neutral">All bodies</button>
+                <button class="pill-btn" data-gender="female">Female</button>
+                <button class="pill-btn" data-gender="male">Male</button>
+              </div>
+            </div>
+            <div class="notice" id="genderNote">Guidance uses the same movement library for all humans, then adjusts emphasis, language, and programming notes where useful.</div>
+          </div>
+        </aside>
       </div>
-      <div class="sn-body">
-        <div class="sn-form">
-          <div class="sn-form-header">🆕 New Risk Record — sn_risk_risk table</div>
-          <div class="sn-form-row">
-            <div class="sn-field sn-highlight">
-              <label>* Name (mandatory)</label>
-              <div class="sn-input">Data Breach via Vendor API</div>
-            </div>
-            <div class="sn-field">
-              <label>State</label>
-              <div class="sn-select"><span>Draft</span><span>▾</span></div>
-            </div>
+    </section>
+
+    <section id="atlas">
+      <div class="shell">
+        <div class="section-head">
+          <div>
+            <div class="eyebrow">Searchable workout atlas</div>
+            <h2>Every major muscle region, clearly separated.</h2>
+            <p>Use the filters to find bodyweight-only movements, dumbbell exercises, home-friendly options, or full-gym lifts. Recommended reps are starting ranges; progress when form stays clean.</p>
           </div>
-          <div class="sn-form-row">
-            <div class="sn-field">
-              <label>Risk Category</label>
-              <div class="sn-select"><span>Operational Risk</span><span>▾</span></div>
+        </div>
+
+        <div class="atlas-layout">
+          <aside class="atlas-sidebar glass" aria-label="Body part sidebar filters">
+            <div class="side-block">
+              <div class="side-title">Body regions</div>
+              <div class="region-stack" id="quickFilters"></div>
             </div>
-            <div class="sn-field">
-              <label>Entity</label>
-              <div class="sn-select"><span>TechCorp IT Department</span><span>▾</span></div>
+            <div class="side-block">
+              <div class="side-title">Filter workouts</div>
+              <select id="regionFilter" aria-label="Filter by region"><option value="all">All regions</option></select>
+              <select id="equipmentFilter" aria-label="Filter by equipment">
+                <option value="all">All equipment</option><option>Bodyweight</option><option>Dumbbells</option><option>Barbell</option><option>Cables</option><option>Machines</option><option>Bands</option><option>Kettlebell</option><option>Cardio</option>
+              </select>
+              <select id="levelFilter" aria-label="Filter by level"><option value="all">All levels</option><option>Beginner</option><option>Intermediate</option><option>Advanced</option></select>
             </div>
-          </div>
-          <div class="sn-form-row full">
-            <div class="sn-field">
-              <label>Description</label>
-              <div class="sn-input" style="height:50px">Unauthorized access through vendor API could expose customer PII data leading to GDPR violation...</div>
+            <div class="notice">Inspired by modern workout apps: fast body-part navigation, large visuals, compact metadata, and no wasted taps.</div>
+          </aside>
+          <div class="atlas-content">
+            <div class="search-card glass">
+              <input id="search" type="search" placeholder="Search exercises, muscles, goals, or equipment..." aria-label="Search exercises">
             </div>
-          </div>
-          <div class="sn-btn-row">
-            <div class="sn-btn sn-btn-primary">Save</div>
-            <div class="sn-btn sn-btn-secondary">Submit for Review</div>
+            <div class="atlas-grid" id="atlasGrid"></div>
           </div>
         </div>
       </div>
-    </div>
-    <p style="font-size:12px;color:var(--muted);margin-top:6px;font-family:'Fira Code',monospace;">↑ This is what a typical GRC form looks like in ServiceNow. Each field = one column in the database table.</p>
+    </section>
 
-    <div class="callout callout-warning">
-      <div class="callout-icon">⚠️</div>
-      <p><strong>Important:</strong> In ServiceNow, every record has a unique <strong>sys_id</strong> — a 32-character ID like <span class="hl">a1b2c3d4e5f6789012345678abcdef01</span>. This is how records reference each other behind the scenes.</p>
-    </div>
-  </div>
-  <div class="step-footer">
-    <button class="btn btn-secondary" onclick="prevStep()">← Previous</button>
-    <span class="step-counter">Step 2 of 12</span>
-    <button class="btn btn-primary" onclick="nextStep()">Next: Install GRC →</button>
-  </div>
-</div>
-
-<!-- =============================== STEP 2: INSTALL GRC =============================== -->
-<div class="step-page" id="page-2">
-  <div class="step-hero">
-    <div class="hero-phase">Phase 1 · Installation · Step 3 of 12</div>
-    <div class="hero-title">Install <em>GRC Apps</em><br>from the ServiceNow Store</div>
-    <div class="hero-subtitle">Before we can use any GRC features, we must install them. Here's every single step, explained.</div>
-    <div class="hero-scenario"><strong>🎯 Goal:</strong> Install Risk Management, Policy &amp; Compliance Management, and Audit Management on TechCorp's ServiceNow instance.</div>
-  </div>
-  <div class="step-body">
-    <div class="expert-says">
-      <div class="expert-avatar">👨‍💼</div>
-      <div class="expert-text">
-        <div class="expert-label">Expert Explains</div>
-        <p>ServiceNow GRC apps are NOT pre-installed. They live in a marketplace called the "ServiceNow Store." Think of it like an App Store for enterprise software. You first need permission (entitlement = license), then you activate the app on your instance. It's a 2-step process: Store → then your Instance.</p>
-      </div>
-    </div>
-
-    <div class="section-h2">📦 Step-by-Step: Get Entitlement (License)</div>
-    <div class="callout callout-info">
-      <div class="callout-icon">ℹ️</div>
-      <p><strong>Only needed for Production instances.</strong> If you're on a developer/sub-production instance (PDI), skip straight to Step 2 — Activation. Entitlement = verifying you have a valid license.</p>
-    </div>
-    <div class="step-list">
-      <div class="step-item">
-        <div class="s-num">1</div>
-        <div class="s-content">
-          <div class="s-title">Go to the ServiceNow Store</div>
-          <div class="s-desc">Open a browser and navigate to <span class="hl">store.servicenow.com</span>. This is a SEPARATE website from your ServiceNow instance.</div>
-        </div>
-      </div>
-      <div class="step-item">
-        <div class="s-num">2</div>
-        <div class="s-content">
-          <div class="s-title">Login with HI (Now Support) credentials</div>
-          <div class="s-desc">Click Login. Use your <strong>Now Support (HI) account</strong> credentials — NOT your instance admin password. These are the credentials your company's ServiceNow account manager gave you.</div>
-          <div class="s-note">🔑 HI credentials = your company's ServiceNow support account. If you don't have them, contact your ServiceNow account manager.</div>
-        </div>
-      </div>
-      <div class="step-item">
-        <div class="s-num">3</div>
-        <div class="s-content">
-          <div class="s-title">Click "ServiceNow Products" tab → Find "Risk Management"</div>
-          <div class="s-desc">Core GRC apps (Risk Management, Policy & Compliance, Audit Management) are in the <strong>ServiceNow Products tab</strong>. Integrations and content packs are in the Certified Apps tab.</div>
-        </div>
-      </div>
-      <div class="step-item">
-        <div class="s-num">4</div>
-        <div class="s-content">
-          <div class="s-title">Click "Opt-in" → Accept Terms & Conditions</div>
-          <div class="s-desc">Click the product name → Click "Opt-in" → Read the T&amp;C → Check the checkbox → Click "Accept". A ✓ checkmark appears next to the product name.</div>
-        </div>
-      </div>
-      <div class="step-item">
-        <div class="s-num">5</div>
-        <div class="s-content">
-          <div class="s-title">(Optional) Click "Manage Entitlements" — assign to your instance</div>
-          <div class="s-desc">This step assigns the license to specific instances (e.g., TechCorp Production, TechCorp Dev). If you skip, it defaults to all your instances.</div>
-        </div>
-      </div>
-    </div>
-
-    <div class="section-h2">⚙️ Step-by-Step: Activate in Your Instance</div>
-    <div class="step-list">
-      <div class="step-item">
-        <div class="s-num">1</div>
-        <div class="s-content">
-          <div class="s-title">In your ServiceNow instance, navigate to:</div>
-          <div class="s-code"><span class="hl">System Applications</span> → <span class="hl">All Available Applications</span> → <span class="hl">All</span></div>
-        </div>
-      </div>
-      <div class="step-item">
-        <div class="s-num">2</div>
-        <div class="s-content">
-          <div class="s-title">Search for "Risk Management" — Click Install</div>
-          <div class="s-desc">In the search box on the page, type "Risk Management". Click the tile. Click <strong>Install</strong>.</div>
-          <div class="s-note">📌 <strong>From the Orlando release onwards:</strong> When you install Risk Management, the <strong>Risk Management Dependencies plugin</strong> installs AUTOMATICALLY alongside it. You don't need to do anything extra.</div>
-        </div>
-      </div>
-      <div class="step-item">
-        <div class="s-num">3</div>
-        <div class="s-content">
-          <div class="s-title">Should you load Demo Data?</div>
-          <div class="s-desc">A dialog asks: "Load demo data?" — For TechCorp, click YES. Demo data gives you sample policies, risks, and controls to explore. <strong>IMPORTANT: If you say No now, you CANNOT add demo data later via App Manager without a workaround (KB0722909).</strong></div>
-        </div>
-      </div>
-      <div class="step-item">
-        <div class="s-num">4</div>
-        <div class="s-content">
-          <div class="s-title">Repeat for Policy & Compliance Management and Audit Management</div>
-          <div class="s-desc">Each installs its dependencies automatically. When done, you'll see new menus in your ServiceNow navigation.</div>
-        </div>
-      </div>
-    </div>
-
-    <div class="section-h2">⚠️ Special Case: Vendor Risk Management</div>
-    <div class="callout callout-danger">
-      <div class="callout-icon">🚨</div>
-      <p><strong>EXAM-CRITICAL:</strong> Vendor Risk Management is the ONLY GRC app where you must manually install the Dependencies plugin FIRST. The process is different:</p>
-    </div>
-    <div class="step-list">
-      <div class="step-item">
-        <div class="s-num">1</div>
-        <div class="s-content">
-          <div class="s-title">Search for "Vendor Risk Management Dependencies"</div>
-          <div class="s-desc">In System Applications → All Available → search "Vendor Risk Management Dependencies" → Click Install → Click Activate in the dialog → Wait for it to complete → Click "Close &amp; Reload Form"</div>
-        </div>
-      </div>
-      <div class="step-item">
-        <div class="s-num">2</div>
-        <div class="s-content">
-          <div class="s-title">THEN install "Vendor Risk Management" core app</div>
-          <div class="s-desc">Only AFTER the dependencies plugin is active should you install the main Vendor Risk Management app.</div>
-        </div>
-      </div>
-    </div>
-
-    <div class="section-h2">📊 Installation Summary Table</div>
-    <table class="sn-table">
-      <tr><th>Application</th><th>Dependencies Auto?</th><th>Special Steps</th><th>Role Required</th></tr>
-      <tr><td>Risk Management</td><td><span class="required-badge req-yes">YES (Orlando+)</span></td><td>None</td><td>admin</td></tr>
-      <tr><td>Audit Management</td><td><span class="required-badge req-yes">YES (Orlando+)</span></td><td>None</td><td>admin</td></tr>
-      <tr><td>Policy & Compliance Mgmt</td><td><span class="required-badge req-yes">YES (Orlando+)</span></td><td>None</td><td>admin</td></tr>
-      <tr><td>Vendor Risk Management</td><td><span class="required-badge req-man">MANUAL FIRST</span></td><td>Install VRM Dependencies plugin BEFORE core app</td><td>admin</td></tr>
-      <tr><td>Business Continuity Mgmt</td><td><span class="required-badge req-no">Check Docs</span></td><td>Verify requirements</td><td>admin</td></tr>
-    </table>
-  </div>
-  <div class="step-footer">
-    <button class="btn btn-secondary" onclick="prevStep()">← Previous</button>
-    <span class="step-counter">Step 3 of 12</span>
-    <button class="btn btn-primary" onclick="nextStep()">Next: Create First Policy →</button>
-  </div>
-</div>
-
-<!-- =============================== STEP 3: POLICY =============================== -->
-<div class="step-page" id="page-3">
-  <div class="step-hero">
-    <div class="hero-phase">Phase 2 · Policy & Compliance · Step 4 of 12</div>
-    <div class="hero-title">Create TechCorp's<br><em>Information Security Policy</em></div>
-    <div class="hero-subtitle">We'll create our first real GRC record — a top-level Policy that governs how TechCorp handles information security.</div>
-    <div class="hero-scenario"><strong>📋 Scenario:</strong> TechCorp's CISO says "We need an official Information Security Policy that all employees must follow, and it must map to SOC2 and ISO 27001 regulations." — Here's how we build it.</div>
-  </div>
-  <div class="step-body">
-    <div class="expert-says">
-      <div class="expert-avatar">👨‍💼</div>
-      <div class="expert-text">
-        <div class="expert-label">Expert Explains</div>
-        <p>In ServiceNow GRC, a "Policy" is a high-level document — it's the parent of everything. Under a Policy, you create Standards (specific rules). Under Standards, you create Control Procedures (the actual day-to-day controls). Think: Policy → Standard → Control, like a company law book → chapter → specific article.</p>
-      </div>
-    </div>
-
-    <div class="section-h2">🗺️ Navigation: Getting to Policy Management</div>
-    <div class="nav-label">Step-by-step navigation</div>
-    <div class="nav-path">
-      <span class="nav-item">All</span>
-      <span class="nav-arrow">›</span>
-      <span class="nav-item">Policy and Compliance</span>
-      <span class="nav-arrow">›</span>
-      <span class="nav-item">Policies</span>
-      <span class="nav-arrow">›</span>
-      <span class="nav-final">Create New</span>
-    </div>
-
-    <div class="section-h2">📝 Filling in the Policy Form</div>
-    <div class="sn-screen">
-      <div class="sn-topbar">
-        <div class="sn-logo">ServiceNow</div>
-        <div class="sn-nav-items">
-          <div class="sn-nav-item active">Policy and Compliance</div>
-        </div>
-      </div>
-      <div class="sn-body">
-        <div class="sn-form">
-          <div class="sn-form-header">📄 New Policy [sn_policy_mgmt_policy]</div>
-          <div class="sn-form-row">
-            <div class="sn-field">
-              <label>* Policy Name</label>
-              <div class="sn-input" style="color:#82c8e8">TechCorp Information Security Policy</div>
-            </div>
-            <div class="sn-field">
-              <label>Policy Number</label>
-              <div class="sn-input">POL-IS-001</div>
-            </div>
-          </div>
-          <div class="sn-form-row">
-            <div class="sn-field">
-              <label>* Policy Owner</label>
-              <div class="sn-input">Sarah Chen (CISO)</div>
-            </div>
-            <div class="sn-field">
-              <label>Department</label>
-              <div class="sn-select"><span>Information Technology</span><span>▾</span></div>
-            </div>
-          </div>
-          <div class="sn-form-row">
-            <div class="sn-field">
-              <label>Effective Date</label>
-              <div class="sn-input">2026-01-01</div>
-            </div>
-            <div class="sn-field">
-              <label>Review Date</label>
-              <div class="sn-input">2027-01-01</div>
-            </div>
-          </div>
-          <div class="sn-form-row full">
-            <div class="sn-field">
-              <label>Description / Purpose</label>
-              <div class="sn-input" style="height:55px">This policy establishes requirements for protecting TechCorp's information assets, systems, and data from unauthorized access, disclosure, modification, and destruction...</div>
-            </div>
-          </div>
-          <div class="sn-btn-row">
-            <div class="sn-btn sn-btn-primary">Save</div>
+    <section id="planner">
+      <div class="shell">
+        <div class="section-head">
+          <div>
+            <div class="eyebrow">Programs</div>
+            <h2>Simple weekly templates.</h2>
+            <p>Pick a realistic schedule before chasing variety. Each strength day should include warm-up, main lifts, accessories, and cool-down mobility.</p>
           </div>
         </div>
-      </div>
-    </div>
-
-    <div class="section-h2">📋 Field-by-Field Explanation</div>
-    <table class="sn-table">
-      <tr><th>Field</th><th>What to Enter (TechCorp)</th><th>Why It Matters</th></tr>
-      <tr><td><strong>Policy Name*</strong></td><td>TechCorp Information Security Policy</td><td>The official name — appears in all reports and compliance evidence</td></tr>
-      <tr><td><strong>Policy Number</strong></td><td>POL-IS-001</td><td>Unique identifier for referencing in audits ("See Policy POL-IS-001")</td></tr>
-      <tr><td><strong>Policy Owner*</strong></td><td>Sarah Chen (CISO)</td><td>Who is accountable for this policy — gets notified for approvals</td></tr>
-      <tr><td><strong>Department</strong></td><td>Information Technology</td><td>Links the policy to a department (Entity)</td></tr>
-      <tr><td><strong>Effective Date</strong></td><td>2026-01-01</td><td>When the policy takes effect — controls become active</td></tr>
-      <tr><td><strong>Review Date</strong></td><td>2027-01-01</td><td>When the policy must be reviewed — triggers automated reminder workflow</td></tr>
-      <tr><td><strong>State</strong></td><td>Draft → Published</td><td>Policies must be Published to be enforced. Draft = not yet active.</td></tr>
-    </table>
-
-    <div class="section-h2">🔄 Policy Lifecycle: States</div>
-    <div class="step-list">
-      <div class="step-item">
-        <div class="s-num" style="background:#8a7d6e">D</div>
-        <div class="s-content">
-          <div class="s-title">Draft</div>
-          <div class="s-desc">Policy is being written. Not yet enforced. Only policy team can see it.</div>
-        </div>
-      </div>
-      <div class="step-item">
-        <div class="s-num" style="background:#2a7dc9">R</div>
-        <div class="s-content">
-          <div class="s-title">Review</div>
-          <div class="s-desc">Policy sent to stakeholders for review and comments.</div>
-        </div>
-      </div>
-      <div class="step-item">
-        <div class="s-num" style="background:#c9a42a">A</div>
-        <div class="s-content">
-          <div class="s-title">Awaiting Approval</div>
-          <div class="s-desc">Sent to the approver (e.g., CEO or CISO). They approve or reject.</div>
-        </div>
-      </div>
-      <div class="step-item">
-        <div class="s-num">P</div>
-        <div class="s-content">
-          <div class="s-title">Published ✓ (Active)</div>
-          <div class="s-desc">Policy is LIVE. Controls underneath it are enforced. This is the goal state for compliance evidence.</div>
-        </div>
-      </div>
-      <div class="step-item">
-        <div class="s-num" style="background:#ef4444">R</div>
-        <div class="s-content">
-          <div class="s-title">Retired</div>
-          <div class="s-desc">Policy no longer in use. Replaced by a newer version.</div>
-        </div>
-      </div>
-    </div>
-
-    <div class="callout callout-success">
-      <div class="callout-icon">✅</div>
-      <p><strong>After saving:</strong> Your policy record is created in the <span class="hl">sn_policy_mgmt_policy</span> table. You can now scroll down on the record to see the <strong>Related Lists</strong> — this is where you'll add Standards underneath this policy.</p>
-    </div>
-  </div>
-  <div class="step-footer">
-    <button class="btn btn-secondary" onclick="prevStep()">← Previous</button>
-    <span class="step-counter">Step 4 of 12</span>
-    <button class="btn btn-primary" onclick="nextStep()">Next: Standards & Controls →</button>
-  </div>
-</div>
-
-<!-- =============================== STEP 4: STANDARDS =============================== -->
-<div class="step-page" id="page-4">
-  <div class="step-hero">
-    <div class="hero-phase">Phase 2 · Policy & Compliance · Step 5 of 12</div>
-    <div class="hero-title"><em>Standards</em> & Control Procedures<br>Under the Policy</div>
-    <div class="hero-subtitle">Now we add the specific rules (Standards) under our Policy, and then the actual controls that implement those rules.</div>
-    <div class="hero-scenario"><strong>📋 Scenario:</strong> The CISO says the Info Security Policy must have an "Access Control Standard" that maps to SOC2 CC6.1 and ISO 27001 A.9. Under that standard, there should be a control: "All remote access must use Multi-Factor Authentication."</div>
-  </div>
-  <div class="step-body">
-    <div class="expert-says">
-      <div class="expert-avatar">👨‍💼</div>
-      <div class="expert-text">
-        <div class="expert-label">Expert Explains</div>
-        <p>Think of it as a recipe book. The Policy is the cookbook title ("TechCorp Security"). The Standard is a chapter ("Access Control"). The Control Objective is the cooking goal ("Ensure only authorized people get in"). The Control is the actual recipe step ("Use MFA for all logins"). Each layer gets more specific.</p>
-      </div>
-    </div>
-
-    <div class="section-h2">The Policy → Standard → Control Hierarchy</div>
-    <div class="diagram">
-      <div class="diagram-title">TechCorp Policy Hierarchy</div>
-      <div style="display:flex;flex-direction:column;gap:8px">
-        <div style="display:flex;align-items:center;gap:12px">
-          <div class="flow-box fb-policy" style="min-width:280px">📄 Policy: TechCorp Information Security Policy (POL-IS-001)</div>
-        </div>
-        <div style="padding-left:32px;display:flex;align-items:center;gap:12px">
-          <span style="color:var(--muted)">└─</span>
-          <div class="flow-box fb-standard" style="min-width:260px">📋 Standard: Access Control Standard (STD-AC-001)</div>
-        </div>
-        <div style="padding-left:64px;display:flex;align-items:center;gap:12px">
-          <span style="color:var(--muted)">└─</span>
-          <div class="flow-box fb-control" style="min-width:230px">🎯 Control Objective: Prevent Unauthorized Access</div>
-        </div>
-        <div style="padding-left:96px;display:flex;align-items:center;gap:12px">
-          <span style="color:var(--muted)">└─</span>
-          <div class="flow-box" style="border-color:#10b981;color:#10b981;background:rgba(16,185,129,0.06);min-width:210px">✅ Control: Enforce MFA for Remote Access</div>
-        </div>
-      </div>
-    </div>
-
-    <div class="section-h2">Step 1: Create a Standard</div>
-    <div class="nav-label">Navigation</div>
-    <div class="nav-path">
-      <span class="nav-item">Policy & Compliance</span>
-      <span class="nav-arrow">›</span>
-      <span class="nav-item">Standards</span>
-      <span class="nav-arrow">›</span>
-      <span class="nav-final">New</span>
-    </div>
-    <table class="sn-table">
-      <tr><th>Field</th><th>Value for TechCorp</th><th>Explanation</th></tr>
-      <tr><td><strong>Name*</strong></td><td>Access Control Standard</td><td>Name of this chapter/requirement</td></tr>
-      <tr><td><strong>Number</strong></td><td>STD-AC-001</td><td>Reference ID for auditors</td></tr>
-      <tr><td><strong>Policy*</strong></td><td>TechCorp Information Security Policy</td><td>Links this standard UP to the parent policy</td></tr>
-      <tr><td><strong>Citations</strong></td><td>SOC2 CC6.1, ISO 27001 A.9</td><td>Maps to external regulations — THIS is the auto cross-mapping feature! ServiceNow links your control to the regulation citation.</td></tr>
-      <tr><td><strong>Description</strong></td><td>This standard defines requirements for controlling access to TechCorp systems and data.</td><td>Plain English explanation</td></tr>
-    </table>
-
-    <div class="section-h2">Step 2: Create a Control (Under the Standard)</div>
-    <div class="nav-label">Navigation</div>
-    <div class="nav-path">
-      <span class="nav-item">Policy & Compliance</span>
-      <span class="nav-arrow">›</span>
-      <span class="nav-item">Controls</span>
-      <span class="nav-arrow">›</span>
-      <span class="nav-final">New</span>
-    </div>
-    <table class="sn-table">
-      <tr><th>Field</th><th>Value for TechCorp</th><th>Explanation</th></tr>
-      <tr><td><strong>Name*</strong></td><td>Enforce MFA for All Remote Access</td><td>Short, clear name of the control</td></tr>
-      <tr><td><strong>Control ID</strong></td><td>CTL-AC-001</td><td>Unique reference ID</td></tr>
-      <tr><td><strong>Standard*</strong></td><td>Access Control Standard</td><td>Parent standard this control falls under</td></tr>
-      <tr><td><strong>Control Type</strong></td><td>Preventive</td><td>Preventive (stops the risk), Detective (finds it), or Corrective (fixes it)</td></tr>
-      <tr><td><strong>Control Frequency</strong></td><td>Continuous</td><td>How often this control operates — Continuous, Daily, Monthly, Annually</td></tr>
-      <tr><td><strong>Responsible Party</strong></td><td>IT Security Team</td><td>Who is responsible for operating this control</td></tr>
-      <tr><td><strong>Control Objective</strong></td><td>Prevent Unauthorized Remote Access</td><td>The goal this control achieves</td></tr>
-      <tr><td><strong>Entity</strong></td><td>TechCorp IT Department</td><td>Which department/system this control applies to</td></tr>
-    </table>
-
-    <div class="callout callout-info">
-      <div class="callout-icon">💡</div>
-      <p><strong>What just happened?</strong> ServiceNow automatically linked: Your Control → to the Standard → to the Policy → to the regulation citations (SOC2 CC6.1 and ISO 27001 A.9). Now if an auditor asks "show me your SOC2 CC6.1 controls," ServiceNow instantly filters and shows this control. <strong>That's the power of auto cross-mapping.</strong></p>
-    </div>
-  </div>
-  <div class="step-footer">
-    <button class="btn btn-secondary" onclick="prevStep()">← Previous</button>
-    <span class="step-counter">Step 5 of 12</span>
-    <button class="btn btn-primary" onclick="nextStep()">Next: Risk Framework →</button>
-  </div>
-</div>
-
-<!-- =============================== STEP 5: RISK FRAMEWORK =============================== -->
-<div class="step-page" id="page-5">
-  <div class="step-hero">
-    <div class="hero-phase">Phase 3 · Risk Management · Step 6 of 12</div>
-    <div class="hero-title">Set Up<br><em>Risk Framework</em> for TechCorp</div>
-    <div class="hero-subtitle">Before creating risks, we set up the scoring framework — how do we measure how bad a risk is?</div>
-    <div class="hero-scenario"><strong>📋 Scenario:</strong> TechCorp's Risk Manager says "I need a 5x5 risk matrix. Risks scored 1-5 on Likelihood and Impact. Anything scoring 15+ is Critical. We have 3 entities: IT Department, Finance Department, and Customer Portal system."</div>
-  </div>
-  <div class="step-body">
-    <div class="expert-says">
-      <div class="expert-avatar">👨‍💼</div>
-      <div class="expert-text">
-        <div class="expert-label">Expert Explains</div>
-        <p>A Risk Framework is like a ruler for measuring risk. Without a consistent ruler, everyone measures risks differently — one person says "this is huge!" and another says "it's minor." The framework standardizes everything. In ServiceNow, this means setting up Likelihood scores, Impact scores, and the formula that combines them into a Risk Score.</p>
-      </div>
-    </div>
-
-    <div class="section-h2">🏗️ Concept: What is an Entity?</div>
-    <div class="explain-box">
-      <p>An <strong>Entity</strong> is the THING that carries the risk. It can be a department, a business unit, a technology system, a location, or a process. Every risk in GRC must belong to an Entity. Think of it as: "This risk BELONGS TO this part of the business."</p>
-      <p>For TechCorp, we'll create 3 entities: <strong>IT Department</strong>, <strong>Finance Department</strong>, and <strong>Customer Portal</strong> (a system).</p>
-    </div>
-
-    <div class="section-h2">Step 1: Create Entities</div>
-    <div class="nav-label">Navigation</div>
-    <div class="nav-path">
-      <span class="nav-item">All</span>
-      <span class="nav-arrow">›</span>
-      <span class="nav-item">Risk</span>
-      <span class="nav-arrow">›</span>
-      <span class="nav-item">Administration</span>
-      <span class="nav-arrow">›</span>
-      <span class="nav-final">Entities → New</span>
-    </div>
-    <table class="sn-table">
-      <tr><th>Entity Name</th><th>Type</th><th>Owner</th><th>Why It Exists</th></tr>
-      <tr><td><strong>IT Department</strong></td><td>Business Unit</td><td>CTO</td><td>Carries all IT operational risks and controls</td></tr>
-      <tr><td><strong>Finance Department</strong></td><td>Business Unit</td><td>CFO</td><td>Carries financial risks (fraud, regulatory)</td></tr>
-      <tr><td><strong>Customer Portal</strong></td><td>Technology System</td><td>IT Security Team</td><td>Carries data breach, availability, and cyber risks</td></tr>
-    </table>
-
-    <div class="section-h2">Step 2: Understand the Risk Scoring Model</div>
-    <div class="explain-box">
-      <p>ServiceNow uses a matrix-based scoring system. For TechCorp, we'll use: <strong>Risk Score = Likelihood × Impact</strong></p>
-      <p>Both Likelihood and Impact are scored 1-5. The resulting score (1-25) determines the risk rating level.</p>
-    </div>
-    <table class="sn-table">
-      <tr><th>Score Range</th><th>Risk Rating</th><th>Color</th><th>Action Required</th></tr>
-      <tr><td>1 – 4</td><td>Low</td><td style="color:#2ac96e">🟢 Green</td><td>Monitor — no immediate action</td></tr>
-      <tr><td>5 – 9</td><td>Medium</td><td style="color:#c9a42a">🟡 Yellow</td><td>Risk owner must create mitigation plan within 90 days</td></tr>
-      <tr><td>10 – 14</td><td>High</td><td style="color:#f97316">🟠 Orange</td><td>Escalate to senior management — 30-day remediation</td></tr>
-      <tr><td>15 – 25</td><td>Critical</td><td style="color:#ef4444">🔴 Red</td><td>Immediate executive attention required — 7-day response</td></tr>
-    </table>
-
-    <div class="section-h2">Step 3: The 3 Stages of Risk Assessment</div>
-    <div class="explain-box">
-      <p>Every risk goes through 3 assessment stages. Understanding these stages is critical for the exam AND for real-world GRC implementation:</p>
-    </div>
-    <div class="info-grid">
-      <div class="info-card" style="--card-color:#ef4444">
-        <h4>1️⃣ Inherent Assessment</h4>
-        <p>What is the raw risk <strong>WITHOUT any controls?</strong> If there were no MFA, no firewalls, no security team — how bad would this risk be?<br><br>TechCorp Data Breach: Likelihood 4 × Impact 5 = <strong>Inherent Score: 20 (Critical)</strong></p>
-      </div>
-      <div class="info-card" style="--card-color:#c9a42a">
-        <h4>2️⃣ Control Assessment</h4>
-        <p>How effective are our controls at reducing this risk? We assess our MFA control, firewall, and security monitoring.<br><br>Control Effectiveness: <strong>High (80%)</strong> — our controls are well-designed and operating properly.</p>
-      </div>
-      <div class="info-card" style="--card-color:#2ac96e">
-        <h4>3️⃣ Residual Assessment</h4>
-        <p>What risk remains <strong>AFTER our controls</strong>? ServiceNow calculates this automatically.<br><br>Residual Score: 20 × (1-0.8) = <strong>4 (Low)</strong> — controls reduce the risk significantly.</p>
-      </div>
-    </div>
-
-    <div class="callout callout-warning">
-      <div class="callout-icon">⚠️</div>
-      <p><strong>Exam Tip — Target Assessment:</strong> There's also a 4th optional stage: <strong>Target Assessment</strong> — this is the risk level your company WANTS to reach in the future. It's a goal, not a measurement. If Residual = 4 (Low) but your target is 2 (Very Low), you need more controls.</p>
-    </div>
-  </div>
-  <div class="step-footer">
-    <button class="btn btn-secondary" onclick="prevStep()">← Previous</button>
-    <span class="step-counter">Step 6 of 12</span>
-    <button class="btn btn-primary" onclick="nextStep()">Next: Create & Assess a Risk →</button>
-  </div>
-</div>
-
-<!-- =============================== STEP 6: CREATE RISK =============================== -->
-<div class="step-page" id="page-6">
-  <div class="step-hero">
-    <div class="hero-phase">Phase 3 · Risk Management · Step 7 of 12</div>
-    <div class="hero-title">Create & <em>Assess</em><br>a Real Risk at TechCorp</div>
-    <div class="hero-subtitle">We'll create a "Data Breach via Vendor API" risk and walk through the entire assessment from Inherent to Residual.</div>
-    <div class="hero-scenario"><strong>📋 Scenario:</strong> TechCorp's IT team flagged that CloudStorage Co. (a vendor) has direct API access to the Customer Portal. If compromised, they could expose 50,000 customer records. We need to register, assess, and respond to this risk.</div>
-  </div>
-  <div class="step-body">
-    <div class="section-h2">Step 1: Create the Risk Record</div>
-    <div class="nav-label">Navigation</div>
-    <div class="nav-path">
-      <span class="nav-item">All</span>
-      <span class="nav-arrow">›</span>
-      <span class="nav-item">Risk</span>
-      <span class="nav-arrow">›</span>
-      <span class="nav-item">Risks</span>
-      <span class="nav-arrow">›</span>
-      <span class="nav-final">Open Risks → New</span>
-    </div>
-    <table class="sn-table">
-      <tr><th>Field</th><th>Value</th><th>Explanation</th></tr>
-      <tr><td><strong>Name*</strong></td><td>Data Breach via Vendor API</td><td>Clear, descriptive name</td></tr>
-      <tr><td><strong>Risk Statement</strong></td><td>There is a risk that an unauthorized party gains access through CloudStorage Co.'s API, resulting in exposure of 50,000 customer PII records and GDPR fines.</td><td>Full risk statement — follows "There is a risk that... resulting in..." format</td></tr>
-      <tr><td><strong>Risk Category</strong></td><td>Operational Risk</td><td>Categorizes the risk for reporting</td></tr>
-      <tr><td><strong>Entity*</strong></td><td>Customer Portal</td><td>What part of TechCorp does this risk belong to?</td></tr>
-      <tr><td><strong>Risk Owner*</strong></td><td>Sarah Chen (CISO)</td><td>Who is accountable for managing this risk?</td></tr>
-      <tr><td><strong>Related Policy</strong></td><td>TechCorp Information Security Policy</td><td>Links to the governing policy</td></tr>
-      <tr><td><strong>Mitigating Controls</strong></td><td>CTL-AC-001 (MFA Control)</td><td>Which controls are already in place to reduce this risk?</td></tr>
-    </table>
-
-    <div class="section-h2">Step 2: Run the Inherent Assessment</div>
-    <div class="explain-box">
-      <p>After saving the risk, navigate to the <strong>Assessment</strong> tab on the risk record. Click <strong>"Start Inherent Assessment"</strong>. You'll see a set of questions — answer each one to calculate the score.</p>
-    </div>
-    <div class="sn-screen">
-      <div class="sn-topbar"><div class="sn-logo">ServiceNow — Risk Assessment</div></div>
-      <div class="sn-body">
-        <div class="sn-form">
-          <div class="sn-form-header">📊 Inherent Assessment — Data Breach via Vendor API</div>
-          <div class="sn-form-row">
-            <div class="sn-field">
-              <label>Likelihood (1-5)</label>
-              <div class="sn-select"><span style="color:#f59e0b">4 — Likely</span><span>▾</span></div>
-            </div>
-            <div class="sn-field">
-              <label>Impact (1-5)</label>
-              <div class="sn-select"><span style="color:#ef4444">5 — Catastrophic</span><span>▾</span></div>
-            </div>
+        <div class="planner">
+          <div class="panel glass">
+            <h3>How to choose sets & reps</h3>
+            <p class="sources">General strength and muscle-building work usually starts around 1–3 sets of 8–15 controlled repetitions. Use a load that leaves about 1–3 good reps in reserve, rest 60–180 seconds, and add weight, reps, or range of motion gradually.</p>
+            <div class="notice"><strong>Fat loss note:</strong> training a body part strengthens that area, but belly fat, love handles, arm fat, or thigh fat reduce through overall calorie balance, activity, sleep, and consistency—not spot reduction.</div>
           </div>
-          <div class="sn-form-row">
-            <div class="sn-field">
-              <label>Auto-Calculated Inherent Score</label>
-              <div class="sn-input" style="color:#ef4444;font-weight:bold">20 — CRITICAL 🔴</div>
-            </div>
-            <div class="sn-field">
-              <label>Inherent Rating</label>
-              <div class="sn-input" style="color:#ef4444">Critical</div>
-            </div>
+          <div class="week-grid" id="weekGrid"></div>
+        </div>
+      </div>
+    </section>
+
+    <section id="rules">
+      <div class="shell">
+        <div class="section-head">
+          <div>
+            <div class="eyebrow">Safety & technique</div>
+            <h2>Train hard, but train repeatably.</h2>
           </div>
         </div>
-      </div>
-    </div>
-
-    <div class="section-h2">Step 3: Assess the Control Effectiveness</div>
-    <div class="explain-box">
-      <p>Now we assess our MFA control (CTL-AC-001). In the Control Assessment section, set <span class="hl">Applicable = Yes</span> and then answer: "Is this control effectively designed? Is it operating properly?"</p>
-    </div>
-    <table class="sn-table">
-      <tr><th>Control</th><th>Applicable?</th><th>Design Effectiveness</th><th>Operating Effectiveness</th><th>Overall Rating</th></tr>
-      <tr><td>CTL-AC-001 (MFA)</td><td><span class="required-badge req-yes">Yes</span></td><td>Effective</td><td>Effective</td><td><span style="color:#2ac96e;font-weight:700">High (80%)</span></td></tr>
-    </table>
-
-    <div class="section-h2">Step 4: View the Residual Score (Auto-Calculated)</div>
-    <div class="callout callout-success">
-      <div class="callout-icon">✅</div>
-      <p><strong>ServiceNow auto-calculates the Residual Score.</strong> With Inherent = 20 and Control Effectiveness = High (80%), the system calculates Residual Risk = 4 (Low). This means our MFA control significantly reduces the raw risk. The CISO can see this in real-time on the Risk Dashboard.</p>
-    </div>
-
-    <div class="section-h2">Step 5: Create a Risk Response</div>
-    <div class="explain-box">
-      <p>After assessment, you must choose a <strong>Risk Response Strategy</strong>. There are 4 options:</p>
-    </div>
-    <table class="sn-table">
-      <tr><th>Strategy</th><th>Meaning</th><th>TechCorp Decision</th></tr>
-      <tr><td><strong>Accept</strong></td><td>We accept the risk as-is — it's low enough or not cost-effective to reduce further</td><td>Not chosen — score was Critical before controls</td></tr>
-      <tr><td><strong>Mitigate</strong></td><td>Add controls to reduce the risk further</td><td>✅ CHOSEN — Add API monitoring + vendor security assessment</td></tr>
-      <tr><td><strong>Transfer</strong></td><td>Move the risk to a third party (e.g., insurance, outsource)</td><td>Also applicable — get cyber insurance</td></tr>
-      <tr><td><strong>Avoid</strong></td><td>Stop doing the activity that creates the risk entirely</td><td>Not feasible — CloudStorage Co. is critical vendor</td></tr>
-    </table>
-    <div class="nav-label">After choosing Mitigate, create a Risk Response Task:</div>
-    <div class="step-list">
-      <div class="step-item">
-        <div class="s-num">1</div>
-        <div class="s-content">
-          <div class="s-title">Risk Response Task: Implement API Rate Limiting</div>
-          <div class="s-desc">Assigned to: DevOps Team | Due: 30 days | Reduces API abuse potential</div>
+        <div class="rules">
+          <article class="rule glass"><div class="part-icon">🔥</div><h3>Warm up first</h3><p>Use 5–10 minutes of easy cardio plus dynamic mobility before loading cold muscles.</p></article>
+          <article class="rule glass"><div class="part-icon">🎯</div><h3>Form beats load</h3><p>Move through a pain-free range, control the lowering phase, and stop sets when technique breaks.</p></article>
+          <article class="rule glass"><div class="part-icon">📈</div><h3>Progress slowly</h3><p>Increase only one variable at a time: reps, sets, weight, tempo, distance, or weekly frequency.</p></article>
+          <article class="rule glass"><div class="part-icon">🫁</div><h3>Breathe</h3><p>Exhale through the hardest part of the rep and avoid holding your breath unless coached for heavy lifting.</p></article>
+          <article class="rule glass"><div class="part-icon">🛌</div><h3>Recover</h3><p>Most muscles need at least 48 hours before another hard session; sleep and protein support adaptation.</p></article>
+          <article class="rule glass"><div class="part-icon">🩺</div><h3>Get help when needed</h3><p>Consult a clinician or qualified coach for pain, pregnancy/postpartum needs, injuries, osteoporosis, heart conditions, or new symptoms.</p></article>
         </div>
       </div>
-      <div class="step-item">
-        <div class="s-num">2</div>
-        <div class="s-content">
-          <div class="s-title">Risk Response Task: Send Vendor Security Assessment to CloudStorage Co.</div>
-          <div class="s-desc">Assigned to: Vendor Risk Team | Due: 14 days | Verify vendor's security posture</div>
-        </div>
+    </section>
+
+    <section id="sources">
+      <div class="shell glass panel">
+        <div class="eyebrow">Research basis</div>
+        <h2>Evidence-informed foundation.</h2>
+        <ul class="sources">
+          <li><a href="https://www.cdc.gov/physical-activity-basics/guidelines/adults.html" target="_blank" rel="noreferrer">CDC adult guidelines</a>: adults should combine aerobic activity with muscle-strengthening activity on 2+ days weekly covering legs, hips, back, abdomen, chest, shoulders, and arms.</li>
+          <li><a href="https://www.mayoclinic.org/healthy-lifestyle/fitness/in-depth/weight-training/art-20045842" target="_blank" rel="noreferrer">Mayo Clinic weight-training technique guidance</a>: warm up, use proper form, choose a weight that fatigues the target muscles in controlled reps, and seek instruction when new.</li>
+          <li><a href="https://www.cdc.gov/physical-activity/media/pdfs/Physical_Activity_Guidelines_2nd_edition.pdf" target="_blank" rel="noreferrer">Physical Activity Guidelines for Americans, 2nd edition</a>: resistance training can be effective with 8–12 repetition sets, and major muscle groups should be trained at least twice weekly.</li>
+          <li><a href="https://unsplash.com/s/photos/workout" target="_blank" rel="noreferrer">Unsplash workout photography</a>: remote image CDN photos are used to make the atlas more human and visually instructional.</li>
+        </ul>
       </div>
-    </div>
-  </div>
-  <div class="step-footer">
-    <button class="btn btn-secondary" onclick="prevStep()">← Previous</button>
-    <span class="step-counter">Step 7 of 12</span>
-    <button class="btn btn-primary" onclick="nextStep()">Next: Audit Plan →</button>
-  </div>
-</div>
+    </section>
+  </main>
 
-<!-- =============================== STEP 7: AUDIT PLAN =============================== -->
-<div class="step-page" id="page-7">
-  <div class="step-hero">
-    <div class="hero-phase">Phase 4 · Audit Management · Step 8 of 12</div>
-    <div class="hero-title">Create TechCorp's<br><em>Audit Plan & Engagement</em></div>
-    <div class="hero-subtitle">Internal audit team needs to test whether TechCorp's MFA control actually works. This is a full audit cycle from Plan to Fieldwork.</div>
-    <div class="hero-scenario"><strong>📋 Scenario:</strong> The Internal Audit team will conduct a "Q1 2026 IT Security Audit" focusing on the Customer Portal. They need to test if the MFA control is working, and if vendor access is properly restricted.</div>
-  </div>
-  <div class="step-body">
-    <div class="expert-says">
-      <div class="expert-avatar">👨‍💼</div>
-      <div class="expert-text">
-        <div class="expert-label">Expert Explains</div>
-        <p>An Audit in ServiceNow has two levels: a PLAN (the annual schedule — "we plan to audit these areas") and an ENGAGEMENT (the actual execution — "we're now doing the audit of the Customer Portal this week"). Think of a Plan as your annual calendar, and an Engagement as each calendar appointment.</p>
-      </div>
-    </div>
+  <footer>
+    <div class="shell">BodyForge Atlas is educational fitness content, not medical care. Stop any exercise that causes sharp pain, dizziness, chest pain, or unusual shortness of breath.</div>
+  </footer>
 
-    <div class="section-h2">Step 1: Create an Audit Plan</div>
-    <div class="nav-label">Navigation</div>
-    <div class="nav-path">
-      <span class="nav-item">All</span>
-      <span class="nav-arrow">›</span>
-      <span class="nav-item">Audit</span>
-      <span class="nav-arrow">›</span>
-      <span class="nav-item">Audit Workspace</span>
-      <span class="nav-arrow">›</span>
-      <span class="nav-final">Create → Audit Plan</span>
-    </div>
-    <table class="sn-table">
-      <tr><th>Field</th><th>Value</th><th>Why</th></tr>
-      <tr><td><strong>Plan Name*</strong></td><td>TechCorp 2026 Annual IT Audit Plan</td><td>High-level plan for the year</td></tr>
-      <tr><td><strong>Audit Year</strong></td><td>2026</td><td>Groups all engagements under this year</td></tr>
-      <tr><td><strong>Audit Supervisor*</strong></td><td>John Smith (Audit Lead)</td><td>Role: sn_audit_ws.supervisor</td></tr>
-      <tr><td><strong>Start Date</strong></td><td>2026-01-01</td><td>Plan period start</td></tr>
-      <tr><td><strong>End Date</strong></td><td>2026-12-31</td><td>Plan period end</td></tr>
-      <tr><td><strong>State</strong></td><td>Draft → Approved</td><td>Supervisor must approve the plan before engagements can start</td></tr>
-    </table>
+  <script>
+    const bodyParts = [
+      { id:'arms', region:'Upper body', icon:'💪', title:'Biceps & Elbow Flexors', muscles:'biceps brachii, brachialis, brachioradialis', goal:'Curling strength, arm shape, pulling support', glow:'rgba(255,94,168,.22)', exercises:[
+        ['Chin-up or assisted chin-up','Bodyweight/Machines','3×5–10','Intermediate'], ['Dumbbell curl','Dumbbells','2–4×8–15','Beginner'], ['Hammer curl','Dumbbells','2–4×10–15','Beginner'], ['Cable curl','Cables','2–4×10–15','Beginner'], ['Barbell/EZ-bar curl','Barbell','3×8–12','Intermediate'], ['Band curl','Bands','2–3×12–20','Beginner'] ] },
+      { id:'arms', region:'Upper body', icon:'🦾', title:'Triceps', muscles:'long, lateral, medial triceps heads', goal:'Pushing power, upper-arm definition, lockout strength', glow:'rgba(124,92,255,.22)', exercises:[
+        ['Close-grip push-up','Bodyweight','3×6–15','Beginner'], ['Bench dip','Bodyweight','2–3×8–15','Beginner'], ['Dumbbell overhead extension','Dumbbells','2–4×10–15','Beginner'], ['Cable pressdown','Cables','3×10–15','Beginner'], ['Skull crusher','Barbell','3×8–12','Intermediate'], ['Assisted dip','Machines','3×6–12','Intermediate'] ] },
+      { id:'chest', region:'Upper body', icon:'🫀', title:'Chest', muscles:'pectoralis major/minor, serratus support', goal:'Pressing strength and chest development', glow:'rgba(255,209,102,.18)', exercises:[
+        ['Incline push-up','Bodyweight','2–4×8–15','Beginner'], ['Push-up','Bodyweight','3×6–20','Beginner'], ['Dumbbell bench press','Dumbbells','3–4×8–12','Beginner'], ['Barbell bench press','Barbell','3–5×5–10','Intermediate'], ['Cable fly','Cables','2–4×10–15','Intermediate'], ['Chest press machine','Machines','3×8–12','Beginner'] ] },
+      { id:'shoulders', region:'Upper body', icon:'🏹', title:'Shoulders & Delts', muscles:'front, side, rear deltoids, rotator cuff', goal:'Healthy overhead movement and capped shoulders', glow:'rgba(37,214,162,.18)', exercises:[
+        ['Pike push-up','Bodyweight','2–3×6–12','Intermediate'], ['Dumbbell shoulder press','Dumbbells','3×8–12','Beginner'], ['Lateral raise','Dumbbells','3×12–20','Beginner'], ['Rear-delt fly','Dumbbells','2–4×12–20','Beginner'], ['Face pull','Cables/Bands','2–4×12–20','Beginner'], ['Landmine press','Barbell','3×8–12','Intermediate'] ] },
+      { id:'back', region:'Upper body', icon:'🪽', title:'Upper Back & Lats', muscles:'latissimus dorsi, traps, rhomboids, rear delts', goal:'Posture, pulling strength, V-taper', glow:'rgba(83,196,255,.20)', exercises:[
+        ['Inverted row','Bodyweight','3×6–12','Beginner'], ['Lat pulldown','Machines/Cables','3×8–12','Beginner'], ['One-arm dumbbell row','Dumbbells','3×8–12/side','Beginner'], ['Seated cable row','Cables','3×8–12','Beginner'], ['Pull-up or assisted pull-up','Bodyweight/Machines','3×4–10','Intermediate'], ['Chest-supported row','Machines/Dumbbells','3×8–12','Intermediate'] ] },
+      { id:'back', region:'Upper body', icon:'🧍', title:'Lower Back', muscles:'erector spinae, multifidus, quadratus lumborum', goal:'Spinal endurance and hip-hinge support', glow:'rgba(255,123,123,.18)', exercises:[
+        ['Bird dog','Bodyweight','2–3×8–12/side','Beginner'], ['Back extension','Bodyweight/Machines','2–3×10–15','Beginner'], ['Romanian deadlift','Dumbbells/Barbell','3×8–12','Intermediate'], ['Good morning','Barbell/Bands','2–3×8–12','Advanced'], ['Suitcase carry','Dumbbells/Kettlebell','3×30–60 sec/side','Beginner'] ] },
+      { id:'core', region:'Core', icon:'🔥', title:'Abs: Upper, Lower & Deep Core', muscles:'rectus abdominis, transverse abdominis, hip flexors', goal:'Bracing, anti-extension, visible abs when body fat supports it', glow:'rgba(255,94,168,.18)', exercises:[
+        ['Dead bug','Bodyweight','2–3×8–12/side','Beginner'], ['Crunch','Bodyweight','2–3×12–20','Beginner'], ['Reverse crunch','Bodyweight','2–3×10–15','Beginner'], ['Hanging knee raise','Bodyweight','3×6–12','Intermediate'], ['Cable crunch','Cables','3×10–15','Intermediate'], ['Ab-wheel rollout','Equipment','3×5–12','Advanced'] ] },
+      { id:'core', region:'Core', icon:'🌪️', title:'Obliques, Waist & Love Handles', muscles:'internal/external obliques, QL', goal:'Rotation control; fat loss comes from total energy balance', glow:'rgba(124,92,255,.18)', exercises:[
+        ['Side plank','Bodyweight','2–4×20–45 sec/side','Beginner'], ['Pallof press','Bands/Cables','2–4×10–15/side','Beginner'], ['Wood chop','Cables/Bands','3×10–15/side','Intermediate'], ['Russian twist','Bodyweight/Dumbbells','2–3×12–20','Intermediate'], ['Suitcase march','Dumbbells/Kettlebell','3×30–60 sec','Beginner'] ] },
+      { id:'glutes', region:'Lower body', icon:'🍑', title:'Glutes & Hips', muscles:'glute max, medius, minimus, hip rotators', goal:'Hip power, shape, knee/low-back support', glow:'rgba(255,94,168,.24)', exercises:[
+        ['Glute bridge','Bodyweight','3×10–20','Beginner'], ['Hip thrust','Barbell/Dumbbells','3–5×6–12','Intermediate'], ['Cable kickback','Cables','2–4×12–20/side','Beginner'], ['Banded lateral walk','Bands','2–4×12–20/side','Beginner'], ['Bulgarian split squat','Dumbbells','3×8–12/side','Intermediate'], ['Kettlebell swing','Kettlebell','3×10–20','Intermediate'] ] },
+      { id:'legs', region:'Lower body', icon:'🦵', title:'Quads & Front Thighs', muscles:'rectus femoris, vastus lateralis/medialis/intermedius', goal:'Squat strength, stairs, athletic legs', glow:'rgba(255,209,102,.18)', exercises:[
+        ['Box squat','Bodyweight','3×8–15','Beginner'], ['Goblet squat','Dumbbells/Kettlebell','3×8–12','Beginner'], ['Leg press','Machines','3×8–15','Beginner'], ['Front squat','Barbell','3–5×5–10','Advanced'], ['Walking lunge','Dumbbells/Bodyweight','3×8–14/side','Intermediate'], ['Leg extension','Machines','2–4×10–15','Beginner'] ] },
+      { id:'legs', region:'Lower body', icon:'⚙️', title:'Hamstrings & Back Thighs', muscles:'biceps femoris, semitendinosus, semimembranosus', goal:'Hip hinge, sprint support, knee balance', glow:'rgba(37,214,162,.18)', exercises:[
+        ['Hip hinge drill','Bodyweight','2–3×10–15','Beginner'], ['Dumbbell Romanian deadlift','Dumbbells','3×8–12','Beginner'], ['Lying/seated leg curl','Machines','3×10–15','Beginner'], ['Stability-ball leg curl','Equipment','3×8–15','Intermediate'], ['Barbell deadlift','Barbell','3–5×3–6','Advanced'], ['Nordic curl progression','Bodyweight','2–4×3–8','Advanced'] ] },
+      { id:'legs', region:'Lower body', icon:'🧱', title:'Inner & Outer Thighs', muscles:'adductors, abductors, TFL, glute medius', goal:'Hip stability, side-to-side control', glow:'rgba(83,196,255,.18)', exercises:[
+        ['Side-lying leg raise','Bodyweight','2–3×12–20/side','Beginner'], ['Copenhagen plank progression','Bodyweight','2–3×10–30 sec','Intermediate'], ['Cable hip abduction','Cables','2–4×12–20/side','Beginner'], ['Cable hip adduction','Cables','2–4×12–20/side','Beginner'], ['Sumo squat','Dumbbells/Barbell','3×8–12','Intermediate'], ['Hip abductor/adductor machine','Machines','2–4×12–20','Beginner'] ] },
+      { id:'legs', region:'Lower body', icon:'🧦', title:'Calves, Shins & Ankles', muscles:'gastrocnemius, soleus, tibialis anterior', goal:'Ankle strength, jumping, running resilience', glow:'rgba(255,123,123,.18)', exercises:[
+        ['Standing calf raise','Bodyweight/Dumbbells','3×12–25','Beginner'], ['Seated calf raise','Machines/Dumbbells','3×12–20','Beginner'], ['Single-leg calf raise','Bodyweight','3×8–15/side','Intermediate'], ['Tibialis raise','Bodyweight/Bands','2–4×12–20','Beginner'], ['Farmer carry','Dumbbells/Kettlebell','3×30–60 sec','Beginner'] ] },
+      { id:'feet', region:'Lower body', icon:'🦶', title:'Feet & Toes', muscles:'intrinsic foot muscles, arches, toe flexors/extensors', goal:'Balance, foot control, gait support', glow:'rgba(124,92,255,.15)', exercises:[
+        ['Short-foot drill','Bodyweight','2–3×8–12','Beginner'], ['Toe yoga','Bodyweight','2–3×10–20','Beginner'], ['Towel scrunch','Equipment','2–3×45–60 sec','Beginner'], ['Single-leg balance','Bodyweight','3×20–45 sec/side','Beginner'], ['Banded ankle inversion/eversion','Bands','2–3×12–20/side','Beginner'] ] },
+      { id:'full', region:'Full body', icon:'🏋️', title:'Full Body & Conditioning', muscles:'integrated multi-joint patterns', goal:'Time-efficient strength, cardio, fat-loss support', glow:'rgba(255,209,102,.16)', exercises:[
+        ['Squat-to-press','Dumbbells','3×8–12','Intermediate'], ['Burpee regression/progression','Bodyweight','3×6–15','Intermediate'], ['Sled push','Gym','4–8×15–30 m','Intermediate'], ['Rowing machine intervals','Cardio','8–15 min','Beginner'], ['Kettlebell clean & press','Kettlebell','3×5–8/side','Advanced'], ['Farmer carry','Dumbbells/Kettlebell','4×30–60 sec','Beginner'] ] },
+      { id:'mobility', region:'Mobility', icon:'🧘', title:'Neck, Traps & Mobility', muscles:'neck stabilizers, upper traps, thoracic spine', goal:'Tension management and range of motion', glow:'rgba(37,214,162,.15)', exercises:[
+        ['Chin tuck','Bodyweight','2–3×8–12','Beginner'], ['Wall slide','Bodyweight','2–3×8–12','Beginner'], ['Band pull-apart','Bands','2–4×12–20','Beginner'], ['Dumbbell shrug','Dumbbells','3×10–15','Beginner'], ['Thoracic open book','Bodyweight','2×8–10/side','Beginner'] ] }
+    ];
 
-    <div class="section-h2">Step 2: Create an Audit Engagement</div>
-    <div class="nav-label">From the Audit Plan record → Related List "Engagements" → New</div>
-    <table class="sn-table">
-      <tr><th>Field</th><th>Value</th><th>Why</th></tr>
-      <tr><td><strong>Name*</strong></td><td>Q1 2026 Customer Portal IT Security Audit</td><td>Name of this specific audit execution</td></tr>
-      <tr><td><strong>Plan*</strong></td><td>TechCorp 2026 Annual IT Audit Plan</td><td>Links to the parent plan</td></tr>
-      <tr><td><strong>Audit Supervisor</strong></td><td>John Smith</td><td>Oversees and approves the engagement</td></tr>
-      <tr><td><strong>Auditor(s)</strong></td><td>Emma Davis, Carlos Rivera</td><td>Role: sn_audit_ws.auditor — perform actual testing</td></tr>
-      <tr><td><strong>Planned Start</strong></td><td>2026-01-15</td><td>When fieldwork begins</td></tr>
-      <tr><td><strong>Planned End</strong></td><td>2026-03-15</td><td>Completion deadline</td></tr>
-      <tr><td><strong>Budget (Hours)</strong></td><td>120 hours</td><td>Resource budget for this engagement</td></tr>
-    </table>
+    const genderNotes = {
+      neutral: 'Guidance uses the same movement library for all humans, then adjusts emphasis, language, and programming notes where useful.',
+      female: 'Female mode: prioritize progressive strength with glute/hip, upper-back, core, and full-body options. Cycle, pregnancy, postpartum, and pelvic-floor considerations are individual—scale intensity as needed.',
+      male: 'Male mode: prioritize balanced hypertrophy so chest/arms do not outpace back, legs, hips, mobility, and core stability. Keep full-body symmetry and joint health in the plan.'
+    };
+    const genderBoost = {
+      neutral: '',
+      female: 'Recommended emphasis: glutes/hips, upper back, core bracing, hamstrings, and shoulder stability.',
+      male: 'Recommended emphasis: legs, posterior chain, shoulder mobility, upper back, and core—not only chest and arms.'
+    };
 
-    <div class="section-h2">Step 3: The Engagement Lifecycle — 5 States</div>
-    <div class="step-list">
-      <div class="step-item">
-        <div class="s-num" style="background:#8a7d6e">1</div>
-        <div class="s-content">
-          <div class="s-title">🔵 Plan State</div>
-          <div class="s-desc">Engagement is being defined. Supervisor selects auditable units (what will be audited) and assigns budget/resources.</div>
-        </div>
-      </div>
-      <div class="step-item">
-        <div class="s-num" style="background:#2a7dc9">2</div>
-        <div class="s-content">
-          <div class="s-title">🔵 Scope State</div>
-          <div class="s-desc">Supervisor clicks "Add auditable units" → selects <strong>Customer Portal</strong> entity. All risks, controls, and test plans linked to Customer Portal are automatically pulled in. Then click <strong>"Validate and Plan"</strong>.</div>
-          <div class="s-note">🎯 <strong>The "Validate and Plan" button</strong> is what moves the engagement to Validate state AND pulls in all associated risks, controls, and test plans from the Customer Portal entity.</div>
-        </div>
-      </div>
-      <div class="step-item">
-        <div class="s-num" style="background:#c9a42a">3</div>
-        <div class="s-content">
-          <div class="s-title">🟡 Validate State</div>
-          <div class="s-desc">Supervisor reviews the scoped risks and controls. Confirms the MFA control (CTL-AC-001) and the Data Breach risk are included. Can also review any indicator results collected during the audit period.</div>
-        </div>
-      </div>
-      <div class="step-item">
-        <div class="s-num">4</div>
-        <div class="s-content">
-          <div class="s-title">🟠 Fieldwork State</div>
-          <div class="s-desc">Auditors now do the actual testing. Emma and Carlos conduct walkthroughs, interviews, and control tests. They request evidence (MFA logs, access reports). This is where test plans come in.</div>
-        </div>
-      </div>
-      <div class="step-item">
-        <div class="s-num" style="background:#2ac96e">5</div>
-        <div class="s-content">
-          <div class="s-title">✅ Reporting State</div>
-          <div class="s-desc">Supervisor reviews all observations and issues. Generates the Audit Report. Presents findings to audit committee. Engagement is approved and closed.</div>
-        </div>
-      </div>
-    </div>
-  </div>
-  <div class="step-footer">
-    <button class="btn btn-secondary" onclick="prevStep()">← Previous</button>
-    <span class="step-counter">Step 8 of 12</span>
-    <button class="btn btn-primary" onclick="nextStep()">Next: Test Plans & Findings →</button>
-  </div>
-</div>
+    const profileAssets = {
+      neutral: {
+        name: 'Alex, balanced athlete',
+        caption: 'A real-person inspired profile that changes with your selection.',
+        image: 'https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?auto=format&fit=crop&w=900&q=82',
+        alt: 'Athlete training with battle ropes in a gym'
+      },
+      female: {
+        name: 'Maya, strength builder',
+        caption: 'Glutes, upper-back, core, and full-body strength without pink-washing the plan.',
+        image: 'https://images.unsplash.com/photo-1599058917212-d750089bc07e?auto=format&fit=crop&w=900&q=82',
+        alt: 'Woman strength training in a gym'
+      },
+      male: {
+        name: 'Noah, balanced lifter',
+        caption: 'Chest and arms are included, but legs, back, mobility, and core stay in the program.',
+        image: 'https://images.unsplash.com/photo-1581009146145-b5ef050c2e1e?auto=format&fit=crop&w=900&q=82',
+        alt: 'Man training with weights in a gym'
+      }
+    };
 
-<!-- =============================== STEP 8: TEST PLANS =============================== -->
-<div class="step-page" id="page-8">
-  <div class="step-hero">
-    <div class="hero-phase">Phase 4 · Audit Management · Step 9 of 12</div>
-    <div class="hero-title"><em>Test Plans</em>, Observations<br>& Audit Findings</div>
-    <div class="hero-subtitle">Auditors test the MFA control using a test plan, then document their findings as observations and issues.</div>
-  </div>
-  <div class="step-body">
-    <div class="expert-says">
-      <div class="expert-avatar">👨‍💼</div>
-      <div class="expert-text">
-        <div class="expert-label">Expert Explains</div>
-        <p>A Test Plan is the auditor's recipe for testing a control. It says: "To test if MFA is working, I will: (1) pull access logs from the last 90 days, (2) check if any logins happened without MFA, (3) interview the IT team about the MFA process." An Observation is what they FOUND. An Issue is a problem that needs fixing.</p>
-      </div>
-    </div>
+    const imageAssets = [
+      'https://images.unsplash.com/photo-1517836357463-d25dfeac3438?auto=format&fit=crop&w=900&q=80',
+      'https://images.unsplash.com/photo-1534438327276-14e5300c3a48?auto=format&fit=crop&w=900&q=80',
+      'https://images.unsplash.com/photo-1599058917212-d750089bc07e?auto=format&fit=crop&w=900&q=80',
+      'https://images.unsplash.com/photo-1581009146145-b5ef050c2e1e?auto=format&fit=crop&w=900&q=80',
+      'https://images.unsplash.com/photo-1518611012118-696072aa579a?auto=format&fit=crop&w=900&q=80',
+      'https://images.unsplash.com/photo-1574680096145-d05b474e2155?auto=format&fit=crop&w=900&q=80',
+      'https://images.unsplash.com/photo-1549476464-37392f717541?auto=format&fit=crop&w=900&q=80',
+      'https://images.unsplash.com/photo-1517963628607-235ccdd5476c?auto=format&fit=crop&w=900&q=80',
+      'https://images.unsplash.com/photo-1538805060514-97d9cc17730c?auto=format&fit=crop&w=900&q=80',
+      'https://images.unsplash.com/photo-1605296867304-46d5465a13f1?auto=format&fit=crop&w=900&q=80'
+    ];
 
-    <div class="section-h2">Step 1: Create a Test Template (Reusable)</div>
-    <div class="explain-box">
-      <p>A <strong>Test Template</strong> is a reusable testing recipe. Once created, any auditor can use it for any engagement that includes this control. Role required: <span class="hl">sn_audit.manager</span> or <span class="hl">sn_audit_ws.supervisor</span></p>
-    </div>
-    <div class="nav-label">Navigation</div>
-    <div class="nav-path">
-      <span class="nav-item">Audit Workspace</span>
-      <span class="nav-arrow">›</span>
-      <span class="nav-item">Lists icon (≡)</span>
-      <span class="nav-arrow">›</span>
-      <span class="nav-item">Test Templates</span>
-      <span class="nav-arrow">›</span>
-      <span class="nav-final">New</span>
-    </div>
-    <table class="sn-table">
-      <tr><th>Section</th><th>Field</th><th>TechCorp Value</th></tr>
-      <tr><td>Header</td><td>Name</td><td>MFA Control Testing Template</td></tr>
-      <tr><td>Header</td><td>Control Objective</td><td>Prevent Unauthorized Remote Access</td></tr>
-      <tr><td>Header</td><td>Duration</td><td>5 days</td></tr>
-      <tr><td>Design Test</td><td>Design Expectations</td><td>MFA must be mandatory for all remote logins. No bypass should be possible.</td></tr>
-      <tr><td>Design Test</td><td>Design Assessment Procedures</td><td>1. Review MFA policy documentation. 2. Verify MFA is configured on all VPN profiles. 3. Confirm no accounts have MFA disabled.</td></tr>
-      <tr><td>Operational Test</td><td>Operational Expectations</td><td>Zero logins should succeed without MFA in the past 90 days.</td></tr>
-      <tr><td>Operational Test</td><td>Operational Assessment Procedures</td><td>1. Pull VPN access logs for Q1 2026. 2. Filter for logins without MFA. 3. Interview IT team about exceptions process.</td></tr>
-    </table>
+    const quick = ['All regions','Upper body','Core','Lower body','Full body','Mobility'];
+    const atlasGrid = document.querySelector('#atlasGrid');
+    const regionFilter = document.querySelector('#regionFilter');
+    const equipmentFilter = document.querySelector('#equipmentFilter');
+    const levelFilter = document.querySelector('#levelFilter');
+    const search = document.querySelector('#search');
+    let selectedRegion = 'all';
+    let selectedGender = 'neutral';
 
-    <div class="section-h2">Step 2: Create a Test Plan (for This Engagement)</div>
-    <div class="explain-box">
-      <p>A <strong>Test Plan</strong> is a Test Template applied to a specific engagement and a specific control. Role: supervisor, auditor, manager, or user.</p>
-    </div>
-    <table class="sn-table">
-      <tr><th>Field</th><th>Value</th></tr>
-      <tr><td><strong>Name</strong></td><td>Test MFA Control — Q1 2026 Customer Portal Audit</td></tr>
-      <tr><td><strong>Control</strong></td><td>CTL-AC-001 (Enforce MFA for All Remote Access)</td></tr>
-      <tr><td><strong>Entity</strong></td><td>Customer Portal (auto-populated based on control)</td></tr>
-      <tr><td><strong>Test Template</strong></td><td>MFA Control Testing Template (content auto-fills)</td></tr>
-      <tr><td><strong>Assigned Auditor</strong></td><td>Emma Davis</td></tr>
-    </table>
+    [...new Set(bodyParts.map(p => p.region))].forEach(region => {
+      const opt = document.createElement('option'); opt.value = region; opt.textContent = region; regionFilter.append(opt);
+    });
+    function countRegion(region) {
+      return region === 'All regions' ? bodyParts.length : bodyParts.filter(part => part.region === region).length;
+    }
 
-    <div class="section-h2">Step 3: Create an Observation (Finding)</div>
-    <div class="explain-box">
-      <p>During testing, Emma Davis found that 3 contractor accounts were exempt from MFA. This is a control weakness — she creates an <strong>Observation</strong>.</p>
-    </div>
-    <div class="nav-label">From the Engagement record → Other issues related list → New Observation</div>
-    <table class="sn-table">
-      <tr><th>Field</th><th>Value</th><th>Explanation</th></tr>
-      <tr><td><strong>Title</strong></td><td>3 Contractor Accounts Exempt from MFA</td><td>Short summary of what was found</td></tr>
-      <tr><td><strong>Observation Type</strong></td><td>Control Deficiency</td><td>The control exists but has gaps</td></tr>
-      <tr><td><strong>Risk Rating</strong></td><td>High</td><td>Contractors have access to sensitive systems</td></tr>
-      <tr><td><strong>Root Cause</strong></td><td>MFA policy exceptions were granted without formal approval process</td><td>WHY the issue exists</td></tr>
-      <tr><td><strong>Recommendation</strong></td><td>Revoke all MFA exceptions. Require CISO approval for any future exceptions with quarterly review.</td><td>What should be done</td></tr>
-      <tr><td><strong>Management Response</strong></td><td>IT Security agrees. Will revoke exceptions within 5 business days and implement formal exception process.</td><td>Management's reaction to the finding</td></tr>
-    </table>
+    quick.forEach(q => {
+      const b = document.createElement('button');
+      b.className = 'region-btn';
+      b.dataset.region = q === 'All regions' ? 'all' : q;
+      b.innerHTML = `<span>${q}</span><span>${countRegion(q)}</span>`;
+      b.addEventListener('click', () => { selectedRegion = b.dataset.region; regionFilter.value = selectedRegion; render(); });
+      document.querySelector('#quickFilters').append(b);
+    });
 
-    <div class="callout callout-info">
-      <div class="callout-icon">💡</div>
-      <p><strong>Issue vs. Observation:</strong> An <strong>Observation</strong> is a specific finding from this audit engagement. An <strong>Issue</strong> is a broader problem that may span multiple audits/areas. Observations can be "promoted" to Issues if they represent a systemic problem.</p>
-    </div>
-  </div>
-  <div class="step-footer">
-    <button class="btn btn-secondary" onclick="prevStep()">← Previous</button>
-    <span class="step-counter">Step 9 of 12</span>
-    <button class="btn btn-primary" onclick="nextStep()">Next: Vendor Risk →</button>
-  </div>
-</div>
+    function updateProfile() {
+      const profile = profileAssets[selectedGender];
+      document.querySelector('#profileHero').src = profile.image;
+      document.querySelector('#profileHero').alt = profile.alt;
+      document.querySelector('#profileName').innerHTML = `${profile.name}<span id="profileCaption">${profile.caption}</span>`;
+    }
 
-<!-- =============================== STEP 9: VENDOR RISK =============================== -->
-<div class="step-page" id="page-9">
-  <div class="step-hero">
-    <div class="hero-phase">Phase 5 · Vendor Risk Management · Step 10 of 12</div>
-    <div class="hero-title">Add <em>CloudStorage Co.</em><br>as a Managed Vendor</div>
-    <div class="hero-subtitle">Set up TechCorp's most critical vendor in Vendor Risk Management, send a security assessment, and track remediation.</div>
-    <div class="hero-scenario"><strong>📋 Scenario:</strong> CloudStorage Co. has API access to the Customer Portal. TechCorp's Risk Team needs to formally onboard them in VRM, assess their security posture, and track any risks they introduce. Remember: VRM Dependencies must be installed first!</div>
-  </div>
-  <div class="step-body">
-    <div class="expert-says">
-      <div class="expert-avatar">👨‍💼</div>
-      <div class="expert-text">
-        <div class="expert-label">Expert Explains</div>
-        <p>Vendor Risk Management is about one key question: "Can we trust our vendors with our data and systems?" Modern companies share systems, data, and processes with dozens of vendors. If a vendor gets hacked, YOUR company may also be compromised. VRM makes vendor risk systematic instead of being managed through spreadsheets and emails.</p>
-      </div>
-    </div>
+    function render() {
+      const term = search.value.trim().toLowerCase();
+      const equip = equipmentFilter.value;
+      const level = levelFilter.value;
+      selectedRegion = regionFilter.value;
+      const filtered = bodyParts.map(part => ({...part, exercises: part.exercises.filter(ex => {
+        const hay = [part.title, part.muscles, part.goal, part.region, ...ex].join(' ').toLowerCase();
+        return (!term || hay.includes(term)) && (equip === 'all' || ex[1].includes(equip)) && (level === 'all' || ex[3] === level);
+      })})).filter(part => (selectedRegion === 'all' || part.region === selectedRegion) && part.exercises.length);
 
-    <div class="section-h2">Step 1: Create the Vendor Profile</div>
-    <div class="nav-label">Navigation</div>
-    <div class="nav-path">
-      <span class="nav-item">All</span>
-      <span class="nav-arrow">›</span>
-      <span class="nav-item">Vendor Risk</span>
-      <span class="nav-arrow">›</span>
-      <span class="nav-item">Vendors</span>
-      <span class="nav-arrow">›</span>
-      <span class="nav-final">New</span>
-    </div>
-    <table class="sn-table">
-      <tr><th>Field</th><th>Value (CloudStorage Co.)</th><th>Why</th></tr>
-      <tr><td><strong>Vendor Name*</strong></td><td>CloudStorage Co.</td><td>Company name</td></tr>
-      <tr><td><strong>Vendor ID</strong></td><td>VND-0042</td><td>Internal tracking ID</td></tr>
-      <tr><td><strong>Vendor Tier</strong></td><td>Tier 1 — Critical</td><td>Tier 1 = direct access to critical systems. Requires most frequent assessments.</td></tr>
-      <tr><td><strong>Primary Contact</strong></td><td>Jane Doe (CloudStorage Co. CISO)</td><td>Who receives assessment questionnaires</td></tr>
-      <tr><td><strong>Service Provided</strong></td><td>Cloud storage and API data access for Customer Portal</td><td>What do they do for TechCorp</td></tr>
-      <tr><td><strong>Data Accessed</strong></td><td>Customer PII, transaction records</td><td>What sensitive data can they access?</td></tr>
-      <tr><td><strong>Inherent Risk Tier</strong></td><td>High</td><td>Automated based on Tier 1 + PII data access</td></tr>
-    </table>
+      document.querySelectorAll('.region-btn').forEach(btn => btn.classList.toggle('active', btn.dataset.region === selectedRegion));
+      atlasGrid.innerHTML = filtered.map((part, index) => `
+        <article class="part-card glass" id="${part.id}" style="--glow:${part.glow}">
+          <div class="part-media">
+            <img src="${imageAssets[index % imageAssets.length]}" alt="Real workout photo for ${part.title}" loading="lazy">
+            <span class="photo-credit">Unsplash workout photo</span>
+          </div>
+          <div class="part-body">
+            <div class="part-top"><div class="part-icon">${part.icon}</div><span class="badge">${part.region}</span></div>
+            <h3>${part.title}</h3>
+            <p><strong>Targets:</strong> ${part.muscles}. <strong>Goal:</strong> ${part.goal}.</p>
+            <div class="chips"><span class="chip">${genderBoost[selectedGender] || 'Balanced training'}</span><span class="chip">Warm up first</span><span class="chip">Progress gradually</span></div>
+            <div class="exercise-list">
+              ${part.exercises.map(ex => `<div class="exercise"><div class="mini-poster"><div class="move-art">${part.icon}</div><div><strong>${ex[0]}</strong><div class="meta">Equipment: ${ex[1]} • Suggested dose: ${ex[2]} • ${ex[3]}</div></div></div></div>`).join('')}
+            </div>
+          </div>
+        </article>`).join('') || '<div class="notice">No exercises match your filters. Try broadening equipment, level, or search terms.</div>';
+      document.querySelector('#statParts').textContent = bodyParts.length;
+      document.querySelector('#statExercises').textContent = bodyParts.reduce((sum, p) => sum + p.exercises.length, 0) + '+';
+    }
 
-    <div class="section-h2">Step 2: Send a Vendor Assessment Questionnaire</div>
-    <div class="explain-box">
-      <p>ServiceNow VRM lets you send a security questionnaire directly to the vendor via email. The vendor fills it out in a portal — you don't need to manage email attachments or spreadsheets.</p>
-    </div>
-    <div class="step-list">
-      <div class="step-item">
-        <div class="s-num">1</div>
-        <div class="s-content">
-          <div class="s-title">From the Vendor record, click "Send Assessment"</div>
-          <div class="s-desc">Choose the questionnaire template — for Tier 1 vendors, use the "Comprehensive IT Security Assessment" template (covers access controls, data encryption, incident response, etc.)</div>
-        </div>
-      </div>
-      <div class="step-item">
-        <div class="s-num">2</div>
-        <div class="s-content">
-          <div class="s-title">Set due date and notify the vendor contact</div>
-          <div class="s-desc">Set due date: 14 days. Jane Doe at CloudStorage Co. gets an email with a link to the vendor portal to complete the questionnaire. No account needed — they use a secure token link.</div>
-        </div>
-      </div>
-      <div class="step-item">
-        <div class="s-num">3</div>
-        <div class="s-content">
-          <div class="s-title">Review vendor responses and calculate vendor risk score</div>
-          <div class="s-desc">Once CloudStorage Co. submits, ServiceNow automatically scores their responses. Each "No" or "Partial" answer increases the risk score. You get a consolidated Vendor Risk Score (e.g., 67/100).</div>
-        </div>
-      </div>
-      <div class="step-item">
-        <div class="s-num">4</div>
-        <div class="s-content">
-          <div class="s-title">CloudStorage Co. scored 62/100 — Medium Risk</div>
-          <div class="s-desc">They failed on: "Penetration testing performed annually" (answered No) and "Incident response time &lt; 4 hours" (answered Partial). ServiceNow flags these as vendor issues requiring remediation.</div>
-        </div>
-      </div>
-    </div>
+    [search, regionFilter, equipmentFilter, levelFilter].forEach(el => el.addEventListener('input', render));
+    document.querySelectorAll('[data-gender]').forEach(btn => btn.addEventListener('click', () => {
+      document.querySelectorAll('[data-gender]').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active'); selectedGender = btn.dataset.gender; document.querySelector('#genderNote').textContent = genderNotes[selectedGender]; updateProfile(); render();
+    }));
+    document.querySelectorAll('[data-jump]').forEach(btn => btn.addEventListener('click', () => document.getElementById(btn.dataset.jump)?.scrollIntoView({behavior:'smooth', block:'start'})));
 
-    <div class="section-h2">Step 3: Remediation — Track Vendor Issues</div>
-    <table class="sn-table">
-      <tr><th>Vendor Issue</th><th>Risk Level</th><th>Remediation Task</th><th>Due Date</th></tr>
-      <tr><td>No annual penetration test</td><td><span style="color:#f97316;font-weight:700">High</span></td><td>CloudStorage Co. must provide pen test report within 60 days or TechCorp will restrict API access</td><td>60 days</td></tr>
-      <tr><td>Incomplete incident response plan</td><td><span style="color:#c9a42a;font-weight:700">Medium</span></td><td>CloudStorage Co. to submit updated IR plan for TechCorp review</td><td>30 days</td></tr>
-    </table>
-
-    <div class="callout callout-warning">
-      <div class="callout-icon">⚠️</div>
-      <p><strong>VRM Installation Reminder:</strong> To reach this point, you must have already manually installed the <span class="hl">Vendor Risk Management Dependencies</span> plugin before the core VRM app. This is a common exam trap — VRM is the ONLY app that breaks from the auto-dependency pattern.</p>
-    </div>
-  </div>
-  <div class="step-footer">
-    <button class="btn btn-secondary" onclick="prevStep()">← Previous</button>
-    <span class="step-counter">Step 10 of 12</span>
-    <button class="btn btn-primary" onclick="nextStep()">Next: AI Risk & Compliance →</button>
-  </div>
-</div>
-
-<!-- =============================== STEP 10: AI RISK =============================== -->
-<div class="step-page" id="page-10">
-  <div class="step-hero">
-    <div class="hero-phase">Phase 6 · AI Risk & Compliance · Step 11 of 12</div>
-    <div class="hero-title">Register TechCorp's<br><em>AI ChatBot</em> System</div>
-    <div class="hero-subtitle">TechCorp launched an AI-powered customer support chatbot. We need to register it, assess its risks, and ensure EU AI Act compliance.</div>
-    <div class="hero-scenario"><strong>📋 Scenario:</strong> TechCorp's product team built "SupportBot" — an AI chatbot that handles customer inquiries, has access to customer account data, and makes automatic refund decisions up to $500. This must be governed under AI Risk & Compliance.</div>
-  </div>
-  <div class="step-body">
-    <div class="expert-says">
-      <div class="expert-avatar">👨‍💼</div>
-      <div class="expert-text">
-        <div class="expert-label">Expert Explains</div>
-        <p>AI Risk & Compliance is the newest area of GRC. Regulations like the EU AI Act require companies to classify their AI systems by risk level and prove they have oversight. ServiceNow helps you catalog all AI systems, assess their risks, and demonstrate compliance with AI regulations — just like you manage other business risks.</p>
-      </div>
-    </div>
-
-    <div class="section-h2">Step 1: Register the AI System (via Employee Center)</div>
-    <div class="explain-box">
-      <p>In ServiceNow AI Risk & Compliance, employees submit AI use cases through the <strong>Employee Center portal</strong>. This creates a record in the <span class="hl">sn_grc_ai_gov_ai_system</span> table. Role: AI Case Business User.</p>
-    </div>
-    <div class="nav-label">Employee self-service submission path</div>
-    <div class="nav-path">
-      <span class="nav-item">Employee Center</span>
-      <span class="nav-arrow">›</span>
-      <span class="nav-item">GRC Tasks</span>
-      <span class="nav-arrow">›</span>
-      <span class="nav-final">Submit AI Use Case</span>
-    </div>
-    <table class="sn-table">
-      <tr><th>Field</th><th>Value (SupportBot)</th><th>Explanation</th></tr>
-      <tr><td><strong>AI System Name</strong></td><td>SupportBot v1.0</td><td>Name of the AI system</td></tr>
-      <tr><td><strong>Purpose / Use Case</strong></td><td>AI-powered customer support chatbot that handles inquiries and processes refunds up to $500 automatically</td><td>What does this AI do?</td></tr>
-      <tr><td><strong>Business Unit</strong></td><td>Customer Experience Team</td><td>Which team owns this AI?</td></tr>
-      <tr><td><strong>Data Processed</strong></td><td>Customer PII, account history, transaction data</td><td>What data does the AI access?</td></tr>
-      <tr><td><strong>Decision Making?</strong></td><td>Yes — automated refund decisions</td><td>Does the AI make decisions that affect people?</td></tr>
-      <tr><td><strong>AI Model Used</strong></td><td>GPT-4o via Azure OpenAI</td><td>Linked to AI system entity map table</td></tr>
-    </table>
-
-    <div class="section-h2">Step 2: AI Impact Assessment</div>
-    <div class="explain-box">
-      <p>After submission, the AI RC Manager initiates an <strong>Impact Assessment</strong>. This determines: How risky is this AI? What regulations apply? What controls are needed? ServiceNow uses the Smart Assessment Engine to dynamically ask questions based on your answers.</p>
-    </div>
-    <div class="step-list">
-      <div class="step-item">
-        <div class="s-num">1</div>
-        <div class="s-content">
-          <div class="s-title">Navigate to AI Risk & Compliance Workspace</div>
-          <div class="s-code"><span class="hl">All</span> → <span class="hl">AI Risk and Compliance Workspace</span> → Find <span class="hl">SupportBot v1.0</span></div>
-        </div>
-      </div>
-      <div class="step-item">
-        <div class="s-num">2</div>
-        <div class="s-content">
-          <div class="s-title">Click "Initiate Impact Assessment"</div>
-          <div class="s-desc">The assessment wizard opens. Questions adapt based on your answers — since SupportBot makes automated decisions affecting customers, it triggers high-risk EU AI Act questions.</div>
-        </div>
-      </div>
-      <div class="step-item">
-        <div class="s-num">3</div>
-        <div class="s-content">
-          <div class="s-title">Key Assessment Results for SupportBot</div>
-          <div class="s-desc">Based on the assessment: SupportBot is classified as <strong>"High Risk" under EU AI Act</strong> (Article 6) because it makes automated decisions affecting customer financial interests. Required: human oversight mechanism, bias testing, explainability documentation.</div>
-        </div>
-      </div>
-    </div>
-
-    <div class="section-h2">Step 3: System Review Tasks Auto-Created</div>
-    <div class="explain-box">
-      <p>The <span class="hl">sn_grc_ai_gov_ai_system_task</span> table gets automatically populated with mandatory review tasks:</p>
-    </div>
-    <table class="sn-table">
-      <tr><th>Review Task</th><th>Assigned To</th><th>What They Review</th><th>Status</th></tr>
-      <tr><td>Legal Review</td><td>TechCorp Legal Team</td><td>EU AI Act compliance, customer consent, data processing agreements</td><td>In Progress</td></tr>
-      <tr><td>Architecture Review</td><td>Enterprise Architecture</td><td>AI model integration security, data flows, API security</td><td>Pending</td></tr>
-      <tr><td>Security Review</td><td>IT Security Team</td><td>Prompt injection risks, data leakage, model poisoning vulnerabilities</td><td>Pending</td></tr>
-      <tr><td>Ethics Review</td><td>AI Ethics Committee</td><td>Bias assessment, fairness in refund decisions, customer impact</td><td>Pending</td></tr>
-    </table>
-
-    <div class="section-h2">Step 4: Activate NIST RMF Framework</div>
-    <div class="step-list">
-      <div class="step-item">
-        <div class="s-num">1</div>
-        <div class="s-content">
-          <div class="s-title">Navigate to: AI Risk and Compliance Workspace</div>
-          <div class="s-code">All → <span class="hl">AI Risk and Compliance Workspace</span> → Click the <span class="hl">AI RC Content icon</span></div>
-          <div class="s-note">⚠️ Role Required: <span class="hl">sn_grc_ai_gov.ai_risk_and_compliance_manager</span></div>
-        </div>
-      </div>
-      <div class="step-item">
-        <div class="s-num">2</div>
-        <div class="s-content">
-          <div class="s-title">Click "Activate" on the NIST Risk Management Framework card</div>
-          <div class="s-desc">Select the correct version → Read the disclaimer → Click Agree → Choose citations (we select GOVERN, MAP, MEASURE, MANAGE functions) → Choose Control Objectives → Choose Risk Statements → Review → Submit.</div>
-        </div>
-      </div>
-      <div class="step-item">
-        <div class="s-num">3</div>
-        <div class="s-content">
-          <div class="s-title">SupportBot is now mapped to NIST RMF controls</div>
-          <div class="s-desc">Every AI risk in the system is now cross-referenced with NIST AI RMF. TechCorp can now show regulators exactly which NIST controls govern SupportBot.</div>
-        </div>
-      </div>
-    </div>
-  </div>
-  <div class="step-footer">
-    <button class="btn btn-secondary" onclick="prevStep()">← Previous</button>
-    <span class="step-counter">Step 11 of 12</span>
-    <button class="btn btn-primary" onclick="nextStep()">Next: Final Summary →</button>
-  </div>
-</div>
-
-<!-- =============================== STEP 11: SUMMARY =============================== -->
-<div class="step-page" id="page-11">
-  <div class="step-hero">
-    <div class="hero-phase">Phase 6 · Complete · Step 12 of 12</div>
-    <div class="hero-title">🎉 TechCorp GRC is<br><em>Fully Implemented!</em></div>
-    <div class="hero-subtitle">Here's the complete project summary — every table used, every role needed, and how everything connects.</div>
-  </div>
-  <div class="step-body">
-    <div class="expert-says">
-      <div class="expert-avatar">👨‍💼</div>
-      <div class="expert-text">
-        <div class="expert-label">Expert Final Summary</div>
-        <p>You've just done what a real ServiceNow GRC consultant does on a 3-month engagement. You started from zero and built a complete, integrated risk program. When TechCorp's auditors come in, they can see: documented policies → mapped to regulations → controls that reduce risks → audits that tested those controls → vendors that are monitored → AI systems that are governed. Everything is connected, everything is real-time, and nothing lives in a spreadsheet anymore.</p>
-      </div>
-    </div>
-
-    <div class="section-h2">📊 Complete Table Reference — Everything We Touched</div>
-    <table class="sn-table">
-      <tr><th>Table Name</th><th>sys_id / App</th><th>What We Created</th><th>Records Count</th></tr>
-      <tr><td><strong>Policy</strong></td><td><span class="hl">sn_policy_mgmt_policy</span></td><td>TechCorp Information Security Policy (POL-IS-001)</td><td>1</td></tr>
-      <tr><td><strong>Standard</strong></td><td><span class="hl">sn_policy_mgmt_standard</span></td><td>Access Control Standard (STD-AC-001) mapped to SOC2 CC6.1</td><td>1</td></tr>
-      <tr><td><strong>Control</strong></td><td><span class="hl">sn_risk_control</span></td><td>CTL-AC-001: Enforce MFA for All Remote Access</td><td>1</td></tr>
-      <tr><td><strong>Entity</strong></td><td><span class="hl">sn_grc_entity</span></td><td>IT Dept, Finance Dept, Customer Portal</td><td>3</td></tr>
-      <tr><td><strong>Risk</strong></td><td><span class="hl">sn_risk_risk</span></td><td>Data Breach via Vendor API (Inherent: 20 Critical → Residual: 4 Low)</td><td>1</td></tr>
-      <tr><td><strong>Audit Plan</strong></td><td><span class="hl">sn_audit_plan</span></td><td>TechCorp 2026 Annual IT Audit Plan</td><td>1</td></tr>
-      <tr><td><strong>Audit Engagement</strong></td><td><span class="hl">sn_audit_engagement</span></td><td>Q1 2026 Customer Portal IT Security Audit</td><td>1</td></tr>
-      <tr><td><strong>Test Template</strong></td><td><span class="hl">sn_audit_test_template</span></td><td>MFA Control Testing Template</td><td>1</td></tr>
-      <tr><td><strong>Test Plan</strong></td><td><span class="hl">sn_audit_test_plan</span></td><td>Test MFA Control — Q1 2026 Customer Portal Audit</td><td>1</td></tr>
-      <tr><td><strong>Observation</strong></td><td><span class="hl">sn_audit_observation</span></td><td>3 Contractor Accounts Exempt from MFA</td><td>1</td></tr>
-      <tr><td><strong>Vendor</strong></td><td><span class="hl">sn_vdr_risk_vendor</span></td><td>CloudStorage Co. — Tier 1, Score: 62/100</td><td>1</td></tr>
-      <tr><td><strong>AI System</strong></td><td><span class="hl">sn_grc_ai_gov_ai_system</span></td><td>SupportBot v1.0 — High Risk, EU AI Act</td><td>1</td></tr>
-      <tr><td><strong>AI System Task</strong></td><td><span class="hl">sn_grc_ai_gov_ai_system_task</span></td><td>Legal, Architecture, Security, Ethics Reviews</td><td>4</td></tr>
-    </table>
-
-    <div class="section-h2">👥 Complete Role Reference</div>
-    <table class="sn-table">
-      <tr><th>Role</th><th>Role Code</th><th>What They Can Do</th></tr>
-      <tr><td>GRC Admin</td><td><span class="hl">admin</span></td><td>Install apps, configure system settings</td></tr>
-      <tr><td>Policy Owner</td><td><span class="hl">sn_policy_mgmt.policy_owner</span></td><td>Create, edit, approve policies and standards</td></tr>
-      <tr><td>Risk Manager</td><td><span class="hl">sn_risk.manager</span></td><td>Create risks, run assessments, define responses</td></tr>
-      <tr><td>Risk Owner</td><td><span class="hl">sn_risk.risk_owner</span></td><td>Accept risk response tasks, monitor assigned risks</td></tr>
-      <tr><td>Audit Supervisor</td><td><span class="hl">sn_audit_ws.supervisor</span></td><td>Create plans, scope engagements, approve findings</td></tr>
-      <tr><td>Auditor</td><td><span class="hl">sn_audit_ws.auditor</span></td><td>Test controls, document observations, request evidence</td></tr>
-      <tr><td>AI RC Manager</td><td><span class="hl">sn_grc_ai_gov.ai_risk_and_compliance_manager</span></td><td>Initiate AI assessments, manage AI system lifecycle</td></tr>
-      <tr><td>AI RC Analyst</td><td><span class="hl">sn_grc_ai_gov.ai_risk_and_compliance_analyst</span></td><td>Work assigned AI risk assessments and control attestations</td></tr>
-      <tr><td>AI Case Business User</td><td><span class="hl">sn_ai_case_mgmt.ai_case_business_user</span></td><td>Submit AI use cases via Employee Center</td></tr>
-    </table>
-
-    <div class="section-h2">🔗 The Complete Connection Map (What We Built)</div>
-    <div class="diagram">
-      <div class="diagram-title">TechCorp GRC — Full Object Connection Map</div>
-      <div style="display:flex;flex-direction:column;gap:10px;font-size:13px">
-        <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap">
-          <div class="flow-box fb-policy">📄 Information Security Policy</div>
-          <div class="flow-arrow">↓ contains</div>
-          <div class="flow-box fb-standard">📋 Access Control Standard (SOC2 CC6.1)</div>
-          <div class="flow-arrow">↓ defines</div>
-          <div class="flow-box fb-control">✅ MFA Control CTL-AC-001</div>
-        </div>
-        <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap">
-          <div class="flow-box fb-entity">🏢 Customer Portal Entity</div>
-          <div class="flow-arrow">↓ has</div>
-          <div class="flow-box fb-risk">⚠️ Data Breach Risk (Residual: Low)</div>
-          <div class="flow-arrow">↓ mitigated by</div>
-          <div class="flow-box fb-control">✅ MFA Control CTL-AC-001</div>
-        </div>
-        <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap">
-          <div class="flow-box fb-audit">🔍 Q1 2026 Audit Engagement</div>
-          <div class="flow-arrow">↓ tested</div>
-          <div class="flow-box fb-control">✅ MFA Control</div>
-          <div class="flow-arrow">↓ found</div>
-          <div class="flow-box" style="border-color:#ef4444;color:#ef4444;background:rgba(239,68,68,0.06)">⚠️ 3 MFA Exceptions Observation</div>
-        </div>
-        <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap">
-          <div class="flow-box fb-vendor">🤝 CloudStorage Co. Vendor</div>
-          <div class="flow-arrow">↓ introduced</div>
-          <div class="flow-box fb-risk">⚠️ Data Breach via Vendor API Risk</div>
-          <div class="flow-arrow">↓ assessed → score</div>
-          <div class="flow-box" style="border-color:#c9a42a;color:#c9a42a;background:rgba(201,164,42,0.06)">62/100 Medium</div>
-        </div>
-      </div>
-    </div>
-
-    <div class="section-h2">💡 Key Exam Questions You Can Now Answer</div>
-    <table class="sn-table">
-      <tr><th>Question</th><th>Answer</th></tr>
-      <tr><td>Which app must manually install dependencies first?</td><td><strong>Vendor Risk Management</strong> — all others auto-install (Orlando+)</td></tr>
-      <tr><td>What are the 3 risk assessment types?</td><td><strong>Inherent</strong> (no controls) → <strong>Residual</strong> (after controls) → <strong>Target</strong> (future goal)</td></tr>
-      <tr><td>What does "Validate and Plan" do in an audit?</td><td>Moves engagement to Validate state AND auto-populates risks, controls, test plans from scoped entities</td></tr>
-      <tr><td>Where are AI use cases submitted?</td><td>Employee Center → stores in <span class="hl">sn_grc_ai_gov_ai_system</span> table</td></tr>
-      <tr><td>What role activates NIST RMF?</td><td><span class="hl">sn_grc_ai_gov.ai_risk_and_compliance_manager</span></td></tr>
-      <tr><td>Where are core GRC apps on the Store?</td><td><strong>ServiceNow Products tab</strong> (integrations = Certified Apps tab)</td></tr>
-      <tr><td>What is a removed scoped risk marked as?</td><td><strong>Not Applicable</strong> (not deleted). Ad hoc risks = completely deleted</td></tr>
-      <tr><td>What is the difference between a Test Template and Test Plan?</td><td>Template = reusable recipe. Test Plan = template applied to a specific control in a specific engagement.</td></tr>
-      <tr><td>What is Entity-Based Access?</td><td>Restricts record visibility by entity assignment. Requires GRC: Entity Based Access app.</td></tr>
-      <tr><td>What are the 4 risk response strategies?</td><td>Accept, Mitigate, Transfer, Avoid</td></tr>
-    </table>
-
-    <div class="callout callout-success">
-      <div class="callout-icon">🎓</div>
-      <p><strong>Congratulations!</strong> You've gone from zero to implementing a complete ServiceNow GRC solution for TechCorp Inc. — covering Policy, Risk, Audit, Vendor Risk, and AI Governance. You understand every table, every navigation path, every key decision, and why each step matters. You are now ready to answer any question about ServiceNow GRC from first principles.</p>
-    </div>
-  </div>
-  <div class="step-footer">
-    <button class="btn btn-secondary" onclick="prevStep()">← Previous</button>
-    <span class="step-counter">Step 12 of 12 — Complete! 🎉</span>
-    <button class="btn btn-primary" onclick="goStep(0)">🔄 Start Over</button>
-  </div>
-</div>
-
-</main>
-</div>
-
-<script>
-let currentStep = 0;
-const totalSteps = 12;
-const completedSteps = new Set();
-
-const titles = [
-  "What is GRC?", "Platform Basics", "Install GRC Apps",
-  "Create a Policy", "Standards & Controls", "Risk Framework",
-  "Create & Assess Risk", "Audit Plan & Engagement", "Test Plans & Findings",
-  "Vendor Risk Management", "AI Risk & Compliance", "Project Summary"
-];
-
-function goStep(n) {
-  // Hide current
-  document.getElementById('page-' + currentStep).classList.remove('active');
-  document.getElementById('sb-' + currentStep).classList.remove('active');
-
-  // Mark done
-  if (currentStep < n) {
-    completedSteps.add(currentStep);
-    document.getElementById('sb-' + currentStep).classList.add('done');
-  }
-
-  currentStep = n;
-
-  // Show new
-  document.getElementById('page-' + currentStep).classList.add('active');
-  const sbBtn = document.getElementById('sb-' + currentStep);
-  sbBtn.classList.add('active');
-  sbBtn.classList.remove('done');
-
-  // Update topbar
-  document.getElementById('topbar-title').textContent = titles[currentStep];
-
-  // Update progress
-  const pct = Math.round((completedSteps.size / totalSteps) * 100);
-  document.getElementById('progFill').style.width = pct + '%';
-  document.getElementById('progLabel').textContent = completedSteps.size + ' / ' + totalSteps;
-
-  // Scroll to top
-  document.querySelector('.main-content').scrollTo(0, 0);
-  window.scrollTo(0, 0);
-}
-
-function nextStep() {
-  if (currentStep < totalSteps - 1) goStep(currentStep + 1);
-}
-
-function prevStep() {
-  if (currentStep > 0) goStep(currentStep - 1);
-}
-</script>
+    const week = [
+      ['Mon','Full body strength','Squat + push + row + core'], ['Tue','Cardio + mobility','Walk, cycle, swim, yoga'], ['Wed','Lower body','Glutes, quads, hamstrings, calves'], ['Thu','Rest or light cardio','Easy movement and stretching'], ['Fri','Upper body','Chest, back, shoulders, arms'], ['Sat','Core + conditioning','Abs, obliques, carries, intervals'], ['Sun','Recovery','Sleep, meal prep, gentle walk']
+    ];
+    document.querySelector('#weekGrid').innerHTML = week.map(d => `<div class="day"><b>${d[0]}</b><strong>${d[1]}</strong><span>${d[2]}</span></div>`).join('');
+    render();
+  </script>
 </body>
 </html>
